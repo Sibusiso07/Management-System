@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import axios from 'axios'
+// import Dashboard from '.components/dashboard'
 
 export default function Home() {
   const [username, setUsername] = useState('')
@@ -28,7 +29,7 @@ export default function Home() {
           Management System
         </h1>
         <div>
-          <h2 className="mt-6 text-center text-3xl font-semibold text-white-400">Sign In</h2>
+          <h2 className="mt-6 text-center text-3xl font-semibold text-white">Sign In</h2>
         </div>
         <form className="mt-8 space-y-6" onSubmit={handleLogin}>
           <input type="hidden" name="remember" defaultValue="true" />
