@@ -25,107 +25,111 @@ export default function UserRegistration() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-lg w-full space-y-8">
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-md w-full space-y-8">
         <div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-white">
+          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
             Register Employee
           </h2>
         </div>
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+          <input type="hidden" name="remember" defaultValue="true" />
           <div className="rounded-md shadow-sm -space-y-px">
-            <div className="grid grid-cols-1 gap-y-6 gap-x-4 md:grid-cols-2">
-              <div>
-                <label htmlFor="employee-id" >Employee Number</label>
-                <input
-                  id="employee-id"
-                  name="employee-id"
-                  type="text"
-                  placeholder="Employee ID"
-                  required
-                  className="appearance-none rounded-2xl relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                  value={employeeID}
-                  onChange={(e) => setEmployeeId(e.target.value)}
-                />
-              </div>
-              <div>
-                <label htmlFor="first-name">First Name</label>
-                <input
-                  id="first-name"
-                  name="first-name"
-                  type="text"
-                  placeholder="First Name"
-                  required
-                  className="appearance-none rounded-2xl relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                  value={firstName}
-                  onChange={(e) => setFirstName(e.target.value)}
-                />
-              </div>
-              <div>
-                <label htmlFor="last-name">Last Name</label>
-                <input
-                  id="last-name"
-                  name="last-name"
-                  type="text"
-                  placeholder="Last Name"
-                  required
-                  className="appearance-none rounded-2xl relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                  value={lastName}
-                  onChange={(e) => setLastName(e.target.value)}
-                />
-              </div>
-              <div>
-                <label htmlFor="id-number">Identification Number</label>
-                <input
-                  id="id-number"
-                  name="id-number"
-                  type="text"
-                  placeholder="ID Number"
-                  required
-                  className="appearance-none rounded-2xl relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                  value={idNumber}
-                  onChange={(e) => setIdNumber(e.target.value)}
-                />
-              </div>
-              <div>
-                <label htmlFor="email-address">Email Address</label>
-                <input
-                  id="email-address"
-                  name="email"
-                  type="email"
-                  placeholder="Email address"
-                  required
-                  className="appearance-none rounded-2xl relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-              </div>
-              <div>
-                <label htmlFor="department">Department</label>
-                <input
-                  id="department"
-                  name="department"
-                  type="text"
-                  placeholder="Department"
-                  required
-                  className="appearance-none rounded-2xl relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                  value={department}
-                  onChange={(e) => setDepartment(e.target.value)}
-                />
-              </div>
-              <div>
-                <label htmlFor="position">Position</label>
-                <input
-                  id="position"
-                  name="position"
-                  type="text"
-                  placeholder="Position"
-                  required
-                  className="appearance-none rounded-2xl relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                  value={position}
-                  onChange={(e) => setPosition(e.target.value)}
-                />
-              </div>
+            <div>
+              <input
+                id="employee-id"
+                name="employee-id"
+                type="text"
+                placeholder="Employee ID"
+                required
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                value={employeeID}
+                onChange={(e) => setEmployeeId(e.target.value)}
+              />
+            </div>
+            <div>
+              <input
+                id="first-name"
+                name="first-name"
+                type="text"
+                placeholder="First Name"
+                required
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
+              />
+            </div>
+            <div>
+              <input
+                id="last-name"
+                name="last-name"
+                type="text"
+                placeholder="Last Name"
+                required
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
+              />
+            </div>
+            <div>
+              <input
+                id="id-number"
+                name="id-number"
+                type="text"
+                placeholder="ID Number"
+                required
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                value={idNumber}
+                onChange={(e) => setIdNumber(e.target.value)}
+              />
+            </div>
+            <div>
+              <input
+                id="email-address"
+                name="email"
+                type="email"
+                placeholder="Email address"
+                required
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </div>
+            <div>
+              <input
+                id="password"
+                name="password"
+                type="password"
+                placeholder="Password"
+                required
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </div>
+            <div>
+              <input
+                id="department"
+                name="department"
+                type="text"
+                placeholder="Department"
+                required
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                value={department}
+                onChange={(e) => setDepartment(e.target.value)}
+              />
+            </div>
+            <div>
+              <input
+                id="position"
+                name="position"
+                type="text"
+                placeholder="Position"
+                required
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                value={position}
+                onChange={(e) => setPosition(e.target.value)}
+              />
             </div>
           </div>
 

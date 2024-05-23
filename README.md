@@ -1,4 +1,4 @@
-# management-system
+# fpms
 
 An Electron application with React
 
