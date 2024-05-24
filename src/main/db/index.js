@@ -7,7 +7,7 @@ dotenv.config()
 const db = new pg.Client({
   user: 'postgres',
   host: 'localhost',
-  database: 'FPMS',
+  database: 'Management-System',
   password: process.env.DB_PASSWORD,
   port: 5432
 })

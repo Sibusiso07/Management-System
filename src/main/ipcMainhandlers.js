@@ -8,7 +8,7 @@ ipcMain.handle('login', async (_, username, password) => {
       username,
       password
     ])
-
+    
     return user
   } catch (error) {
     throw new Error('Error logging in')
