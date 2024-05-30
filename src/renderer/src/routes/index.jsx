@@ -8,7 +8,7 @@ import Login from '../pages/Login'
 import Dashboard from '../pages/dashboard'
 import Settings from '../pages/settings'
 import ClientRegistration from '../pages/clientRegistration'
-
+import UserRegistration from '../pages/userRegistration'
 
 const AppRouter = () => {
   return (
@@ -19,6 +19,7 @@ const AppRouter = () => {
         <Route path='dashboard' element={<Dashboard />} />
         <Route path='settings' element={<Settings />} />
         <Route path='clientRegistration' element={<ClientRegistration />} />
+        <Route path='userRegistration' element={<UserRegistration />} />
       </Route>
     </Routes>
   )

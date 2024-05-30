@@ -7,6 +7,8 @@ export default function Dashboard() {
   const handleNavigation = (path) => {
     if (path == '/clientRegistration') {
       navigate(path)
+    } else if (path == '/userRegistration') {
+      navigate(path)
     } else {
       alert('Feature still in development')
     }
@@ -34,19 +36,19 @@ export default function Dashboard() {
             Packages
           </button>
           <button
-            onClick={() => handleNavigation('/reports')}
+            onClick={() => handleNavigation('/payments')}
             className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-sky-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           >
             Payments
           </button>
           <button
-            onClick={() => handleNavigation('/user-registration')}
+            onClick={() => handleNavigation('/reports')}
             className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-sky-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           >
             Reports
             </button>
             <button
-            onClick={() => handleNavigation('/payments')}
+            onClick={() => handleNavigation('/userRegistration')}
             className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-sky-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
             User Registration

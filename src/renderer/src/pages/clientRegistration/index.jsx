@@ -12,18 +12,19 @@ export default function ClientRegistration() {
   const [packageType, setPackageType] = useState('')
   const [idCopy, setIdCopy] = useState('')
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    // Code Logic
-    console.log('First Name:', firstName)
-    console.log('Middle Name:', middleName)
-    console.log('Last Name:', lastName)
-    console.log('ID Number:', idNumber)
-    console.log('Address:', address)
-    console.log('Email:', email)
-    console.log('Phone Number:', phoneNumber)
-    console.log('Package Type:', packageType)
-    console.log('ID Copy:', idCopy)
+  const handleSubmit = async (e) => {
+    try {
+      e.preventDefault()
+      const result = await window.api.clientReg(firstName, middleName, lastName, idNumber, address, email, phoneNumber, packageType, idCopy)
+
+      if (result) {
+        alert('Client Registered Successfully')
+      } else {
+        alert('Failed to Register Client')
+      }
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   return (

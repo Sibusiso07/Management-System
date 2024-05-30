@@ -8,7 +8,8 @@ const Layout = () => {
         <Link to={'/Login'}>Login</Link>
         <Link to={'/dashboard'}>Dashboard</Link>
         <Link to={'/settings'}>Setting</Link>
-        <Link to={'/clientRegistration'}>Client Registration</Link>
+        {/* <Link to={'/clientRegistration'}>Client Registration</Link> */}
+        {/* <Link to={'/userRegistration'}>User Registration</Link> */}
       </div>
       <Outlet />
     </div>
