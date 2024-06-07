@@ -1,19 +1,31 @@
-import { useState } from 'react'
+import { useState, useContext } from 'react'
+import { useNavigate } from 'react-router-dom'
+
+// Auth Context.
+import { AuthContext } from './../../context/AuthContext'
 
 const Login = () => {
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
+  const [username, setUsername] = useState('user@gmail.com')
+  const [password, setPassword] = useState('123')
+
+  // Hook auth context.
+  const { setUser } = useContext(AuthContext)
+
+  // Hook navigation.
+  const navigate = useNavigate()
 
   const handleLogin = async (e) => {
     try {
       e.preventDefault()
-      const result = await window.api.login(username, password)
 
-      if (result) {
-        alert('Login successful')
-      } else {
-        alert('Login failed')
-      }
+      // TODO: Trigger login and save user result to context.
+      // const result = await window.api.login(username, password)
+
+      // Set user context.
+      setUser({ username, password })
+
+      // Navigate to dahsboard after successful navigation.
+      navigate('/dashboard')
     } catch (error) {
       console.error('Error during login attempt:', error)
     }

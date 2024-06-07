@@ -3,6 +3,9 @@ import { Route, Routes } from 'react-router-dom'
 // Layouts.
 import Layout from '../layout'
 
+// Protected route.
+import ProtectedRoute from './ProtectedRoute'
+
 // Pages.
 import Login from '../pages/Login'
 import Dashboard from '../pages/dashboard'
@@ -13,13 +16,14 @@ import UserRegistration from '../pages/userRegistration'
 const AppRouter = () => {
   return (
     <Routes>
-      <Route element={<Layout />}>
-        <Route index  element={<Login />} />
-        <Route path='Login'  element={<Login />} />
-        <Route path='dashboard' element={<Dashboard />} />
-        <Route path='settings' element={<Settings />} />
-        <Route path='clientRegistration' element={<ClientRegistration />} />
-        <Route path='userRegistration' element={<UserRegistration />} />
+      <Route index element={<Login />} />
+      <Route element={<ProtectedRoute />}>
+        <Route element={<Layout />}>
+          <Route path="dashboard" element={<Dashboard />} />
+          <Route path="settings" element={<Settings />} />
+          <Route path="clientRegistration" element={<ClientRegistration />} />
+          <Route path="userRegistration" element={<UserRegistration />} />
+        </Route>
       </Route>
     </Routes>
   )
