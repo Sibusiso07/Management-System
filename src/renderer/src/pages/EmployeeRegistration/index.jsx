@@ -1,26 +1,24 @@
-import { useState } from 'react'
+import { useState } from "react";
 
-export default function ClientRegistration() {
-  
+export default function EmployeeRegistration() {
+
+  const [employeeID, setEmployeeId] = useState('')
   const [firstName, setFirstName] = useState('')
-  const [middleName, setMiddleName] = useState('')
   const [lastName, setLastName] = useState('')
   const [idNumber, setIdNumber] = useState('')
-  const [address, setAddress] = useState('')
   const [email, setEmail] = useState('')
-  const [phoneNumber, setPhoneNumber] = useState('')
-  const [packageType, setPackageType] = useState('')
-  const [idCopy, setIdCopy] = useState('')
+  const [department, setDepartment] = useState('')
+  const [position, setPosition] = useState('')
 
   const handleSubmit = async (e) => {
     try {
       e.preventDefault()
-      const result = await window.api.clientReg(firstName, middleName, lastName, idNumber, address, email, phoneNumber, packageType, idCopy)
+      const result = await window.api.employeeReg(employeeID, firstName, lastName, idNumber, email, department, position)
 
       if (result) {
-        alert('Client Registered Successfully')
+        alert('User Registered Successfully')
       } else {
-        alert('Failed to Register Client')
+        alert('Failed to Register User')
       }
     } catch (error) {
       console.error(error)
@@ -29,15 +27,28 @@ export default function ClientRegistration() {
 
   return (
     <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-lg w-full space-y-8">
+      <div className="max-w-md w-full space-y-8">
         <div>
           <h2 className="mt-6 text-center text-3xl font-extrabold text-white">
-            Register New Client
+            Register Employee
           </h2>
         </div>
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+          <input type="hidden" name="remember" defaultValue="true" />
           <div className="rounded-md shadow-sm -space-y-px">
             <div className="grid grid-cols-1 gap-y-6 gap-x-4 md:grid-cols-2">
+              <div>
+                <input
+                  id="employee-id"
+                  name="employee-id"
+                  type="text"
+                  placeholder="Employee ID"
+                  required
+                  className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-600 placeholder-gray-400 text-white bg-gray-800 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                  value={employeeID}
+                  onChange={(e) => setEmployeeId(e.target.value)}
+                />
+              </div>
               <div>
                 <input
                   id="first-name"
@@ -48,17 +59,6 @@ export default function ClientRegistration() {
                   className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-600 placeholder-gray-400 text-white bg-gray-800 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                   value={firstName}
                   onChange={(e) => setFirstName(e.target.value)}
-                />
-              </div>
-              <div>
-                <input
-                  id="middle-name"
-                  name="middle-name"
-                  type="text"
-                  placeholder="Middle Name"
-                  className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-600 placeholder-gray-400 text-white bg-gray-800 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                  value={middleName}
-                  onChange={(e) => setMiddleName(e.target.value)}
                 />
               </div>
               <div>
@@ -87,18 +87,6 @@ export default function ClientRegistration() {
               </div>
               <div>
                 <input
-                  id="address"
-                  name="address"
-                  type="text"
-                  placeholder="Address"
-                  required
-                  className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-600 placeholder-gray-400 text-white bg-gray-800 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                  value={address}
-                  onChange={(e) => setAddress(e.target.value)}
-                />
-              </div>
-              <div>
-                <input
                   id="email-address"
                   name="email"
                   type="email"
@@ -111,39 +99,26 @@ export default function ClientRegistration() {
               </div>
               <div>
                 <input
-                  id="phone-number"
-                  name="phone-number"
+                  id="department"
+                  name="department"
                   type="text"
-                  placeholder="Phone Number"
+                  placeholder="Department"
                   required
                   className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-600 placeholder-gray-400 text-white bg-gray-800 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                  value={phoneNumber}
-                  onChange={(e) => setPhoneNumber(e.target.value)}
+                  value={department}
+                  onChange={(e) => setDepartment(e.target.value)}
                 />
               </div>
               <div>
-                <select
-                  id="package-type"
-                  name="package-type"
-                  required
-                  className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-600 placeholder-gray-400 text-white bg-gray-800 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                  value={packageType}
-                  onChange={(e) => setPackageType(e.target.value)}
-                >
-                  <option value="">Select Package</option>
-                  <option value="Basic">Basic</option>
-                  <option value="Standard">Standard</option>
-                  <option value="Premium">Premium</option>
-                </select>
-              </div>
-              <div>
                 <input
-                  id="id-copy"
-                  name="id-copy"
-                  type="file"
+                  id="position"
+                  name="position"
+                  type="text"
+                  placeholder="Position"
                   required
                   className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-600 placeholder-gray-400 text-white bg-gray-800 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                  onChange={(e) => setIdCopy(e.target.files[0])}
+                  value={position}
+                  onChange={(e) => setPosition(e.target.value)}
                 />
               </div>
             </div>

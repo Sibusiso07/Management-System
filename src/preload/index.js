@@ -3,21 +3,25 @@ const { electronAPI } = require('@electron-toolkit/preload')
 
 // Custom APIs for renderer
 const api = {
+  // Login
   login: async (username, password) => {
     return ipcRenderer.invoke('login', username, password)
   },
-  userReg: async (employeeID, firstName, lastName, idNumber, email, department, position) => {
+  // Employee Registration
+  employeeReg: async (employeeID, firstName, lastName, idNumber, email, department, position) => {
     return ipcRenderer.invoke(
-      'userReg',
+      'employeeReg',
       employeeID,
       firstName,
       lastName,
       idNumber,
       email,
       department,
-      position
+      position,
+      password
     )
   },
+  // Client Registration
   clientReg: async (
     firstName,
     middleName,

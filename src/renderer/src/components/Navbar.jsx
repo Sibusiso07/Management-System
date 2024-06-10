@@ -16,8 +16,8 @@ const Navbar = () => {
   return (
     <div className="bg-blue-500 flex space-x-2">
       <Link to={'/Login'}>Login</Link>
-      <Link to={'/dashboard'}>Dashboard</Link>
-      <Link to={'/settings'}>Setting</Link>
+      <Link to={'/Dashboard'}>Dashboard</Link>
+      <Link to={'/Settings'}>Setting</Link>
       <Link to={'/'} onClick={handleLogout}>
         Logout
       </Link>

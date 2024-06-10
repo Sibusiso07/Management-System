@@ -8,10 +8,10 @@ import ProtectedRoute from './ProtectedRoute'
 
 // Pages.
 import Login from '../pages/Login'
-import Dashboard from '../pages/dashboard'
-import Settings from '../pages/settings'
-import ClientRegistration from '../pages/clientRegistration'
-import UserRegistration from '../pages/userRegistration'
+import Dashboard from '../pages/Dashboard'
+import Settings from '../pages/Settings'
+import ClientRegistration from '../pages/ClientRegistration'
+import EmployeeRegistration from '../pages/EmployeeRegistration'
 
 const AppRouter = () => {
   return (
@@ -19,10 +19,10 @@ const AppRouter = () => {
       <Route index element={<Login />} />
       <Route element={<ProtectedRoute />}>
         <Route element={<Layout />}>
-          <Route path="dashboard" element={<Dashboard />} />
-          <Route path="settings" element={<Settings />} />
-          <Route path="clientRegistration" element={<ClientRegistration />} />
-          <Route path="userRegistration" element={<UserRegistration />} />
+          <Route path="Dashboard" element={<Dashboard />} />
+          <Route path="Settings" element={<Settings />} />
+          <Route path="ClientRegistration" element={<ClientRegistration />} />
+          <Route path="EmployeeRegistration" element={<EmployeeRegistration />} />
         </Route>
       </Route>
     </Routes>
