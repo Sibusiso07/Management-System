@@ -1,27 +1,33 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function EmployeeRegistration() {
+  // Hook navigation.
+  const navigate = useNavigate()
 
   const [employeeID, setEmployeeId] = useState('')
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
   const [idNumber, setIdNumber] = useState('')
   const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
   const [department, setDepartment] = useState('')
   const [position, setPosition] = useState('')
 
   const handleSubmit = async (e) => {
+    e.preventDefault()
+    console.log(`${employeeID}, ${firstName}, ${lastName}, ${idNumber}, ${email}, ${password}, ${department}, ${position}`)
     try {
-      e.preventDefault()
-      const result = await window.api.employeeReg(employeeID, firstName, lastName, idNumber, email, department, position)
-
+      const result = await window.api.employeeReg(employeeID, firstName, lastName, idNumber, email, password, department, position)
+      // Checking if employee is registered successfully and redirecting
       if (result) {
-        alert('User Registered Successfully')
+        alert('Employee Registered Successfully')
+        navigate('/Dashboard')
       } else {
         alert('Failed to Register User')
       }
-    } catch (error) {
-      console.error(error)
+    } catch (err) {
+      console.error('Could send data to DB: ', err)
     }
   }
 
@@ -95,6 +101,18 @@ export default function EmployeeRegistration() {
                   className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-600 placeholder-gray-400 text-white bg-gray-800 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
+                />
+              </div>
+              <div>
+                <input
+                  id="password"
+                  name="password"
+                  type="password"
+                  placeholder="Password"
+                  required
+                  className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-600 placeholder-gray-400 text-white bg-gray-800 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
               <div>

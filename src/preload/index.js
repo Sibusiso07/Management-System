@@ -8,7 +8,7 @@ const api = {
     return ipcRenderer.invoke('login', username, password)
   },
   // Employee Registration
-  employeeReg: async (employeeID, firstName, lastName, idNumber, email, department, position) => {
+  employeeReg: async (employeeID, firstName, lastName, idNumber, email, password, department, position) => {
     return ipcRenderer.invoke(
       'employeeReg',
       employeeID,
@@ -16,9 +16,9 @@ const api = {
       lastName,
       idNumber,
       email,
+      password,
       department,
-      position,
-      password
+      position
     )
   },
   // Client Registration

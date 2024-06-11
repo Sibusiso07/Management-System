@@ -1,6 +1,9 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 export default function ClientRegistration() {
+  // Hook navigation.
+  const navigate = useNavigate()
   
   const [firstName, setFirstName] = useState('')
   const [middleName, setMiddleName] = useState('')
@@ -13,18 +16,38 @@ export default function ClientRegistration() {
   const [idCopy, setIdCopy] = useState('')
 
   const handleSubmit = async (e) => {
-    try {
-      e.preventDefault()
-      const result = await window.api.clientReg(firstName, middleName, lastName, idNumber, address, email, phoneNumber, packageType, idCopy)
+    e.preventDefault()
+    // Covert the ID Copy to base64
+    const fileInput = document.getElementById('id-copy')
+    const file = fileInput.files[0]
+    if (file) {
+      const reader = new FileReader()
+      reader.onloadend = async () => {
+        // Remove the Data URL prefix to get the pure base64 string
+        const base64String = reader.result.replace('data:', '').replace(/^.+,/, '')
+        setIdCopy(base64String)
 
-      if (result) {
-        alert('Client Registered Successfully')
-      } else {
-        alert('Failed to Register Client')
+        // Sending data to the DB to create a user
+        try {
+          const result = await window.api.clientReg(
+            firstName, middleName, lastName, idNumber, address, email, phoneNumber, packageType, idCopy)
+            
+          // If results come back then alert and redirect
+          if (result) {
+            alert('Client Registered Successfully')
+            navigate('/Dashboard')
+          } else {
+            alert('Failed to Register Client')
+          }
+        } catch (error) {
+          console.error(error)
+        }
       }
-    } catch (error) {
-      console.error(error)
+      reader.readAsDataURL(file)
+    } else {
+      alert('ID Copy not selected')
     }
+    console.log(idCopy)
   }
 
   return (
@@ -143,7 +166,6 @@ export default function ClientRegistration() {
                   type="file"
                   required
                   className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-600 placeholder-gray-400 text-white bg-gray-800 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                  onChange={(e) => setIdCopy(e.target.files[0])}
                 />
               </div>
             </div>

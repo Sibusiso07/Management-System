@@ -6,7 +6,7 @@ import bcrypt from 'bcrypt'
 ipcMain.handle('login', async (_, username, password) => {
   try {
     // Getting the Password from the DB
-    const userPassword = await db.query('SELECT password FROM Users WHERE username = $1', [
+    const userPassword = await db.query('SELECT password FROM Users WHERE email = $1', [
       username
     ])
     try {
@@ -29,31 +29,34 @@ ipcMain.handle('login', async (_, username, password) => {
 ipcMain.handle('employeeReg', async (_, employeeID, firstName, lastName, idNumber, email, department, position, password) => {
   // Hashing the password
   const saltRounds = 10
-  const salt = bcrypt.genSalt(saltRounds)
-  const hashedPassword = bcrypt.hash(password, salt)
+  const salt = await bcrypt.genSalt(saltRounds)
+  const hashedPassword = await bcrypt.hash(password, salt)
   try {
     // Inserting into the User table
-    const newUser = await db.query('INSERT INTO users (firstName, lastName, email, password) VALUES ($1, $2, $3, $4) RETURNING id', [
+    const newUser = await db.query(
+      'INSERT INTO users (firstName, lastName, email, password) VALUES ($1, $2, $3, $4) RETURNING id', [
       firstName, lastName, email, hashedPassword
     ])
+    // Extracting userId
+    const userId = newUser.rows[0].id
     try {
       // Inserting into the Employee table
       const newEmployee = await db.query(
         'INSERT INTO employees (employeeID, firstName, lastName, idNumber, email, department, position, userId) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)',
-        [employeeID, firstName, lastName, idNumber, email, department, position, newUser]
+        [employeeID, firstName, lastName, idNumber, email, department, position, userId]
       )
-      return newEmployee
+      return { success: true, id: newEmployee.rows[0].id }
     } catch (err) {
       console.error('Error inserting into the employee table: ', err)
+      return { success: false, error: 'Error inserting into the employee table' }
     }
   } catch (err) {
     console.error('Error inserting into the user table: ', err)
+    return { success: false, error: 'Error inserting into the user table' }
   }
 })
 
-ipcMain.handle(
-  'clientReg',
-  async (
+ipcMain.handle('clientReg', async (
     _,
     firstName,
     middleName,
@@ -65,15 +68,21 @@ ipcMain.handle(
     packageType,
     idCopy
   ) => {
+    // Hashing the password
+    const saltRounds = 10
+    const salt = await bcrypt.genSalt(saltRounds)
+    const hashedPassword = await bcrypt.hash('password1', salt)
     try {
       // Inserting into the User table
-      const newUser = await db.query('INSERT INTO users (firstName, lastName, email) VALUES ($1, $2, $3) RETURNING id', [
-        firstName, lastName, email
+      const newUser = await db.query('INSERT INTO users (firstName, lastName, email, password) VALUES ($1, $2, $3, $4) RETURNING id', [
+        firstName, lastName, email, hashedPassword
       ])
+      // Extracting userId
+      const userId = newUser.rows[0].id
       try {
         // Incserting into Client table
         const newClient = await db.query(
-          'INSERT INTO clients (firstName, middleName, lastName, idNumber, address, email, phoneNumber, packageType, idCopy) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)',
+          'INSERT INTO clients (firstName, middleName, lastName, idNumber, address, email, phoneNumber, packageType, idCopy, userid) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)',
           [
             firstName,
             middleName,
@@ -83,7 +92,8 @@ ipcMain.handle(
             email,
             phoneNumber,
             packageType,
-            idCopy
+            idCopy,
+            userId
           ]
         )
   
