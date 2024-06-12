@@ -19,13 +19,17 @@ const Login = () => {
       e.preventDefault()
 
       // TODO: Trigger login and save user result to context.
-      // const result = await window.api.login(username, password)
+      const result = await window.api.login(username, password)
 
-      // Set user context.
-      setUser({ username, password })
+      console.log('login result >>>', result)
 
-      // Navigate to dahsboard after successful navigation.
-      navigate('/dashboard')
+      if (result) {
+        // Set user context.
+        setUser({ username, password })
+
+        // Navigate to dahsboard after successful navigation.
+        navigate('/dashboard')
+      }
     } catch (error) {
       console.error('Error during login attempt:', error)
     }

@@ -5,58 +5,59 @@ import bcrypt from 'bcrypt'
 
 ipcMain.handle('login', async (_, username, password) => {
   try {
+    // Hashing the password
+    const hashedPassword = await bcrypt.hash(password, process.env.ENCRYPTION_SECRET)
+
     // Getting the Password from the DB
-    const userPassword = await db.query('SELECT password FROM Users WHERE email = $1', [
-      username
+    const user = await db.query('SELECT password FROM Users WHERE email = $1 AND password = $2', [
+      username,
+      hashedPassword
     ])
+
+    if (!user) {
+      console.error('No user matching details stored in the databse.', err)
+    }
+
+    return user
+  } catch (err) {
+    console.error('Error comparing password: ', err)
+  }
+})
+
+ipcMain.handle(
+  'employeeReg',
+  async (_, employeeID, firstName, lastName, idNumber, email, department, position, password) => {
+    // Hashing the password
+    const hashedPassword = await bcrypt.hash(password, process.env.ENCRYPTION_SECRET)
     try {
-      // Comparing the password entered to the DB password
-      const match = await bcrypt.compare(password, userPassword)
-      // If password matches then return match
-      if (match) {
-        return match
-      } else {
-        return 'Password does not match'
+      // Inserting into the User table
+      const newUser = await db.query(
+        'INSERT INTO users (firstName, lastName, email, password) VALUES ($1, $2, $3, $4) RETURNING id',
+        [firstName, lastName, email, hashedPassword]
+      )
+      // Extracting userId
+      const userId = newUser.rows[0].id
+      try {
+        // Inserting into the Employee table
+        const newEmployee = await db.query(
+          'INSERT INTO employees (employeeID, firstName, lastName, idNumber, email, department, position, userId) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)',
+          [employeeID, firstName, lastName, idNumber, email, department, position, userId]
+        )
+        return { success: true, id: newEmployee.rows[0].id }
+      } catch (err) {
+        console.error('Error inserting into the employee table: ', err)
+        return { success: false, error: 'Error inserting into the employee table' }
       }
     } catch (err) {
-      console.error('Error comparing password: ', err)
+      console.error('Error inserting into the user table: ', err)
+      return { success: false, error: 'Error inserting into the user table' }
     }
-  } catch (error) {
-    throw new Error('Error logging in')
   }
-})
+)
 
-ipcMain.handle('employeeReg', async (_, employeeID, firstName, lastName, idNumber, email, department, position, password) => {
-  // Hashing the password
-  const saltRounds = 10
-  const salt = await bcrypt.genSalt(saltRounds)
-  const hashedPassword = await bcrypt.hash(password, salt)
-  try {
-    // Inserting into the User table
-    const newUser = await db.query(
-      'INSERT INTO users (firstName, lastName, email, password) VALUES ($1, $2, $3, $4) RETURNING id', [
-      firstName, lastName, email, hashedPassword
-    ])
-    // Extracting userId
-    const userId = newUser.rows[0].id
-    try {
-      // Inserting into the Employee table
-      const newEmployee = await db.query(
-        'INSERT INTO employees (employeeID, firstName, lastName, idNumber, email, department, position, userId) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)',
-        [employeeID, firstName, lastName, idNumber, email, department, position, userId]
-      )
-      return { success: true, id: newEmployee.rows[0].id }
-    } catch (err) {
-      console.error('Error inserting into the employee table: ', err)
-      return { success: false, error: 'Error inserting into the employee table' }
-    }
-  } catch (err) {
-    console.error('Error inserting into the user table: ', err)
-    return { success: false, error: 'Error inserting into the user table' }
-  }
-})
-
-ipcMain.handle('clientReg', async (
+ipcMain.handle(
+  'clientReg',
+  async (
     _,
     firstName,
     middleName,
@@ -69,14 +70,13 @@ ipcMain.handle('clientReg', async (
     idCopy
   ) => {
     // Hashing the password
-    const saltRounds = 10
-    const salt = await bcrypt.genSalt(saltRounds)
-    const hashedPassword = await bcrypt.hash('password1', salt)
+    const hashedPassword = await bcrypt.hash(password, process.env.ENCRYPTION_SECRET)
     try {
       // Inserting into the User table
-      const newUser = await db.query('INSERT INTO users (firstName, lastName, email, password) VALUES ($1, $2, $3, $4) RETURNING id', [
-        firstName, lastName, email, hashedPassword
-      ])
+      const newUser = await db.query(
+        'INSERT INTO users (firstName, lastName, email, password) VALUES ($1, $2, $3, $4) RETURNING id',
+        [firstName, lastName, email, hashedPassword]
+      )
       // Extracting userId
       const userId = newUser.rows[0].id
       try {
@@ -96,7 +96,7 @@ ipcMain.handle('clientReg', async (
             userId
           ]
         )
-  
+
         return newClient
       } catch (error) {
         console.error('Error inserting into client table: ', err)
