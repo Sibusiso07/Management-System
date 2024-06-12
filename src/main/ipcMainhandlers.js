@@ -6,10 +6,12 @@ import bcrypt from 'bcrypt'
 ipcMain.handle('login', async (_, username, password) => {
   try {
     // Hashing the password
-    const hashedPassword = await bcrypt.hash(password, process.env.ENCRYPTION_SECRET)
+    const salt = "$2b$10$Ix3.RczI6tN6/0TyfWPg.O"
+    const hashedPassword = await bcrypt.hash(password, salt)
+    console.log(">>>>", username, password, hashedPassword)
 
     // Getting the Password from the DB
-    const user = await db.query('SELECT password FROM Users WHERE email = $1 AND password = $2', [
+    const user = await db.query('SELECT * FROM users WHERE email = $1 AND password = $2', [
       username,
       hashedPassword
     ])
@@ -28,7 +30,8 @@ ipcMain.handle(
   'employeeReg',
   async (_, employeeID, firstName, lastName, idNumber, email, department, position, password) => {
     // Hashing the password
-    const hashedPassword = await bcrypt.hash(password, process.env.ENCRYPTION_SECRET)
+    const salt = "$2b$10$Ix3.RczI6tN6/0TyfWPg.O"
+    const hashedPassword = await bcrypt.hash(password, salt)
     try {
       // Inserting into the User table
       const newUser = await db.query(
@@ -70,7 +73,8 @@ ipcMain.handle(
     idCopy
   ) => {
     // Hashing the password
-    const hashedPassword = await bcrypt.hash(password, process.env.ENCRYPTION_SECRET)
+    const salt = "$2b$10$Ix3.RczI6tN6/0TyfWPg.O"
+    const hashedPassword = await bcrypt.hash('password', salt)
     try {
       // Inserting into the User table
       const newUser = await db.query(

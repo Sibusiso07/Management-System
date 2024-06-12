@@ -5,8 +5,8 @@ import { useNavigate } from 'react-router-dom'
 import { AuthContext } from './../../context/AuthContext'
 
 const Login = () => {
-  const [username, setUsername] = useState('user@gmail.com')
-  const [password, setPassword] = useState('123')
+  const [username, setUsername] = useState('john@doe.com')
+  const [password, setPassword] = useState('test')
 
   // Hook auth context.
   const { setUser } = useContext(AuthContext)
