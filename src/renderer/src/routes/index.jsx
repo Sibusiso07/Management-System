@@ -12,6 +12,7 @@ import Dashboard from '../pages/Dashboard'
 import Settings from '../pages/Settings'
 import ClientRegistration from '../pages/ClientRegistration'
 import EmployeeRegistration from '../pages/EmployeeRegistration'
+import Packages from '../pages/Packages'
 
 const AppRouter = () => {
   return (
@@ -23,6 +24,7 @@ const AppRouter = () => {
           <Route path="Settings" element={<Settings />} />
           <Route path="ClientRegistration" element={<ClientRegistration />} />
           <Route path="EmployeeRegistration" element={<EmployeeRegistration />} />
+          <Route path="Packages" element={<Packages />} />
         </Route>
       </Route>
     </Routes>

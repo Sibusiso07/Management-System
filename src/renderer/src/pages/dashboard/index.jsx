@@ -18,6 +18,8 @@ export default function Dashboard() {
       navigate(path)
     } else if (path == '/EmployeeRegistration') {
       navigate(path)
+    } else if (path == '/Packages') {
+      navigate(path)
     } else {
       alert('Feature still in development')
     }
