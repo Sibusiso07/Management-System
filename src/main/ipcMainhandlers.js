@@ -110,3 +110,22 @@ ipcMain.handle(
     }
   }
 )
+
+
+ipcMain.handle(
+  'addPackage',
+  async (_, packageID, packageName, details, price, image) => {
+    try {
+        // Inserting into the Employee table
+        const newPackage = await db.query(
+          'INSERT INTO employees (packageID, packageName, details, price, image) VALUES ($1, $2, $3, $4, $5)',
+          [packageID, packageName, details, price, image]
+        )
+        return { success: true, id: newPackage.rows[0].id }
+      
+    } catch (err) {
+      console.error('Error inserting into the user table: ', err)
+      return { success: false, error: 'Error inserting into the user table' }
+    }
+  }
+)

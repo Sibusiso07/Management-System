@@ -14,6 +14,7 @@ import ClientRegistration from '../pages/ClientRegistration'
 import EmployeeRegistration from '../pages/EmployeeRegistration'
 import Packages from '../pages/Packages'
 import Package from '../pages/Package'
+import AddPackage from '../pages/AddPackage'
 
 const AppRouter = () => {
   return (
@@ -27,6 +28,7 @@ const AppRouter = () => {
           <Route path="EmployeeRegistration" element={<EmployeeRegistration />} />
           <Route path="Packages" element={<Packages />} />
           <Route path="Packages/:PackageID" element={<Package />} />
+          <Route path="AddPackage" element={<AddPackage />} />
         </Route>
       </Route>
     </Routes>

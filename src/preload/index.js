@@ -54,6 +54,12 @@ const api = {
       packageType,
       idCopy
     )
+  },
+  // New Package Registration.
+  addPackage: async (packageID, packageName, details, price, image) => {
+    return ipcRenderer.invoke(
+      'addPackage', packageID, packageName, details, price, image
+    )
   }
 }
 

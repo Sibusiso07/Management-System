@@ -47,7 +47,7 @@ export default function ClientRegistration() {
     } else {
       alert('ID Copy not selected')
     }
-    console.log(idCopy)
+    // console.log(idCopy)
   }
 
   return (
