@@ -1,73 +1,40 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-
-// Components.
 import PackageItem from '../../components/PackageItem'
 
 function Packages() {
-  // Hook navigation.
+  // Hook useNavigation.
   const navigate = useNavigate()
 
-  // States.
+  // State.
   const [packageData, setPackageData] = useState([])
 
-  // Creating Packages.
-  const dummyData = [
-    {
-      PackageId: 1,
-      Name: 'Package 1',
-      Details: 'This is package 1 and what you get from it',
-      ImageUrl: 'https://via.placeholder.com/150',
-      Price: 'R100'
-    },
-    {
-      PackageId: 2,
-      Name: 'Package 2',
-      Details: 'This is package 2 and what you get from it',
-      ImageUrl: 'https://via.placeholder.com/150',
-      Price: 'R200'
-    },
-    {
-      PackageId: 3,
-      Name: 'Package 3',
-      Details: 'This is package 3 and what you get from it',
-      ImageUrl: 'https://via.placeholder.com/150',
-      Price: 'R300'
-    },
-    {
-      PackageId: 4,
-      Name: 'Package 4',
-      Details: 'This is package 4 and what you get from it',
-      ImageUrl: 'https://via.placeholder.com/150',
-      Price: 'R400'
-    },
-    {
-      PackageId: 5,
-      Name: 'Package 5',
-      Details: 'This is package 5 and what you get from it',
-      ImageUrl: 'https://via.placeholder.com/150',
-      Price: 'R500'
-    },
-    {
-      PackageId: 6,
-      Name: 'Package 6',
-      Details: 'This is package 6 and what you get from it',
-      ImageUrl: 'https://via.placeholder.com/150',
-      Price: 'R600'
-    }
-  ]
-
+  // On package load.
   useEffect(() => {
-    setPackageData(dummyData)
+    // Fetching package data from the DB.
+    const fetchPackageData = async () => {
+      try {
+        const result = await window.api.getPackage();
+        // console.log('results >>>> ', result)
+        
+        // Making sure the data is in an array.
+        setPackageData(result || []);
+      } catch (err) {
+        console.error('Unable to fetch data from DB: ', err)
+        setPackageData([]); // or handle error state
+      }
+    };
+
+    fetchPackageData();
   }, [])
 
+  // Handing package click.
   const handleClick = (item) => {
-    // Navigate to page.
-    navigate(`/Packages/${item.PackageId}`, { state: { data: item } })
+    navigate(`/Packages/${item.package_id}`, { state: { data: item } })
   }
 
+  // Handing add package button.
   const AddPackage = () => {
-    // Navigate to page.
     navigate('/AddPackage')
   }
 
@@ -85,9 +52,13 @@ function Packages() {
         </button>
       </div>
       <div className="flex flex-wrap gap-4 items-center justify-center overflow-y-auto h-[95%] mb-10">
-        {packageData.map((item) => (
-          <PackageItem key={item.id} item={item} handleClick={handleClick} />
-        ))}
+        {packageData.length === 0 ? (
+          <div>Loading...</div> // Loading indicator
+        ) : (
+          packageData.map((item) => (
+            <PackageItem key={item.id} item={item} handleClick={handleClick} />
+          ))
+        )}
       </div>
     </div>
   )

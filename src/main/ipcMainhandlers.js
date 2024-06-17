@@ -114,12 +114,12 @@ ipcMain.handle(
 
 ipcMain.handle(
   'addPackage',
-  async (_, packageID, packageName, details, price, image) => {
+  async (_, packageID, packageName, details, price, base64String) => {
     try {
         // Inserting into the Employee table
         const newPackage = await db.query(
-          'INSERT INTO employees (packageID, packageName, details, price, image) VALUES ($1, $2, $3, $4, $5)',
-          [packageID, packageName, details, price, image]
+          'INSERT INTO packages (package_id, package_name, details, price, image) VALUES ($1, $2, $3, $4, $5)',
+          [packageID, packageName, details, price, base64String]
         )
         return { success: true, id: newPackage.rows[0].id }
       
@@ -129,3 +129,17 @@ ipcMain.handle(
     }
   }
 )
+
+// Getting Package Info from the DB.
+ipcMain.handle('getPackage', async () => {
+  try {
+    const packageInfo = await db.query('SELECT * FROM packages')
+    // If there is results, return results.
+    if (packageInfo) {
+      // console.log("Packages >>>> ", packageInfo.rows)
+      return packageInfo.rows
+    }
+  } catch (err) {
+    console.error('Unable get data from DB: ', err)
+  }
+})

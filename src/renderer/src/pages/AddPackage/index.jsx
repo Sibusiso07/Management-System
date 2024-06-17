@@ -25,13 +25,19 @@ export default function AddPackage() {
        reader.onloadend = async () => {
          // Remove the Data URL prefix to get the pure base64 string
          const base64String = reader.result.replace('data:', '').replace(/^.+,/, '')
-         setImage(base64String)
+        //  console.log("base64 >>> ", base64String)
 
             try {
-            const result = await window.api.addPackage(packageID, packageName, details, price, image);
+            const result = await window.api.addPackage(packageID, packageName, details, price, base64String);
 
             if (result) {
                 alert('Package Added Successfully');
+                // Clearing the field after a successful entery
+                setPackageID('');
+                setPackageName('');
+                setDetails('');
+                setPrice('');
+                setImage('');
             } else {
                 alert('Failed to Add Package');
             }

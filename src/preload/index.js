@@ -56,10 +56,14 @@ const api = {
     )
   },
   // New Package Registration.
-  addPackage: async (packageID, packageName, details, price, image) => {
+  addPackage: async (packageID, packageName, details, price, base64String) => {
     return ipcRenderer.invoke(
-      'addPackage', packageID, packageName, details, price, image
+      'addPackage', packageID, packageName, details, price, base64String
     )
+  },
+  // Get Package data from the DB.
+  getPackage: async () => {
+    return ipcRenderer.invoke('getPackage')
   }
 }
 
