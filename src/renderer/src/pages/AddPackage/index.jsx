@@ -1,74 +1,82 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 export default function AddPackage() {
-    // Hook navigation.
-    const navigate = useNavigate()
+  // Hook navigation.
+  const navigate = useNavigate()
 
-    // States.
-    const [packageID, setPackageID] = useState('');
-    const [packageName, setPackageName] = useState('');
-    const [details, setDetails] = useState('');
-    const [price, setPrice] = useState('');
-    const [image, setImage] = useState(null);
+  // States.
+  const [packageID, setPackageID] = useState('')
+  const [packageName, setPackageName] = useState('')
+  const [details, setDetails] = useState('')
+  const [price, setPrice] = useState('')
+  const [image, setImage] = useState('')
 
   // Handle Submit button.
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    try {
+      e.preventDefault()
 
-     // Covert the Image to base64
-     const fileInput = document.getElementById('image')
-     const file = fileInput.files[0]
+      // Covert the Image to base64.
+      // const fileInput = document.getElementById('image')
+      // const file = fileInput.files[0]
 
-     if (file) {
-       const reader = new FileReader()
-       reader.onloadend = async () => {
-         // Remove the Data URL prefix to get the pure base64 string
-         const base64String = reader.result.replace('data:', '').replace(/^.+,/, '')
-        //  console.log("base64 >>> ", base64String)
+      if (image) {
+        const reader = new FileReader()
+        reader.onloadend = async () => {
+          // Remove the Data URL prefix to get the pure base64 string.
+          const base64String = reader.result.replace('data:', '').replace(/^.+,/, '')
+          //  console.log("base64 >>> ", base64String)
 
-            try {
-            const result = await window.api.addPackage(packageID, packageName, details, price, base64String);
+          // Make call to add package to the database.
+          await window.api.addPackage(packageID, packageName, details, price, base64String)
 
-            if (result) {
-                alert('Package Added Successfully');
-                // Clearing the field after a successful entery
-                setPackageID('');
-                setPackageName('');
-                setDetails('');
-                setPrice('');
-                setImage('');
-            } else {
-                alert('Failed to Add Package');
-            }
-            } catch (error) {
-            console.error(error);
-            }
-
+          // Send generic confirmation message to user. TODO: Pass back from stored procedure.
+          alert('Package Added Successfully')
+          // Clearing the field after a successful entry.
+          clearFormFields()
         }
-        reader.readAsDataURL(file)
-    } else {
+        // reader.readAsDataURL(file)
+      } else {
         alert('No Image Selected')
+      }
+    } catch (error) {
+      // Send generic error message to user. TODO: Pass back from stored procedure.
+      alert('Error adding package', error.message)
+      console.error(error)
     }
-  };
+  }
+
+  const clearFormFields = () => {
+    setPackageID('')
+    setPackageName('')
+    setDetails('')
+    setPrice('')
+    setImage('')
+  }
 
   // Handle back button.
   const handleBackClick = () => {
     navigate('/Packages')
   }
 
+  const handleFileChange = (event) => {
+    setImage(event.target.files[0])
+  }
+
   return (
     <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-        <div>
-            <button onClick={handleBackClick} className="bg-blue-500 text-white px-4 py-2 rounded mt-8 top-4 left-4 absolute">
-                Back
-            </button>
-        </div>
+      <div>
+        <button
+          onClick={handleBackClick}
+          className="bg-blue-500 text-white px-4 py-2 rounded mt-8 top-4 left-4 absolute"
+        >
+          Back
+        </button>
+      </div>
       <div className="max-w-lg w-full space-y-8">
         <div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-white">
-            Add New Package
-          </h2>
+          <h2 className="mt-6 text-center text-3xl font-extrabold text-white">Add New Package</h2>
         </div>
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           <div className="rounded-md shadow-sm -space-y-px">
@@ -122,6 +130,8 @@ export default function AddPackage() {
               </div>
               <div>
                 <input
+                  value={image ? image.name : ''}
+                  onChange={handleFileChange}
                   id="image"
                   name="image"
                   type="file"
@@ -143,5 +153,5 @@ export default function AddPackage() {
         </form>
       </div>
     </div>
-  );
+  )
 }

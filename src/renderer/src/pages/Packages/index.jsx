@@ -8,25 +8,32 @@ function Packages() {
 
   // State.
   const [packageData, setPackageData] = useState([])
+  const [loading, setLoading] = useState(false)
 
   // On package load.
   useEffect(() => {
-    // Fetching package data from the DB.
-    const fetchPackageData = async () => {
-      try {
-        const result = await window.api.getPackage();
-        // console.log('results >>>> ', result)
-        
-        // Making sure the data is in an array.
-        setPackageData(result || []);
-      } catch (err) {
-        console.error('Unable to fetch data from DB: ', err)
-        setPackageData([]); // or handle error state
-      }
-    };
-
-    fetchPackageData();
+    fetchPackageData()
   }, [])
+
+  // Fetching package data from the DB.
+  const fetchPackageData = async () => {
+    try {
+      // Set loading state.
+      setLoading(true)
+
+      // Make call to retrieve packages.
+      const result = await window.api.getPackage()
+      // console.log('results >>>> ', result)
+
+      // Making sure the data is in an array.
+      setPackageData(result || [])
+    } catch (err) {
+      console.error('Unable to fetch data from DB: ', err)
+      setPackageData([]) // or handle error state
+    } finally {
+      setLoading(false)
+    }
+  }
 
   // Handing package click.
   const handleClick = (item) => {
@@ -44,15 +51,12 @@ function Packages() {
         <h1>Packages</h1>
       </div>
       <div className="flex justify-end mb-4">
-        <button 
-          className="bg-blue-500 text-white px-4 py-2 rounded"
-          onClick={AddPackage}
-        >
+        <button className="bg-blue-500 text-white px-4 py-2 rounded" onClick={AddPackage}>
           Add Package
         </button>
       </div>
       <div className="flex flex-wrap gap-4 items-center justify-center overflow-y-auto h-[95%] mb-10">
-        {packageData.length === 0 ? (
+        {loading ? (
           <div>Loading...</div> // Loading indicator
         ) : (
           packageData.map((item) => (
