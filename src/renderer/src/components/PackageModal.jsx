@@ -22,6 +22,7 @@ const customStyles = {
 
 const PackageModal = ({ isOpen, onRequestClose, packageData }) => {
     // States.
+    const [id, setId] = useState(packageData.id);
     const [packageID, setPackageID] = useState(packageData.package_id);
     const [packageName, setPackageName] = useState(packageData.package_name);
     const [details, setDetails] = useState(packageData.details);
@@ -38,7 +39,7 @@ const PackageModal = ({ isOpen, onRequestClose, packageData }) => {
                 const reader = new FileReader();
                 reader.onloadend = async () => {
                 const base64String = reader.result.replace('data:', '').replace(/^.+,/, '');
-                await window.api.addPackage(packageID, packageName, details, price, base64String);
+                await window.api.editPackage(id, packageID, packageName, details, price, base64String);
                 alert('Package Edited Successfully');
                 onRequestClose;
                 };

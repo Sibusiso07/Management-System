@@ -109,6 +109,7 @@ ipcMain.handle(
   }
 )
 
+// Adding Package into DB.
 ipcMain.handle('addPackage', async (_, packageID, packageName, details, price, base64String) => {
   try {
     // Inserting into the Employee table
@@ -144,5 +145,20 @@ ipcMain.handle('findPackage', async (_, packageName) => {
     return found.rows
   } catch (err) {
     console.error('No such package exists: ', err)
+  }
+})
+
+// Editing package on the DB.
+ipcMain.handle('editPackage', async (_, id, packageID, packageName, details, price, base64String) => {
+  try {
+    // Updating the packages table
+    const updatedPackage = await db.query(
+      'UPDATE packages SET package_id = $2, package_name = $3, details = $4, price = $5, image = $6 WHERE id = $1',
+      [id, packageID, packageName, details, price, base64String]
+    );
+    return { success: true, id: newPackage.rows[0].id }
+  } catch (err) {
+    console.error('Error updating package: ', err)
+    return { success: false, error: 'Error updating package' }
   }
 })

@@ -68,6 +68,12 @@ const api = {
   // Search for Specific package
   findPackage: async () => {
     return ipcRenderer.invoke('findPackage', packageName)
+  },
+  // Editing a package.
+  editPackage: async (id, packageID, packageName, details, price, base64String) => {
+    return ipcRenderer.invoke(
+      'editPackage', id, packageID, packageName, details, price, base64String
+    )
   }
 }
 
