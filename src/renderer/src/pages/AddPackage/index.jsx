@@ -1,68 +1,55 @@
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import React, { useState, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export default function AddPackage() {
-  // Hook navigation.
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const fileInputRef = useRef(null);
 
-  // States.
-  const [packageID, setPackageID] = useState('')
-  const [packageName, setPackageName] = useState('')
-  const [details, setDetails] = useState('')
-  const [price, setPrice] = useState('')
-  const [image, setImage] = useState('')
+  const [packageID, setPackageID] = useState('');
+  const [packageName, setPackageName] = useState('');
+  const [details, setDetails] = useState('');
+  const [price, setPrice] = useState('');
+  const [image, setImage] = useState(null);
 
-  // Handle Submit button.
   const handleSubmit = async (e) => {
+    e.preventDefault();
     try {
-      e.preventDefault()
-
-      // Covert the Image to base64.
-      // const fileInput = document.getElementById('image')
-      // const file = fileInput.files[0]
-
       if (image) {
-        const reader = new FileReader()
+        const reader = new FileReader();
         reader.onloadend = async () => {
-          // Remove the Data URL prefix to get the pure base64 string.
-          const base64String = reader.result.replace('data:', '').replace(/^.+,/, '')
-          //  console.log("base64 >>> ", base64String)
-
-          // Make call to add package to the database.
-          await window.api.addPackage(packageID, packageName, details, price, base64String)
-
-          // Send generic confirmation message to user. TODO: Pass back from stored procedure.
-          alert('Package Added Successfully')
-          // Clearing the field after a successful entry.
-          clearFormFields()
-        }
-        // reader.readAsDataURL(file)
+          const base64String = reader.result.replace('data:', '').replace(/^.+,/, '');
+          await window.api.addPackage(packageID, packageName, details, price, base64String);
+          alert('Package Added Successfully');
+          clearFormFields();
+        };
+        reader.readAsDataURL(image);
       } else {
-        alert('No Image Selected')
+        alert('No Image Selected');
       }
     } catch (error) {
-      // Send generic error message to user. TODO: Pass back from stored procedure.
-      alert('Error adding package', error.message)
-      console.error(error)
+      alert('Error adding package', error.message);
+      console.error(error);
     }
-  }
+  };
 
   const clearFormFields = () => {
-    setPackageID('')
-    setPackageName('')
-    setDetails('')
-    setPrice('')
-    setImage('')
-  }
-
-  // Handle back button.
-  const handleBackClick = () => {
-    navigate('/Packages')
-  }
+    setPackageID('');
+    setPackageName('');
+    setDetails('');
+    setPrice('');
+    setImage(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+  };
 
   const handleFileChange = (event) => {
-    setImage(event.target.files[0])
-  }
+    setImage(event.target.files[0]);
+  };
+
+  const handleBackClick = () => {
+    navigate('/Packages');
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
@@ -130,7 +117,7 @@ export default function AddPackage() {
               </div>
               <div>
                 <input
-                  value={image ? image.name : ''}
+                  ref={fileInputRef}
                   onChange={handleFileChange}
                   id="image"
                   name="image"
@@ -141,7 +128,6 @@ export default function AddPackage() {
               </div>
             </div>
           </div>
-
           <div>
             <button
               type="submit"
@@ -153,5 +139,5 @@ export default function AddPackage() {
         </form>
       </div>
     </div>
-  )
+  );
 }
