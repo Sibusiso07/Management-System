@@ -64,6 +64,10 @@ const api = {
   // Get Package data from the DB.
   getPackage: async () => {
     return ipcRenderer.invoke('getPackage')
+  },
+  // Search for Specific package
+  findPackage: async () => {
+    return ipcRenderer.invoke('findPackage', packageName)
   }
 }
 

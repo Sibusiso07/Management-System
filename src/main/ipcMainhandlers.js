@@ -136,3 +136,13 @@ ipcMain.handle('getPackage', async () => {
     console.error('Unable get data from DB: ', err)
   }
 })
+
+// Search for package.
+ipcMain.handle('findPackage', async (_, packageName) => {
+  try {
+    const found = await db.query('SELECT * FROM packages WHERE package_name = $1', [packageName])
+    return found.rows
+  } catch (err) {
+    console.error('No such package exists: ', err)
+  }
+})

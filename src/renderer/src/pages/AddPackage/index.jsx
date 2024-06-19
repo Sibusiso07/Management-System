@@ -1,5 +1,7 @@
+// AddPackage.js
 import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import PackageModal from '../../components/PackageModal';
 
 export default function AddPackage() {
   const navigate = useNavigate();
@@ -10,6 +12,8 @@ export default function AddPackage() {
   const [details, setDetails] = useState('');
   const [price, setPrice] = useState('');
   const [image, setImage] = useState(null);
+  const [searchResult, setSearchResult] = useState(null);
+  const [modalIsOpen, setIsOpen] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -45,6 +49,29 @@ export default function AddPackage() {
 
   const handleFileChange = (event) => {
     setImage(event.target.files[0]);
+  };
+
+  const handleSearch = async () => {
+    try {
+      const result = await window.api.findPackage(packageName);
+      if (result) {
+        setSearchResult(result);
+        openModal();
+      } else {
+        alert('Package not found');
+      }
+    } catch (error) {
+      alert('Error searching package', error.message);
+      console.error(error);
+    }
+  };
+
+  const openModal = () => {
+    setIsOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsOpen(false);
   };
 
   const handleBackClick = () => {
@@ -128,16 +155,29 @@ export default function AddPackage() {
               </div>
             </div>
           </div>
-          <div>
+          <div className="flex w-full gap-4">
             <button
               type="submit"
               className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-sky-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
               Add Package
             </button>
+            <button
+              type="button"
+              onClick={handleSearch}
+              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-sky-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            >
+              Search
+            </button>
           </div>
         </form>
       </div>
+
+      <PackageModal
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}
+        packageData={searchResult}
+      />
     </div>
   );
 }
