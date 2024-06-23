@@ -1,5 +1,5 @@
 // PackageModal.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Modal from 'react-modal';
 
 // Modal styles
@@ -22,11 +22,21 @@ const customStyles = {
 
 const PackageModal = ({ isOpen, onRequestClose, packageData }) => {
     // States.
-    const [id, setId] = useState(packageData.id);
-    const [packageID, setPackageID] = useState(packageData.package_id);
-    const [packageName, setPackageName] = useState(packageData.package_name);
-    const [details, setDetails] = useState(packageData.details);
-    const [price, setPrice] = useState(packageData.price);
+    const [id, setId] = useState();
+    const [packageID, setPackageID] = useState();
+    const [packageName, setPackageName] = useState();
+    const [details, setDetails] = useState();
+    const [price, setPrice] = useState();
+
+    useEffect(() => {
+        if (packageData) {
+          setId(packageData.id || '');
+          setPackageID(packageData.package_id || '');
+          setPackageName(packageData.package_name || '');
+          setDetails(packageData.details || '');
+          setPrice(packageData.price || '');
+        }
+      }, [packageData]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -70,7 +80,6 @@ const PackageModal = ({ isOpen, onRequestClose, packageData }) => {
                         id="package-id"
                         name="package-id"
                         type="text"
-                        placeholder="Package ID"
                         required
                         className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-600 placeholder-gray-400 text-white bg-gray-800 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                         value={packageID}

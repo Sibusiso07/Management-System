@@ -139,9 +139,9 @@ ipcMain.handle('getPackage', async () => {
 })
 
 // Search for package.
-ipcMain.handle('findPackage', async (_, packageName) => {
+ipcMain.handle('findPackage', async (_, packageID) => {
   try {
-    const found = await db.query('SELECT * FROM packages WHERE package_name = $1', [packageName])
+    const found = await db.query('SELECT * FROM packages WHERE package_id = $1', [packageID])
     return found.rows
   } catch (err) {
     console.error('No such package exists: ', err)

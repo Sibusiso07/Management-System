@@ -4,9 +4,11 @@ import { useNavigate } from 'react-router-dom';
 import PackageModal from '../../components/PackageModal';
 
 export default function AddPackage() {
+  // Navigation hook.
   const navigate = useNavigate();
   const fileInputRef = useRef(null);
 
+  // States.
   const [packageID, setPackageID] = useState('');
   const [packageName, setPackageName] = useState('');
   const [details, setDetails] = useState('');
@@ -15,11 +17,13 @@ export default function AddPackage() {
   const [searchResult, setSearchResult] = useState(null);
   const [modalIsOpen, setIsOpen] = useState(false);
 
+  // Handle Submit.
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       if (image) {
         const reader = new FileReader();
+        // Converting image to base64.
         reader.onloadend = async () => {
           const base64String = reader.result.replace('data:', '').replace(/^.+,/, '');
           await window.api.addPackage(packageID, packageName, details, price, base64String);
@@ -53,25 +57,30 @@ export default function AddPackage() {
 
   const handleSearch = async () => {
     try {
-      const result = await window.api.findPackage(packageName);
-      if (result) {
-        setSearchResult(result);
-        openModal();
-      } else {
-        alert('Package not found');
+      console.log("package id >>>> ", packageID, packageID.length)
+      // Checking for package.
+      if (packageID.length > 1) {
+        const result = await window.api.findPackage(packageID);
+      
+        if (result) {
+          // Sending results and opening modal.
+          setSearchResult(result);
+          setIsOpen(true);
+        } else {
+          alert('Package not found');
+        }
       }
     } catch (error) {
+      console.log("package id >>>> ", packageID, packageID.length)
       alert('Error searching package', error.message);
       console.error(error);
     }
   };
 
-  const openModal = () => {
-    setIsOpen(true);
-  };
-
+  // Closing the modal and setting the search results to null.
   const closeModal = () => {
     setIsOpen(false);
+    setSearchResult(null);
   };
 
   const handleBackClick = () => {
