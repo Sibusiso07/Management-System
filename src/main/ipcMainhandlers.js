@@ -126,7 +126,7 @@ ipcMain.handle('addPackage', async (_, packageID, packageName, details, price, b
     })
     
     // If package is registered.
-    return { success: true, id: newPackage.rows[0].id }
+    return { success: true, id: result.rows[0].id }
   } catch (err) {
     console.error('Error inserting into the user table: ', err)
     return { success: false, error: 'Error inserting into the user table' }
@@ -136,7 +136,7 @@ ipcMain.handle('addPackage', async (_, packageID, packageName, details, price, b
 // Getting Package Info from the DB.
 ipcMain.handle('getPackage', async () => {
   try {
-    const packageInfo = await db.query('SELECT * FROM packages')
+    const packageInfo = await executeFunction('get_packages')
     // If there is results, return results.
     if (packageInfo) {
       // console.log("Packages >>>> ", packageInfo.rows)
@@ -150,10 +150,10 @@ ipcMain.handle('getPackage', async () => {
 // Search for package.
 ipcMain.handle('findPackage', async (_, packageID) => {
   try {
-    const found = await db.query('SELECT * FROM packages WHERE package_id = $1', [packageID])
+    const found = await executeFunction('find_package', {p_package_id: packageID})
     return found.rows
   } catch (err) {
-    console.error('No such package exists: ', err)
+    console.error('Error accessing the DB: ', err)
   }
 })
 
@@ -163,11 +163,15 @@ ipcMain.handle(
   async (_, id, packageID, packageName, details, price, base64String) => {
     try {
       // Updating the packages table
-      const updatedPackage = await db.query(
-        'UPDATE packages SET package_id = $2, package_name = $3, details = $4, price = $5, image = $6 WHERE id = $1',
-        [id, packageID, packageName, details, price, base64String]
-      )
-      return { success: true, id: newPackage.rows[0].id }
+      const updatedPackage = await executeFunction('package_Update', {
+        p_id: id,
+        p_package_id: packageID,
+        p_package_name: packageName,
+        p_details: details,
+        p_price: price,
+        p_image: base64String,
+      })
+      return { success: true, id: updatedPackage.rows[0].id }
     } catch (err) {
       console.error('Error updating package: ', err)
       return { success: false, error: 'Error updating package' }
