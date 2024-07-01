@@ -16,13 +16,18 @@ const Navbar = () => {
   console.log('user nav >>>', user)
 
   return (
-    <div className="bg-blue-500 flex space-x-2">
-      <Link to={'/Login'}>Login</Link>
-      <Link to={'/Dashboard'}>Dashboard</Link>
-      <Link to={'/Settings'}>Setting</Link>
-      <Link to={'/'} onClick={handleLogout}>
-        Logout
-      </Link>
+    <div className="bg-blue-500 flex justify-between items-center">
+      <div className="flex gap-2 ml-2">
+        <Link to={'/Login'}>Login</Link>
+        <Link to={'/Dashboard'}>Dashboard</Link>
+        <Link to={'/Settings'}>Setting</Link>
+        <Link to={'/'} onClick={handleLogout}>
+          Logout
+        </Link>
+      </div>
+      <div className="flex gap-2 items-center mr-2">
+        <p>{user.firstname}</p>
+      </div>
     </div>
   )
 }

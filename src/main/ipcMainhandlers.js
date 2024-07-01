@@ -41,20 +41,25 @@ ipcMain.handle(
 
       // console.log('hashed >>>', email, password, hashedPassword)
 
-      // Inserting into the User table
-      const newUser = await db.query(
-        'INSERT INTO users (firstName, lastName, email, password) VALUES ($1, $2, $3, $4) RETURNING id',
-        [firstName, lastName, email, hashedPassword]
-      )
-      // Extracting userId
-      const userId = newUser.rows[0].id
+      // Inserting employee into DB.
+      const result = await executeFunction('employee_Registration', {
+        p_employee_id: employeeID,
+        p_first_name: firstName,
+        p_last_name: lastName,
+        p_id_number: idNumber,
+        p_email: email,
+        p_department: department,
+        p_position: position,
+        p_password: hashedPassword
+      })
 
-      // Inserting into the Employee table
-      const newEmployee = await db.query(
-        'INSERT INTO employees (employeeID, firstName, lastName, idNumber, email, department, position, userId) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)',
-        [employeeID, firstName, lastName, idNumber, email, department, position, userId]
-      )
-      return { success: true, id: newEmployee.rows[0].id }
+       // If employee is registered, raise error.
+      if (result.length === 0) {
+        console.error('Failed to store employee details in the database.')
+        return null
+      }
+
+      return result[0] // Return if employee is successfully registered.
     } catch (err) {
       console.error('Error inserting into the user table: ', err)
       return { success: false, error: 'Error inserting into the user table' }
@@ -81,32 +86,27 @@ ipcMain.handle(
       const salt = process.env.ENCRYPTION_SECRET
       const hashedPassword = await bcrypt.hash('password', salt)
 
-      // Inserting into the User table
-      const newUser = await db.query(
-        'INSERT INTO users (firstName, lastName, email, password) VALUES ($1, $2, $3, $4) RETURNING id',
-        [firstName, lastName, email, hashedPassword]
-      )
-      // Extracting userId
-      const userId = newUser.rows[0].id
+      // Inserting client into DB.
+      const result = await executeFunction('client_Registration', {
+        p_first_name: firstName,
+        p_middle_name: middleName,
+        p_last_name: lastName,
+        p_id_number: idNumber,
+        p_address: address,
+        p_email: email,
+        p_phone_number: phoneNumber,
+        p_package_type: packageType,
+        p_id_copy: idCopy,
+        p_password: hashedPassword
+      })
 
-      // Incserting into Client table
-      const newClient = await db.query(
-        'INSERT INTO clients (firstName, middleName, lastName, idNumber, address, email, phoneNumber, packageType, idCopy, userid) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)',
-        [
-          firstName,
-          middleName,
-          lastName,
-          idNumber,
-          address,
-          email,
-          phoneNumber,
-          packageType,
-          idCopy,
-          userId
-        ]
-      )
+       // If client is registered, raise error.
+      if (result.length === 0) {
+        console.error('Failed to store client details in the database.')
+        return null
+      }
 
-      return newClient
+      return result[0] // Return if employee is successfully registered.
     } catch (err) {
       console.error('Error inserting into user table: ', err)
     }
@@ -117,10 +117,15 @@ ipcMain.handle(
 ipcMain.handle('addPackage', async (_, packageID, packageName, details, price, base64String) => {
   try {
     // Inserting into the Employee table
-    const newPackage = await db.query(
-      'INSERT INTO packages (package_id, package_name, details, price, image) VALUES ($1, $2, $3, $4, $5)',
-      [packageID, packageName, details, price, base64String]
-    )
+    const result = await executeFunction('package_Registration', {
+      p_package_id: packageID,
+      p_package_name: packageName,
+      p_details: details,
+      p_price: price,
+      p_image: base64String,
+    })
+    
+    // If package is registered.
     return { success: true, id: newPackage.rows[0].id }
   } catch (err) {
     console.error('Error inserting into the user table: ', err)
