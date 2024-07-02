@@ -57,7 +57,7 @@ export default function AddPackage() {
 
   const handleSearch = async () => {
     try {
-      console.log("package id >>>> ", packageID, packageID.length)
+      // console.log("package id >>>> ", packageID, packageID.length)
       // Checking for package.
       if (packageID.length > 1) {
         const result = await window.api.findPackage(packageID);
@@ -73,7 +73,7 @@ export default function AddPackage() {
     } catch (error) {
       console.log("package id >>>> ", packageID, packageID.length)
       alert('Error searching package', error.message);
-      console.error(error);
+      console.error('Error sending package id: ', error);
     }
   };
 
@@ -122,7 +122,7 @@ export default function AddPackage() {
                   name="package-name"
                   type="text"
                   placeholder="Package Name"
-                  required
+                  // required
                   className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-600 placeholder-gray-400 text-white bg-gray-800 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                   value={packageName}
                   onChange={(e) => setPackageName(e.target.value)}
@@ -133,7 +133,7 @@ export default function AddPackage() {
                   id="details"
                   name="details"
                   placeholder="Details"
-                  required
+                  // required
                   className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-600 placeholder-gray-400 text-white bg-gray-800 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                   value={details}
                   onChange={(e) => setDetails(e.target.value)}
@@ -145,7 +145,7 @@ export default function AddPackage() {
                   name="price"
                   type="number"
                   placeholder="Price"
-                  required
+                  // required
                   className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-600 placeholder-gray-400 text-white bg-gray-800 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                   value={price}
                   onChange={(e) => setPrice(e.target.value)}
@@ -158,7 +158,7 @@ export default function AddPackage() {
                   id="image"
                   name="image"
                   type="file"
-                  required
+                  // required
                   className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-600 placeholder-gray-400 text-white bg-gray-800 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                 />
               </div>

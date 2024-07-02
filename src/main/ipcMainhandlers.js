@@ -12,7 +12,7 @@ ipcMain.handle('login', async (_, username, password) => {
     // console.log('>>>>', username, password, hashedPassword)
 
     // Attempt to authenticate the user.
-    const result = await executeFunction('user_Authentication', {
+    const result = await executeFunction('user_Authentication', { 
       p_email_address: username,
       p_password: hashedPassword
     })
@@ -136,11 +136,13 @@ ipcMain.handle('addPackage', async (_, packageID, packageName, details, price, b
 // Getting Package Info from the DB.
 ipcMain.handle('getPackage', async () => {
   try {
-    const packageInfo = await executeFunction('get_packages')
+    const packageInfo = await executeFunction('get_Packages')
+
+    // console.log("packages >>>", results)
     // If there is results, return results.
     if (packageInfo) {
-      // console.log("Packages >>>> ", packageInfo.rows)
-      return packageInfo.rows
+      // console.log("Packages >>>> ", packageInfo)
+      return packageInfo
     }
   } catch (err) {
     console.error('Unable get data from DB: ', err)
@@ -149,9 +151,11 @@ ipcMain.handle('getPackage', async () => {
 
 // Search for package.
 ipcMain.handle('findPackage', async (_, packageID) => {
+  console.log("package id >>> ", packageID)
   try {
     const found = await executeFunction('find_package', {p_package_id: packageID})
-    return found.rows
+    console.log("found >>>", found)
+    return found
   } catch (err) {
     console.error('Error accessing the DB: ', err)
   }
