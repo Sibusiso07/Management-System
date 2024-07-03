@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 export default function Dependents() {
+  // States.
   const [dependents, setDependents] = useState([]);
 
   return (

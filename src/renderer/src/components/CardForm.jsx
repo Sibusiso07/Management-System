@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 
 export default function CardForm() {
+    // States.
     const [cardNumber, setCardNumber] = useState('');
     const [cardholderName, setCardholderName] = useState('');
     const [expiryDate, setExpiryDate] = useState('');
     const [cvv, setCvv] = useState('');
 
+    // Handle Submit button.
     const handleSubmit = (e) => {
         e.preventDefault();
         // Logic to store the data in the database

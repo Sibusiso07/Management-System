@@ -1,44 +1,36 @@
-import Dependents from "../../components/Dependents";
-import CardForm from "../../components/CardForm";
-
 export default function ClientDashboard() {
-
   return (
-    <div className='grid-container flex flex-col h-full overflow-hidden'>
+    <div className='h-full w-full overflow-hidden flex flex-col'>
       <div
-      style={{ display: 'grid' }} 
-      className='h-[90%] gap-4'>
+        className='gap-3 flex-grow grid'
+        style={{ gridTemplateColumns: '40% 60%', gridTemplateRows: 'repeat(5, 1fr)' }}
+      >
         <div
-            className="grid-item bg-slate-200 mx-2 mt-2"
-            style={{ gridRow: '1', gridColumn: '1' }}
+          className="bg-slate-200 ml-2 mt-2"
+          style={{ gridColumn: '1', gridRow: '1 / span 5' }}
         >
-          <div className="bg-gray-700 p-4 flex flex-col items-center">
-            <img src='#' alt='Some image' className="w-full h-32 object-cover mb-4" />
-            <h2 className="text-xl mb-2">Package Name</h2>
-            <p className="text-sm mb-4">Package Details</p>
-            <p className="text-xl mb-2">Package Price</p>
+          <p>Part 1</p>
+        </div>
+        <div
+          className="mr-4 mt-2 border-white"
+          style={{ gridColumn: '2', gridRow: '1' }}
+        >
+          <div className="flex items-center justify-center">
+            <div className="flex space-x-4">
+              <button className="bg-blue-500 text-white px-4 py-2 rounded">Button 1</button>
+              <button className="bg-green-500 text-white px-4 py-2 rounded">Button 2</button>
+              <button className="bg-red-500 text-white px-4 py-2 rounded">Button 3</button>
+            </div>
           </div>
         </div>
-        <div className="flex gap-4 mb-2">
-          <div
-              className="grid-item w-[50%] ml-2"
-              style={{ gridRow: '2', gridColumn: '1' }}
-          >
-           <Dependents />
-          </div>
-          <div
-            className="grid-item w-[50%] mr-2"
-            style={{ gridRow: '2', gridColumn: '2' }}
-          >
-            <CardForm />
-          </div>
+        <div
+          className="mr-4  bg-green-400"
+          style={{ gridColumn: '2', gridRow: '2 / span 4' }}
+        >
+          <p>Part 3</p>
         </div>
       </div>
-      <button 
-      className="justify-center py-2 mx-2 border border-transparent text-sm font-medium rounded-md text-white bg-sky-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-      >
-        Save all
-      </button>
+      <button className="bg-yellow-300 self-center m-4 p-2">Next</button>
     </div>
   );
 }
