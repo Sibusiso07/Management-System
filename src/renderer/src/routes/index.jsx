@@ -16,7 +16,6 @@ import Packages from '../pages/Packages'
 import Package from '../pages/Package'
 import AddPackage from '../pages/AddPackage'
 import ClientDashboard from '../pages/ClientDashboard'
-
 const AppRouter = () => {
   return (
     <Routes>

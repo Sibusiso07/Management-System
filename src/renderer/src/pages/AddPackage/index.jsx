@@ -1,91 +1,91 @@
 // AddPackage.js
-import React, { useState, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
-import PackageModal from '../../components/PackageModal';
+import React, { useState, useRef } from 'react'
+import { useNavigate } from 'react-router-dom'
+import PackageModal from '../../components/PackageModal'
 
 export default function AddPackage() {
   // Navigation hook.
-  const navigate = useNavigate();
-  const fileInputRef = useRef(null);
+  const navigate = useNavigate()
+  const fileInputRef = useRef(null)
 
   // States.
-  const [packageID, setPackageID] = useState('');
-  const [packageName, setPackageName] = useState('');
-  const [details, setDetails] = useState('');
-  const [price, setPrice] = useState('');
-  const [image, setImage] = useState(null);
-  const [searchResult, setSearchResult] = useState(null);
-  const [modalIsOpen, setIsOpen] = useState(false);
+  const [packageID, setPackageID] = useState('')
+  const [packageName, setPackageName] = useState('')
+  const [details, setDetails] = useState('')
+  const [price, setPrice] = useState('')
+  const [image, setImage] = useState(null)
+  const [searchResult, setSearchResult] = useState(null)
+  const [modalIsOpen, setIsOpen] = useState(false)
 
   // Handle Submit.
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault()
     try {
       if (image) {
-        const reader = new FileReader();
+        const reader = new FileReader()
         // Converting image to base64.
         reader.onloadend = async () => {
-          const base64String = reader.result.replace('data:', '').replace(/^.+,/, '');
-          await window.api.addPackage(packageID, packageName, details, price, base64String);
-          alert('Package Added Successfully');
-          clearFormFields();
-        };
-        reader.readAsDataURL(image);
+          const base64String = reader.result.replace('data:', '').replace(/^.+,/, '')
+          await window.api.addPackage(packageID, packageName, details, price, base64String)
+          alert('Package Added Successfully')
+          clearFormFields()
+        }
+        reader.readAsDataURL(image)
       } else {
-        alert('No Image Selected');
+        alert('No Image Selected')
       }
     } catch (error) {
-      alert('Error adding package', error.message);
-      console.error(error);
+      alert('Error adding package', error.message)
+      console.error(error)
     }
-  };
+  }
 
   const clearFormFields = () => {
-    setPackageID('');
-    setPackageName('');
-    setDetails('');
-    setPrice('');
-    setImage(null);
+    setPackageID('')
+    setPackageName('')
+    setDetails('')
+    setPrice('')
+    setImage(null)
     if (fileInputRef.current) {
-      fileInputRef.current.value = '';
+      fileInputRef.current.value = ''
     }
-  };
+  }
 
   const handleFileChange = (event) => {
-    setImage(event.target.files[0]);
-  };
+    setImage(event.target.files[0])
+  }
 
   const handleSearch = async () => {
     try {
-      // console.log("package id >>>> ", packageID, packageID.length)
+      // console.log('package id >>>> ', packageID)
       // Checking for package.
-      if (packageID.length > 1) {
-        const result = await window.api.findPackage(packageID);
-      
+      if (packageID) {
+        const result = await window.api.findPackage(packageID)
+
         if (result) {
           // Sending results and opening modal.
-          setSearchResult(result);
-          setIsOpen(true);
+          setSearchResult(result)
+          setIsOpen(true)
         } else {
-          alert('Package not found');
+          alert('Package not found')
         }
       }
     } catch (error) {
-      console.log("package id >>>> ", packageID, packageID.length)
-      alert('Error searching package', error.message);
-      console.error('Error sending package id: ', error);
+      console.log('package id >>>> ', packageID, packageID.length)
+      alert('Error searching package', error.message)
+      console.error('Error sending package id: ', error)
     }
-  };
+  }
 
   // Closing the modal and setting the search results to null.
   const closeModal = () => {
-    setIsOpen(false);
-    setSearchResult(null);
-  };
+    setIsOpen(false)
+    setSearchResult(null)
+  }
 
   const handleBackClick = () => {
-    navigate('/Packages');
-  };
+    navigate('/Packages')
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
@@ -182,11 +182,7 @@ export default function AddPackage() {
         </form>
       </div>
 
-      <PackageModal
-        isOpen={modalIsOpen}
-        onRequestClose={closeModal}
-        packageData={searchResult}
-      />
+      <PackageModal isOpen={modalIsOpen} onRequestClose={closeModal} packageData={searchResult} />
     </div>
-  );
+  )
 }

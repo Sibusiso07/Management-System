@@ -27,8 +27,13 @@ const Login = () => {
         // Set user context.
         setUser(result)
 
-        // Navigate to dahsboard after successful navigation.
-        navigate('/dashboard')
+        // Check if a client has an packages assigned to them.
+        if (result.Haspackage) {
+          return
+        } else {
+          // Client has no packages assigned to them so navigate to packages page.
+          navigate('/packages')
+        }
       }
     } catch (error) {
       console.error('Error during login attempt:', error)
