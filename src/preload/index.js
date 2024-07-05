@@ -39,7 +39,6 @@ const api = {
     address,
     email,
     phoneNumber,
-    packageType,
     idCopy
   ) => {
     return ipcRenderer.invoke(
@@ -51,7 +50,6 @@ const api = {
       address,
       email,
       phoneNumber,
-      packageType,
       idCopy
     )
   },
@@ -82,6 +80,10 @@ const api = {
   // Add Dependents.
   addDependent: async (firstname, lastname, idnumber) => {
     return ipcRenderer.invoke('addDependent', firstname, lastname, idnumber)
+  },
+  // Get Package Items from the DB.
+  getItems: async () => {
+    return ipcRenderer.invoke('getItems')
   }
 }
 

@@ -12,7 +12,6 @@ export default function ClientRegistration() {
   const [address, setAddress] = useState('')
   const [email, setEmail] = useState('')
   const [phoneNumber, setPhoneNumber] = useState('')
-  const [packageType, setPackageType] = useState('')
   const [idCopy, setIdCopy] = useState('')
 
   const handleSubmit = async (e) => {
@@ -30,7 +29,7 @@ export default function ClientRegistration() {
         // Sending data to the DB to create a user
         try {
           const result = await window.api.clientReg(
-            firstName, middleName, lastName, idNumber, address, email, phoneNumber, packageType, idCopy)
+            firstName, middleName, lastName, idNumber, address, email, phoneNumber, idCopy)
             
           // If results come back then alert and redirect
           if (result) {
@@ -143,21 +142,6 @@ export default function ClientRegistration() {
                   value={phoneNumber}
                   onChange={(e) => setPhoneNumber(e.target.value)}
                 />
-              </div>
-              <div>
-                <select
-                  id="package-type"
-                  name="package-type"
-                  required
-                  className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-600 placeholder-gray-400 text-white bg-gray-800 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                  value={packageType}
-                  onChange={(e) => setPackageType(e.target.value)}
-                >
-                  <option value="">Select Package</option>
-                  <option value="Basic">Basic</option>
-                  <option value="Standard">Standard</option>
-                  <option value="Premium">Premium</option>
-                </select>
               </div>
               <div>
                 <input

@@ -16,9 +16,9 @@ export default function AddPackage() {
   const [image, setImage] = useState(null)
   const [searchResult, setSearchResult] = useState(null)
   const [modalIsOpen, setIsOpen] = useState(false)
-
-  // Handle Submit.
-  const handleSubmit = async (e) => {
+  
+  // Handle Next.
+  const handleNext = async (e) => {
     e.preventDefault()
     try {
       if (image) {
@@ -26,9 +26,11 @@ export default function AddPackage() {
         // Converting image to base64.
         reader.onloadend = async () => {
           const base64String = reader.result.replace('data:', '').replace(/^.+,/, '')
-          await window.api.addPackage(packageID, packageName, details, price, base64String)
-          alert('Package Added Successfully')
-          clearFormFields()
+          const response = await window.api.addPackage(packageID, packageName, details, price, base64String)
+          const newPackageId = response[0]; // Getting the new package ID
+          alert('Package Added Successfully');
+          clearFormFields();
+          navigate('/Items', { state: { id: newPackageId } })
         }
         reader.readAsDataURL(image)
       } else {
@@ -101,7 +103,7 @@ export default function AddPackage() {
         <div>
           <h2 className="mt-6 text-center text-3xl font-extrabold text-white">Add New Package</h2>
         </div>
-        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+        <form className="mt-8 space-y-6">
           <div className="rounded-md shadow-sm -space-y-px">
             <div className="grid grid-cols-1 gap-y-6 gap-x-4 md:grid-cols-2">
               <div>
@@ -166,10 +168,11 @@ export default function AddPackage() {
           </div>
           <div className="flex w-full gap-4">
             <button
-              type="submit"
+              type="button"
+              onClick={handleNext}
               className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-sky-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
-              Add Package
+              Next
             </button>
             <button
               type="button"

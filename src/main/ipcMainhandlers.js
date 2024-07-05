@@ -78,7 +78,6 @@ ipcMain.handle(
     address,
     email,
     phoneNumber,
-    packageType,
     idCopy
   ) => {
     try {
@@ -95,7 +94,6 @@ ipcMain.handle(
         p_address: address,
         p_email: email,
         p_phone_number: phoneNumber,
-        p_package_type: packageType,
         p_id_copy: idCopy,
         p_password: hashedPassword
       })
@@ -195,5 +193,14 @@ ipcMain.handle('addDependent', async (_, firstname, lastname, idnumber) => {
     return {success: true}
   } catch (err) {
     console.error("Error adding dependent: ", err)
+  }
+})
+
+ipcMain.handle('getItems', async () => {
+  try {
+    const packageItems = await executeFunction('get_package_items')
+    return packageItems
+  } catch (err) {
+    console.error('Unable to fetch package items: ', err)
   }
 })

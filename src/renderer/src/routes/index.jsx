@@ -16,6 +16,8 @@ import Packages from '../pages/Packages'
 import Package from '../pages/Package'
 import AddPackage from '../pages/AddPackage'
 import ClientDashboard from '../pages/ClientDashboard'
+import Items from '../pages/Items'
+
 const AppRouter = () => {
   return (
     <Routes>
@@ -30,6 +32,7 @@ const AppRouter = () => {
           <Route path="Packages/:PackageID" element={<Package />} />
           <Route path="AddPackage" element={<AddPackage />} />
           <Route path="ClientDashboard" element={<ClientDashboard />} />
+          <Route path="Items" element={<Items />} />
         </Route>
       </Route>
     </Routes>
