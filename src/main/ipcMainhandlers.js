@@ -154,7 +154,7 @@ ipcMain.handle('findPackage', async (_, packageID) => {
   console.log("package id >>> ", packageID)
   try {
     const found = await executeFunction('find_package', {p_package_id: packageID})
-    console.log("found >>>", found)
+    // console.log("found >>>", found)
     return found
   } catch (err) {
     console.error('Error accessing the DB: ', err)
@@ -165,6 +165,7 @@ ipcMain.handle('findPackage', async (_, packageID) => {
 ipcMain.handle(
   'editPackage',
   async (_, id, packageID, packageName, details, price, base64String) => {
+    // console.log("details >>>", details);
     try {
       // Updating the packages table
       const updatedPackage = await executeFunction('package_Update', {
@@ -182,3 +183,17 @@ ipcMain.handle(
     }
   }
 )
+
+// Add Dependent to the DB.
+ipcMain.handle('addDependent', async (_, firstname, lastname, idnumber) => {
+  try {
+    const newDependent = await executeFunction('add_Dependent', {
+      p_first_name: firstname,
+      p_last_name: lastname,
+      p_id_number, idnumber
+    })
+    return {success: true}
+  } catch (err) {
+    console.error("Error adding dependent: ", err)
+  }
+})

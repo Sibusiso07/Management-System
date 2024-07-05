@@ -1,14 +1,32 @@
 import React, { useState } from 'react';
+import DependentsModal from './DependentsModal';
 
 export default function Dependents() {
   // States.
-  const [dependents, setDependents] = useState([]);
+  const [dependents, setDependents] = useState([])
+  const [modalIsOpen, setIsOpen] = useState(false)
+
+  // Handle Add button.
+  const handleAdd = () => {
+    setIsOpen(true)
+  }
+  
+  // Closing the modal and setting the search results to null.
+  const closeModal = () => {
+    setIsOpen(false)
+  }
+
 
   return (
     <div className="relative p-4 border border-gray-300 rounded-lg w-full h-full">
       <div className="flex justify-between items-center">
         <h2 className="text-lg font-semibold">Dependents</h2>
-        <button className="px-4 py-2 text-white rounded bg-blue-500 hover:bg-blue-700 top-right">Add</button>
+        <button 
+        className="px-4 py-2 text-white rounded bg-blue-500 hover:bg-blue-700 top-right"
+        onClick={handleAdd}
+        > 
+          Add
+        </button>
       </div>
       <div className="flex flex-col items-center justify-center h-40 mt-4">
         {dependents.length === 0 ? (
@@ -24,6 +42,11 @@ export default function Dependents() {
       <div className="absolute bottom-4 right-4">
         <button className="px-4 py-2 text-white rounded bg-green-500 hover:bg-green-700">Calculation</button>
       </div>
+      <DependentsModal 
+        isOpen={modalIsOpen} 
+        onRequestClose={closeModal} 
+        appElement={document.getElementById('root')}  
+      />
     </div>
   );
 }

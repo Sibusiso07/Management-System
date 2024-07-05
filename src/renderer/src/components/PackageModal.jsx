@@ -1,6 +1,9 @@
 // PackageModal.js
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Modal from 'react-modal';
+
+// Set the app element to your main content's root element
+Modal.setAppElement('#root');
 
 // Modal styles
 const customStyles = {
@@ -21,31 +24,33 @@ const customStyles = {
 };
 
 const PackageModal = ({ isOpen, onRequestClose, packageData }) => {
+    // useRef Hook.
+    const fileInputRef = useRef(null)
+
     // States.
     const [id, setId] = useState();
     const [packageID, setPackageID] = useState();
     const [packageName, setPackageName] = useState();
     const [details, setDetails] = useState();
     const [price, setPrice] = useState();
+    const [image, setImage] = useState(null)
 
     useEffect(() => {
+        // console.log("package data >>> ", packageData[0].id)
         if (packageData) {
-          setId(packageData.id || '');
-          setPackageID(packageData.package_id || '');
-          setPackageName(packageData.package_name || '');
-          setDetails(packageData.details || '');
-          setPrice(packageData.price || '');
+          setId(packageData[0].id || '');
+          setPackageID(packageData[0].package_id || '');
+          setPackageName(packageData[0].package_name || '');
+          setDetails(packageData[0].details || '');
+          setPrice(packageData[0].price || '');
         }
       }, [packageData]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        // Covert the ID Copy to base64
-        const fileInput = document.getElementById('image')
-        const file = fileInput.files[0]
 
         try {
-            if (file) {
+            if (image) {
                 const reader = new FileReader();
                 reader.onloadend = async () => {
                 const base64String = reader.result.replace('data:', '').replace(/^.+,/, '');
@@ -62,6 +67,10 @@ const PackageModal = ({ isOpen, onRequestClose, packageData }) => {
         console.error(error);
         }
     };
+
+    const handleFileChange = (event) => {
+        setImage(event.target.files[0])
+      }
 
     return (
         <Modal
@@ -123,6 +132,8 @@ const PackageModal = ({ isOpen, onRequestClose, packageData }) => {
                     </div>
                     <div>
                     <input
+                        ref={fileInputRef}
+                        onChange={handleFileChange}   
                         id="image"
                         name="image"
                         type="file"

@@ -78,6 +78,10 @@ const api = {
       price,
       base64String
     )
+  },
+  // Add Dependents.
+  addDependent: async (firstname, lastname, idnumber) => {
+    return ipcRenderer.invoke('addDependent', firstname, lastname, idnumber)
   }
 }
 

@@ -61,7 +61,7 @@ export default function AddPackage() {
       // Checking for package.
       if (packageID) {
         const result = await window.api.findPackage(packageID)
-
+        // console.log("results >>> ", result)
         if (result) {
           // Sending results and opening modal.
           setSearchResult(result)
@@ -182,7 +182,12 @@ export default function AddPackage() {
         </form>
       </div>
 
-      <PackageModal isOpen={modalIsOpen} onRequestClose={closeModal} packageData={searchResult} />
+      <PackageModal 
+        isOpen={modalIsOpen} 
+        onRequestClose={closeModal} 
+        packageData={searchResult} 
+        appElement={document.getElementById('root')}  
+      />
     </div>
   )
 }
