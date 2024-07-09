@@ -30,7 +30,8 @@ export default function AddPackage() {
           const newPackageId = response[0]; // Getting the new package ID
           alert('Package Added Successfully');
           clearFormFields();
-          navigate('/Items', { state: { id: newPackageId } })
+          // console.log("package_id >>>", newPackageId.package_id)
+          navigate('/Items', { state: { id: newPackageId.package_id } })
         }
         reader.readAsDataURL(image)
       } else {

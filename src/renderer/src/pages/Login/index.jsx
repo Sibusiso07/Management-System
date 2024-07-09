@@ -28,11 +28,12 @@ const Login = () => {
         setUser(result)
 
         // Check if a client has an packages assigned to them.
-        if (result.Haspackage) {
-          return
-        } else {
+        if (result.has_package === false) {
           // Client has no packages assigned to them so navigate to packages page.
-          navigate('/packages')
+          navigate('/Packages')
+        } else {
+          // Client has package assigned to them.
+          navigate('/ClientDashboard')
         }
       }
     } catch (error) {

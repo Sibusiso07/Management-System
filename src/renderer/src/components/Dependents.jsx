@@ -1,10 +1,35 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import DependentsModal from './DependentsModal';
 
+// Auth Context.
+import { AuthContext } from '../context/AuthContext';
+
 export default function Dependents() {
+  // Hook auth context.
+  const { user } = useContext(AuthContext)
+
   // States.
   const [dependents, setDependents] = useState([])
   const [modalIsOpen, setIsOpen] = useState(false)
+  const [clientId, setClientId] = useState(user.id)
+
+  // Rendaring dependants.
+  useEffect(() => {
+    if (clientId) {
+      fetchDependants();
+    }
+  }, [clientId]);
+
+  // Getting dependants.
+  const fetchDependants = async () => {
+    try {
+      const results = await window.api.getDependants(clientId)
+      console.log("results >>>", results[0])
+      setDependents(results[0])
+    } catch (err) {
+      console.error('Unable to fetch dependants: ', err)
+    }
+  }
 
   // Handle Add button.
   const handleAdd = () => {
@@ -33,9 +58,9 @@ export default function Dependents() {
             <p className="text-gray-500">Add dependents</p>
         ) : (
           <ul>
-              {dependents.map((dependent, index) => (
-                  <li key={index}>{dependent}</li>
-              ))}
+            {dependents.map((dependent) => (
+              <li key={dependent.dependent_id}>{dependent.first_name}</li>
+            ))}
           </ul>
         )}
       </div>
@@ -44,7 +69,8 @@ export default function Dependents() {
       </div>
       <DependentsModal 
         isOpen={modalIsOpen} 
-        onRequestClose={closeModal} 
+        onRequestClose={closeModal}
+        clientId={clientId}
         appElement={document.getElementById('root')}  
       />
     </div>

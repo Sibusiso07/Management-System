@@ -78,12 +78,20 @@ const api = {
     )
   },
   // Add Dependents.
-  addDependent: async (firstname, lastname, idnumber) => {
-    return ipcRenderer.invoke('addDependent', firstname, lastname, idnumber)
+  addDependent: async (firstname, lastname, idnumber, clientId) => {
+    return ipcRenderer.invoke('addDependent', firstname, lastname, idnumber, clientId)
+  },
+  // Getting client dependants from the DB.
+  getDependants: async (clientId) => {
+    return ipcRenderer.invoke('getDependants', clientId)
   },
   // Get Package Items from the DB.
   getItems: async () => {
     return ipcRenderer.invoke('getItems')
+  },
+  // Linking Package Items to Packages on the DB.
+  linkPackageItems: async (package_id, selectedItems) => {
+    return ipcRenderer.invoke('linkPackageItems', package_id, selectedItems)
   }
 }
 

@@ -22,7 +22,7 @@ const customStyles = {
   },
 };
 
-const DependentsModal = ({ isOpen, onRequestClose }) => {
+const DependentsModal = ({ isOpen, onRequestClose, clientId }) => {
 
   // States.
   const [firstname, setFirstname] = useState();
@@ -33,12 +33,12 @@ const DependentsModal = ({ isOpen, onRequestClose }) => {
       e.preventDefault();
 
       try {
-          await window.api.addDependent(firstname, lastname, idnumber);
-          alert('Dependent Added Successfully');
+          const response = await window.api.addDependent(firstname, lastname, idnumber, clientId)
+          alert('Dependent Added Successfully')
           onRequestClose;      
       } catch (error) {
-      alert('Error adding dependent', error.message);
-      console.error(error);
+      alert('Error adding dependent', error.message)
+      console.error(error)
       }
   };
 

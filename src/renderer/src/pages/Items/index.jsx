@@ -11,12 +11,12 @@ export default function Items() {
   const [selectedItems, setSelectedItems] = useState([]);
 
   // Extracting id from location state
-  const { id } = location.state || {};
+  const { package_id } = location.state || {};
 
   // On package load.
   useEffect(() => {
     fetchPackageItems();
-    // console.log("items >>> ", packageItems);
+    console.log("package_id >>> ", package_id);
   }, []);
 
   // Fetching package data from the DB.
@@ -45,22 +45,18 @@ export default function Items() {
     } else {
       setSelectedItems(prevSelectedItems => [...prevSelectedItems, item_id]);
     }
-  };
+  }
 
-  const handleDone = () => {
-    navigate('/Packages');
-  };
-
-  // Example function to use the id for writing to DB
-  const writeToDB = async () => {
+  const handleDone = async () => {
     try {
-      // Example: writing the id to a DB endpoint
-      await window.api.writeToDB(id);
-      console.log(`Successfully wrote id ${id} to DB`);
+      // Linking items to package
+      await window.api.linkPackageItems(package_id, selectedItems);
+      console.log(`Successful`);
+      navigate('/Packages');
     } catch (error) {
-      console.error('Error writing to DB:', error);
+      console.error('Error writing to DB:', error)
     }
-  };
+  }
 
   return (
     <div className="text-white m-4">

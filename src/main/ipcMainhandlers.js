@@ -124,7 +124,7 @@ ipcMain.handle('addPackage', async (_, packageID, packageName, details, price, b
     })
     
     // If package is registered.
-    return { success: true, id: result.rows[0].id }
+    return result
   } catch (err) {
     console.error('Error inserting into the user table: ', err)
     return { success: false, error: 'Error inserting into the user table' }
@@ -183,12 +183,13 @@ ipcMain.handle(
 )
 
 // Add Dependent to the DB.
-ipcMain.handle('addDependent', async (_, firstname, lastname, idnumber) => {
+ipcMain.handle('addDependent', async (_, firstname, lastname, idnumber, clientId) => {
   try {
-    const newDependent = await executeFunction('add_Dependent', {
+    const newDependent = await executeFunction('add_Dependant', {
       p_first_name: firstname,
       p_last_name: lastname,
-      p_id_number, idnumber
+      p_id_number: idnumber,
+      p_client_id: clientId
     })
     return {success: true}
   } catch (err) {
@@ -196,6 +197,33 @@ ipcMain.handle('addDependent', async (_, firstname, lastname, idnumber) => {
   }
 })
 
+// Getting the dependants linked to the client.
+ipcMain.handle('getDependants', async (_, clientId) => {
+  try {
+    const results = await executeFunction('get_Dependants', {
+      p_client_id: clientId
+    })
+    // console.log("results >>>>", results)
+    return results
+  } catch (err) {
+    console.error('Unable to fetch dependants: ', err)
+  }
+})
+
+// Linking package items.
+ipcMain.handle('linkPackageItems', async (_, package_id, selectedItems) => {
+  try {
+    const result = await executeFunction('link_package_items', {
+      p_package_id: package_id,
+      p_item_ids: selectedItems
+    })
+    return result
+  } catch (err) {
+    console.error('Unable to link package items: ', err)
+  }
+})
+
+// Getting all items from the db.
 ipcMain.handle('getItems', async () => {
   try {
     const packageItems = await executeFunction('get_package_items')
