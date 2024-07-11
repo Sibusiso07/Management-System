@@ -1,23 +1,23 @@
-import { useState, useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useState, useEffect } from "react"
+import { useNavigate, useLocation } from "react-router-dom"
 
 export default function Items() {
-  const navigate = useNavigate();
-  const location = useLocation();
+  const navigate = useNavigate()
+  const location = useLocation()
 
   // State.
-  const [packageItems, setPackageItems] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [selectedItems, setSelectedItems] = useState([]);
+  const [packageItems, setPackageItems] = useState([])
+  const [loading, setLoading] = useState(false)
+  const [selectedItems, setSelectedItems] = useState([])
 
   // Extracting id from location state
-  const { package_id } = location.state || {};
+  const { package_id } = location.state || {}
 
   // On package load.
   useEffect(() => {
     fetchPackageItems();
-    console.log("package_id >>> ", package_id);
-  }, []);
+    console.log("package_id >>> ", package_id)
+  }, [])
 
   // Fetching package data from the DB.
   const fetchPackageItems = async () => {
@@ -26,33 +26,33 @@ export default function Items() {
       setLoading(true);
 
       // Make call to retrieve packages.
-      const result = await window.api.getItems();
+      const result = await window.api.getItems()
       // console.log('results >>>> ', result);
 
       // Making sure the data is in an array.
       setPackageItems(result);
     } catch (err) {
-      console.error('Unable to fetch data from DB: ', err);
-      setPackageItems([]); // or handle error state
+      console.error('Unable to fetch data from DB: ', err)
+      setPackageItems([]) // or handle error state
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
   };
 
   const handleToggle = (item_id) => {
     if (selectedItems.includes(item_id)) {
-      setSelectedItems(prevSelectedItems => prevSelectedItems.filter(id => id !== item_id));
+      setSelectedItems(prevSelectedItems => prevSelectedItems.filter(id => id !== item_id))
     } else {
-      setSelectedItems(prevSelectedItems => [...prevSelectedItems, item_id]);
+      setSelectedItems(prevSelectedItems => [...prevSelectedItems, item_id])
     }
   }
 
   const handleDone = async () => {
     try {
       // Linking items to package
-      await window.api.linkPackageItems(package_id, selectedItems);
-      console.log(`Successful`);
-      navigate('/Packages');
+      await window.api.linkPackageItems(package_id, selectedItems)
+      console.log(`Successfully linked package and its items`)
+      navigate('/Packages')
     } catch (error) {
       console.error('Error writing to DB:', error)
     }

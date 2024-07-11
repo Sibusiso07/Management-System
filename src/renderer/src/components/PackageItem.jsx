@@ -1,7 +1,8 @@
 import React from 'react'
 
-const PackageItem = ({ item, handleClick }) => {
 
+const PackageItem = ({ item, handleClick }) => {
+  
    // Function to convert base64 to URL
    const base64ToUrl = (base64String) => `data:image/jpeg;base64,${base64String}`
 
@@ -17,7 +18,7 @@ const PackageItem = ({ item, handleClick }) => {
         className="bg-blue-500 text-white px-4 py-2 rounded"
         onClick={() => handleClick(item)}
       >
-        More Info
+        Select
       </button>
     </div>
   )

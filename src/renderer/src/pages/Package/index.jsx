@@ -1,10 +1,16 @@
 import { useNavigate, useLocation } from 'react-router-dom'
 import Dependents from '../../components/Dependents'
 import CardForm from '../../components/CardForm'
+import { useContext } from 'react'
+
+// Auth Context.
+import { AuthContext } from '../../context/AuthContext'
 
 function Package() {
   // Hook navigation.
   const navigate = useNavigate()
+  // Hook auth context.
+  const { user } = useContext(AuthContext)
 
   // Hook location.
   const location = useLocation()
@@ -15,6 +21,17 @@ function Package() {
 
   const handleBackClick = () => {
     navigate('/Packages')
+  }
+
+  const handleSavePackage = async (e) => {
+    e.preventDefault()
+    try {
+      const response = await window.api.linkClienkPackage(user.id, item.package_id)
+      alert('Client Linked to Package Successfully')
+      onRequestClose;      
+    } catch (err) {
+      console.error('Error Linking Client & Package', err)
+    }
   }
 
   console.log('data >>>> ', data)
@@ -41,6 +58,12 @@ function Package() {
             className="bg-blue-500 text-white px-4 py-2 rounded mt-8"
           >
             Back
+          </button>
+          <button
+            onClick={handleSavePackage}
+            className="bg-blue-500 text-white px-4 py-2 rounded mt-8"
+          >
+            Save Package
           </button>
         </div>
         <div className="flex gap-4 mb-2">

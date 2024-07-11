@@ -213,11 +213,10 @@ ipcMain.handle('getDependants', async (_, clientId) => {
 // Linking package items.
 ipcMain.handle('linkPackageItems', async (_, package_id, selectedItems) => {
   try {
-    const result = await executeFunction('link_package_items', {
+    await executeFunction('link_package_items', {
       p_package_id: package_id,
       p_item_ids: selectedItems
     })
-    return result
   } catch (err) {
     console.error('Unable to link package items: ', err)
   }
@@ -230,5 +229,18 @@ ipcMain.handle('getItems', async () => {
     return packageItems
   } catch (err) {
     console.error('Unable to fetch package items: ', err)
+  }
+})
+
+// Linking package items.
+ipcMain.handle('linkClienkPackage', async (_, user_id, package_id) => {
+  try {
+    const result = await executeFunction('link_user_to_package', {
+      p_client_id: user_id,
+      p_package_id: package_id
+    })
+    return result
+  } catch (err) {
+    console.error('Unable to link client to package: ', err)
   }
 })
