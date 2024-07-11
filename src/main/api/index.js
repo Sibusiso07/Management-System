@@ -26,6 +26,26 @@ import db from '../db'
 //   }
 // }
 
+// const executeFunction = async (procedureName, paramsObj = {}) => {
+//   try {
+//     // Convert the paramsObj into an array of values
+//     const params = Object.values(paramsObj)
+
+//     // Construct the SQL command to execute the stored procedure
+//     const queryText = `SELECT * FROM ${procedureName}(${params.map((_, i) => `$${i + 1}`).join(', ')})`
+
+//     // Execute the query
+//     const result = await db.query(queryText, params)
+
+//     // Output the results for verification
+//     console.log('Procedure executed. Number of rows returned:', result.rows.length)
+//     return result.rows
+//   } catch (error) {
+//     console.error('Error executing stored procedure', error)
+//     throw error
+//   }
+// }
+
 const executeFunction = async (procedureName, paramsObj = {}) => {
   try {
     // Convert the paramsObj into an array of values
@@ -41,7 +61,13 @@ const executeFunction = async (procedureName, paramsObj = {}) => {
     console.log('Procedure executed. Number of rows returned:', result.rows.length)
     return result.rows
   } catch (error) {
-    console.error('Error executing stored procedure', error.stack)
+    // Check for PostgreSQL RAISE EXCEPTION messages
+    if (error.code === 'P0001') {
+      // Throw the exact error message from PostgreSQL
+      throw new Error(error.message)
+    }
+
+    console.error('Error executing stored procedure', error)
     throw error
   }
 }

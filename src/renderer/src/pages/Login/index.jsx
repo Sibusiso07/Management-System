@@ -3,10 +3,12 @@ import { useNavigate } from 'react-router-dom'
 
 // Auth Context.
 import { AuthContext } from './../../context/AuthContext'
+import { cleanErrorMessage } from '../../utils'
 
 const Login = () => {
   const [username, setUsername] = useState('josh@gmail.com')
   const [password, setPassword] = useState('test')
+  const [error, setError] = useState('')
 
   // Hook auth context.
   const { setUser } = useContext(AuthContext)
@@ -38,6 +40,7 @@ const Login = () => {
       }
     } catch (error) {
       console.error('Error during login attempt:', error)
+      setError(cleanErrorMessage(error))
     }
   }
 
@@ -83,6 +86,9 @@ const Login = () => {
                 onChange={(e) => setPassword(e.target.value)}
               />
             </div>
+          </div>
+          <div>
+            <p className="text-red-500 text-sm">{error}</p>
           </div>
           <div>
             <button

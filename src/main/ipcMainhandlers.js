@@ -12,7 +12,7 @@ ipcMain.handle('login', async (_, username, password) => {
     // console.log('>>>>', username, password, hashedPassword)
 
     // Attempt to authenticate the user.
-    const result = await executeFunction('user_Authentication', { 
+    const result = await executeFunction('user_Authentication', {
       p_email_address: username,
       p_password: hashedPassword
     })
@@ -28,6 +28,7 @@ ipcMain.handle('login', async (_, username, password) => {
     return result[0] // Return the first user found.
   } catch (err) {
     console.error('Error authenticating user: ', err)
+    throw err
   }
 })
 
@@ -53,7 +54,7 @@ ipcMain.handle(
         p_password: hashedPassword
       })
 
-       // If employee is registered, raise error.
+      // If employee is registered, raise error.
       if (result.length === 0) {
         console.error('Failed to store employee details in the database.')
         return null
@@ -62,24 +63,14 @@ ipcMain.handle(
       return result[0] // Return if employee is successfully registered.
     } catch (err) {
       console.error('Error inserting into the user table: ', err)
-      return { success: false, error: 'Error inserting into the user table' }
+      throw err
     }
   }
 )
 
 ipcMain.handle(
   'clientReg',
-  async (
-    _,
-    firstName,
-    middleName,
-    lastName,
-    idNumber,
-    address,
-    email,
-    phoneNumber,
-    idCopy
-  ) => {
+  async (_, firstName, middleName, lastName, idNumber, address, email, phoneNumber, idCopy) => {
     try {
       // Hashing the password
       const salt = process.env.ENCRYPTION_SECRET
@@ -98,7 +89,7 @@ ipcMain.handle(
         p_password: hashedPassword
       })
 
-       // If client is registered, raise error.
+      // If client is registered, raise error.
       if (result.length === 0) {
         console.error('Failed to store client details in the database.')
         return null
@@ -107,6 +98,7 @@ ipcMain.handle(
       return result[0] // Return if employee is successfully registered.
     } catch (err) {
       console.error('Error inserting into user table: ', err)
+      throw err
     }
   }
 )
@@ -120,14 +112,14 @@ ipcMain.handle('addPackage', async (_, packageID, packageName, details, price, b
       p_package_name: packageName,
       p_details: details,
       p_price: price,
-      p_image: base64String,
+      p_image: base64String
     })
-    
+
     // If package is registered.
     return result
   } catch (err) {
     console.error('Error inserting into the user table: ', err)
-    return { success: false, error: 'Error inserting into the user table' }
+    throw err
   }
 })
 
@@ -144,18 +136,20 @@ ipcMain.handle('getPackage', async () => {
     }
   } catch (err) {
     console.error('Unable get data from DB: ', err)
+    throw err
   }
 })
 
 // Search for package.
 ipcMain.handle('findPackage', async (_, packageID) => {
-  console.log("package id >>> ", packageID)
+  console.log('package id >>> ', packageID)
   try {
-    const found = await executeFunction('find_package', {p_package_id: packageID})
+    const found = await executeFunction('find_package', { p_package_id: packageID })
     // console.log("found >>>", found)
     return found
   } catch (err) {
     console.error('Error accessing the DB: ', err)
+    throw err
   }
 })
 
@@ -172,12 +166,12 @@ ipcMain.handle(
         p_package_name: packageName,
         p_details: details,
         p_price: price,
-        p_image: base64String,
+        p_image: base64String
       })
-      return { success: true, id: updatedPackage.rows[0].id }
+      return { success: true, id: updatedPackage[0].id }
     } catch (err) {
       console.error('Error updating package: ', err)
-      return { success: false, error: 'Error updating package' }
+      throw err
     }
   }
 )
@@ -191,9 +185,10 @@ ipcMain.handle('addDependent', async (_, firstname, lastname, idnumber, clientId
       p_id_number: idnumber,
       p_client_id: clientId
     })
-    return {success: true}
+    return { success: true }
   } catch (err) {
-    console.error("Error adding dependent: ", err)
+    console.error('Error adding dependent: ', err)
+    throw err
   }
 })
 
@@ -207,6 +202,7 @@ ipcMain.handle('getDependants', async (_, clientId) => {
     return results
   } catch (err) {
     console.error('Unable to fetch dependants: ', err)
+    throw err
   }
 })
 
@@ -219,6 +215,7 @@ ipcMain.handle('linkPackageItems', async (_, package_id, selectedItems) => {
     })
   } catch (err) {
     console.error('Unable to link package items: ', err)
+    throw err
   }
 })
 
@@ -229,11 +226,12 @@ ipcMain.handle('getItems', async () => {
     return packageItems
   } catch (err) {
     console.error('Unable to fetch package items: ', err)
+    throw err
   }
 })
 
 // Linking package items.
-ipcMain.handle('linkClienkPackage', async (_, user_id, package_id) => {
+ipcMain.handle('linkClientPackage', async (_, user_id, package_id) => {
   try {
     const result = await executeFunction('link_user_to_package', {
       p_client_id: user_id,
@@ -242,5 +240,6 @@ ipcMain.handle('linkClienkPackage', async (_, user_id, package_id) => {
     return result
   } catch (err) {
     console.error('Unable to link client to package: ', err)
+    throw err
   }
 })

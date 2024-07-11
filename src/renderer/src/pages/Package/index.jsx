@@ -6,6 +6,9 @@ import { useContext } from 'react'
 // Auth Context.
 import { AuthContext } from '../../context/AuthContext'
 
+// Utils.
+import { cleanErrorMessage } from '../../utils'
+
 function Package() {
   // Hook navigation.
   const navigate = useNavigate()
@@ -15,6 +18,8 @@ function Package() {
   // Hook location.
   const location = useLocation()
   const { data } = location.state
+
+  console.log('data >>>>', data)
 
   // Function to convert base64 to URL
   const base64ToUrl = (base64String) => `data:image/jpeg;base64,${base64String}`
@@ -26,11 +31,11 @@ function Package() {
   const handleSavePackage = async (e) => {
     e.preventDefault()
     try {
-      const response = await window.api.linkClienkPackage(user.id, item.package_id)
+      const response = await window.api.linkClientPackage(user.id, data.id)
       alert('Client Linked to Package Successfully')
-      onRequestClose;      
     } catch (err) {
       console.error('Error Linking Client & Package', err)
+      alert(cleanErrorMessage(err))
     }
   }
 

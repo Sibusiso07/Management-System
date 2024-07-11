@@ -94,8 +94,8 @@ const api = {
     return ipcRenderer.invoke('linkPackageItems', package_id, selectedItems)
   },
   // Linking Package Items to Packages on the DB.
-  linkClienkPackage: async (user_id, package_id) => {
-    return ipcRenderer.invoke('linkClienkPackage', user_id, package_id)
+  linkClientPackage: async (user_id, package_id) => {
+    return ipcRenderer.invoke('linkClientPackage', user_id, package_id)
   }
 }
 
