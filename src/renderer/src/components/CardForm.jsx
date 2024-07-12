@@ -1,4 +1,5 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext } from 'react'
+import { toast } from 'react-toastify'
 
 // Auth Context.
 import { AuthContext } from '../context/AuthContext'
@@ -13,19 +14,24 @@ export default function CardForm() {
   const [expiryDate, setExpiryDate] = useState('')
   const [cvv, setCvv] = useState('')
 
+  // Handling toast msg.
+  const warningToast = () => toast.warning('Please make sure that the Card Number has 16 digits')
+  const successToast = () => toast.success('Card Information Added Successfully')
+  const errorToast = (error) => toast.error(`Error adding card info: ${error}`)
+
   // Handle Submit button.
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       if (cardNumber.length !== 16) {
-        alert('Please make sure that the Card Number has 16 digits')
+        warningToast()
       } else {
         await window.api.addCardInfo(cardNumber, cardholderName, expiryDate, cvv, user.id)
-        alert('Card Information Added Successfully')
+        successToast()
         onRequestClose()
     }
     } catch (error) {
-      alert('Error adding card info: ', error.message)
+      errorToast(error.message)
       console.error(error)
     }
   }

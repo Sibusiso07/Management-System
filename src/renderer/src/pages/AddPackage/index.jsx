@@ -2,6 +2,7 @@
 import React, { useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import PackageModal from '../../components/PackageModal'
+import { toast } from 'react-toastify'
 
 export default function AddPackage() {
   // Navigation hook.
@@ -16,6 +17,11 @@ export default function AddPackage() {
   const [image, setImage] = useState(null)
   const [searchResult, setSearchResult] = useState(null)
   const [modalIsOpen, setIsOpen] = useState(false)
+
+  // Handling toast msg.
+  const warningToast = () => toast.warning('No Image Selected')
+  const successToast = () => toast.success('Package Added Successfully')
+  const errorToast = () => toast.error(`Error adding package`)
   
   // Handle Next.
   const handleNext = async (e) => {
@@ -28,16 +34,16 @@ export default function AddPackage() {
           const base64String = reader.result.replace('data:', '').replace(/^.+,/, '')
           const response = await window.api.addPackage(packageID, packageName, details, price, base64String)
           const newPackageId = response[0]; // Getting the new package ID
-          alert('Package Added Successfully');
+          successToast()
           clearFormFields()
           navigate('/Items', { state: { package_id: newPackageId.package_id } })
         }
         reader.readAsDataURL(image)
       } else {
-        alert('No Image Selected')
+        warningToast()
       }
     } catch (error) {
-      alert('Error adding package', error.message)
+      errorToast()
       console.error(error)
     }
   }
@@ -181,7 +187,6 @@ export default function AddPackage() {
           </div>
         </form>
       </div>
-
       <PackageModal 
         isOpen={modalIsOpen} 
         onRequestClose={closeModal} 

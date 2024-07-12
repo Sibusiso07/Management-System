@@ -7,9 +7,9 @@ import AppRouter from './routes'
 import { AuthProvider } from './context/AuthContext'
 
 export default function Home() {
-  useEffect(() => {
-    console.log('window.api:', window.api)
-  }, [])
+  // useEffect(() => {
+  //   console.log('window.api:', window.api)
+  // }, [])
 
   return (
     <AuthProvider>
