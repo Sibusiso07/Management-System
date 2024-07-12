@@ -22,13 +22,18 @@
     "@electron-toolkit/utils": "^3.0.0",
     "axios": "^1.6.8",
     "bcrypt": "^5.1.1",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.1",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "electron-updater": "^6.1.7",
     "express": "^4.19.2",
+    "lucide-react": "^0.408.0",
     "pg": "^8.11.5",
     "react-modal": "^3.16.1",
-    "react-router-dom": "^6.23.1"
+    "react-router-dom": "^6.23.1",
+    "tailwind-merge": "^2.4.0",
+    "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
     "@electron-toolkit/eslint-config": "^1.0.2",

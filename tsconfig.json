@@ -1,0 +1,29 @@
+{
+  "compilerOptions": {
+    "target": "ESNext", // Target ECMAScript version
+    "module": "ESNext", // Specify module code generation
+    "moduleResolution": "Node", // Resolve modules using Node.js style
+    "jsx": "preserve", // Preserve JSX in output
+    "strict": true, // Enable all strict type-checking options
+    "esModuleInterop": true, // Emit additional JavaScript to ease interop with CommonJS
+    "forceConsistentCasingInFileNames": true, // Ensure consistent casing in filenames
+    "allowSyntheticDefaultImports": true, // Allow default imports from modules with no default export
+    "skipLibCheck": true, // Skip type checking of declaration files
+    "resolveJsonModule": true, // Include modules imported with .json extension
+    "isolatedModules": true, // Ensure each file is treated as a separate module
+    "noEmit": true, // Do not emit output files
+    "strictNullChecks": true, // Enable strict null checks
+    "baseUrl": ".", // Base directory to resolve non-relative module names
+    "paths": {
+      // Paths mapping (if needed)
+    }
+  },
+  "include": [
+    "src/**/*.js", // Include JypeScript files under src directory
+    "src/**/*.jsx"
+  ],
+  "exclude": [
+    "node_modules", // Exclude node_modules directory
+    "dist" // Exclude dist directory (if applicable)
+  ]
+}
