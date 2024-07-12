@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+// Utils.
+import { cleanErrorMessage } from "@/lib/utils";
+
 export default function EmployeeRegistration() {
   // Hook navigation.
   const navigate = useNavigate()
@@ -20,13 +23,11 @@ export default function EmployeeRegistration() {
       const result = await window.api.employeeReg(employeeID, firstName, lastName, idNumber, email, department, position, password)
       // Checking if employee is registered successfully and redirecting
       if (result) {
-        alert('Employee Registered Successfully')
+        toast.success('Employee Registered Successfully')
         navigate('/Dashboard')
-      } else {
-        alert('Failed to Register User')
       }
     } catch (err) {
-      console.error('Could send data to DB: ', err)
+      toast.error('Unable to register employee: ', cleanErrorMessage(err))
     }
   }
 

@@ -39,9 +39,9 @@ const Login = () => {
           navigate('/ClientDashboard')
         }
       }
-    } catch (error) {
-      console.error('Error during login attempt:', error)
-      setError(cleanErrorMessage(error))
+    } catch (err) {
+      toast.error('Error during Login attempt: ', cleanErrorMessage(err))
+      setError(cleanErrorMessage(err))
     }
   }
 

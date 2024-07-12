@@ -1,6 +1,9 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
+// Utils.
+import { cleanErrorMessage } from '@/lib/utils'
+
 export default function ClientRegistration() {
   // Hook navigation.
   const navigate = useNavigate()
@@ -32,18 +35,16 @@ export default function ClientRegistration() {
             firstName, middleName, lastName, idNumber, address, email, phoneNumber, idCopy)    
           // If results come back then alert and redirect
           if (result) {
-            alert('Client Registered Successfully')
+            toast.success('Client Registered Successfully')
             navigate('/Dashboard')
-          } else {
-            alert('Failed to Register Client')
           }
-        } catch (error) {
-          console.error(error)
+        } catch (err) {
+          toast.error('Unable to register client: ', cleanErrorMessage(err))
         }
       }
       reader.readAsDataURL(file)
     } else {
-      alert('ID Copy not selected')
+      toast.warning('Please select in ID copy for the client')
     }
   }
 

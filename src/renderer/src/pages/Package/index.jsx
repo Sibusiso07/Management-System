@@ -34,10 +34,9 @@ function Package() {
     e.preventDefault()
     try {
       const response = await window.api.linkClientPackage(user.id, details.id)
-      alert('Client Linked to Package Successfully')
+      toast.success('Successfully linked client to package')
     } catch (err) {
-      console.error('Error Linking Client & Package', err)
-      alert(cleanErrorMessage(err))
+      toast.error('Unable to link client to package: ', cleanErrorMessage(err))
     }
   }
 

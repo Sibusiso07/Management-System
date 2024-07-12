@@ -26,7 +26,7 @@ export default function Dependents() {
       const results = await window.api.getDependants(clientId)
       setDependents(results)
     } catch (err) {
-      console.error('Unable to fetch dependants: ', err)
+      toast.error('Unable to fetch depandents: ', err)
     }
   }
 

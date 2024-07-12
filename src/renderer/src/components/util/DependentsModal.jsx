@@ -32,11 +32,11 @@ const DependentsModal = ({ isOpen, onRequestClose, clientId }) => {
     e.preventDefault()
     try {
       await window.api.addDependent(firstname, lastname, idnumber, clientId)
-      alert('Dependent Added Successfully')
+      toast.success('Dependant Added Successfully')
       onRequestClose()
-    } catch (error) {
-      alert('Error adding dependent', error.message)
-      console.error(error)
+    } catch (err) {
+      toast.error('Unable to add dependant: ', err)
+      console.error(err)
     }
   }
 

@@ -14,25 +14,20 @@ export default function CardForm() {
   const [expiryDate, setExpiryDate] = useState('')
   const [cvv, setCvv] = useState('')
 
-  // Handling toast msg.
-  const warningToast = () => toast.warning('Please make sure that the Card Number has 16 digits')
-  const successToast = () => toast.success('Card Information Added Successfully')
-  const errorToast = (error) => toast.error(`Error adding card info: ${error}`)
-
   // Handle Submit button.
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
       if (cardNumber.length !== 16) {
-        warningToast()
+        toast.warning('Please make sure that the Card Number has 16 digits')
       } else {
         await window.api.addCardInfo(cardNumber, cardholderName, expiryDate, cvv, user.id)
-        successToast()
+        toast.success('Card Information Added Successfully')
         onRequestClose()
       }
-    } catch (error) {
-      errorToast(error.message)
-      console.error(error)
+    } catch (err) {
+      toast.error(`Error adding card info: `, err)
+      console.error(err)
     }
   }
 

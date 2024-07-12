@@ -55,20 +55,17 @@ const PackageModal = ({ isOpen, onRequestClose, packageData }) => {
         // Check if an image is selected.
         base64String = await readFileAsBase64(image) // Read the image file as a base64 string.
       } else {
-        alert('No Image Selected') // Notify the user if no image is selected.
+        toast.warning('No image selected!') // Notify the user if no image is selected.
         return // Exit the function early if no image is selected.
       }
 
       // Ensure all required fields are defined before calling the API.
       if (id && packageID && packageName && details && price && base64String) {
         await window.api.editPackage(id, packageID, packageName, details, price, base64String) // Call the API to edit the package.
-        alert('Package Edited Successfully') // Notify the user of success.
-      } else {
-        alert('All fields must be filled out correctly.')
-      }
-    } catch (error) {
-      alert(`Error editing package: ${error.message}`) // Display the error message.
-      console.error('Error editing package', error) // Log the error for debugging purposes.
+        toast.success('Package Added Successfully') // Notify the user of success.
+      } 
+    } catch (err) {
+      toast.error('Unable to update package: ', err)
     }
   }
 

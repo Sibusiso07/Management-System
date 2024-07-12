@@ -1,6 +1,9 @@
 import { useState, useEffect } from "react"
 import { useNavigate, useLocation } from "react-router-dom"
 
+// Utils.
+import { cleanErrorMessage } from "@/lib/utils"
+
 export default function Items() {
   const navigate = useNavigate()
   const location = useLocation()
@@ -26,11 +29,9 @@ export default function Items() {
 
       // Make call to retrieve packages.
       const result = await window.api.getItems()
-
-      // Making sure the data is in an array.
-      setPackageItems(result);
+      setPackageItems(result); // Making sure the data is in an array.
     } catch (err) {
-      console.error('Unable to fetch data from DB: ', err)
+      toast.error('Unable to fetch package items: ', cleanErrorMessage(err))
       setPackageItems([]) // or handle error state
     } finally {
       setLoading(false)
@@ -49,10 +50,10 @@ export default function Items() {
     try {
       // Linking items to package
       await window.api.linkPackageItems(package_id, selectedItems)
-      console.log(`Successfully linked package and its items`)
+      toast.success('Successfully linked the package and items')
       navigate('/Packages')
-    } catch (error) {
-      console.error('Error writing to DB:', error)
+    } catch (err) {
+      toast.error('Unable to link the package and items: ', cleanErrorMessage(err))
     }
   }
 
