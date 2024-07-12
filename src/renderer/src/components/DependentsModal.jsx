@@ -30,7 +30,6 @@ const DependentsModal = ({ isOpen, onRequestClose, clientId }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-
     try {
       await window.api.addDependent(firstname, lastname, idnumber, clientId)
       alert('Dependent Added Successfully')

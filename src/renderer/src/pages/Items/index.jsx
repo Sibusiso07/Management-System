@@ -16,7 +16,6 @@ export default function Items() {
   // On package load.
   useEffect(() => {
     fetchPackageItems();
-    console.log("package_id >>> ", package_id)
   }, [])
 
   // Fetching package data from the DB.
@@ -27,7 +26,6 @@ export default function Items() {
 
       // Make call to retrieve packages.
       const result = await window.api.getItems()
-      // console.log('results >>>> ', result);
 
       // Making sure the data is in an array.
       setPackageItems(result);

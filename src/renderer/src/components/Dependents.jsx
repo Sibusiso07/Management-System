@@ -24,7 +24,6 @@ export default function Dependents() {
   const fetchDependants = async () => {
     try {
       const results = await window.api.getDependants(clientId)
-      console.log('results >>>', results)
       setDependents(results)
     } catch (err) {
       console.error('Unable to fetch dependants: ', err)

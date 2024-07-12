@@ -9,15 +9,12 @@ ipcMain.handle('login', async (_, username, password) => {
     // Hashing the password
     const salt = process.env.ENCRYPTION_SECRET
     const hashedPassword = await bcrypt.hash(password, salt)
-    // console.log('>>>>', username, password, hashedPassword)
 
     // Attempt to authenticate the user.
     const result = await executeFunction('user_Authentication', {
       p_email_address: username,
       p_password: hashedPassword
     })
-
-    console.log('authentication result >>>', result)
 
     // If user does not exists, raise error.
     if (result.length === 0) {
@@ -39,8 +36,6 @@ ipcMain.handle(
       // Hashing the password. $2b$10$Ix3.RczI6tN6/0TyfWPg.O
       const salt = process.env.ENCRYPTION_SECRET
       const hashedPassword = await bcrypt.hash(password, salt)
-
-      // console.log('hashed >>>', email, password, hashedPassword)
 
       // Inserting employee into DB.
       const result = await executeFunction('employee_Registration', {
@@ -127,11 +122,8 @@ ipcMain.handle('addPackage', async (_, packageID, packageName, details, price, b
 ipcMain.handle('getPackage', async () => {
   try {
     const packageInfo = await executeFunction('get_Packages')
-
-    // console.log("packages >>>", results)
     // If there is results, return results.
     if (packageInfo) {
-      // console.log("Packages >>>> ", packageInfo)
       return packageInfo
     }
   } catch (err) {
@@ -142,10 +134,8 @@ ipcMain.handle('getPackage', async () => {
 
 // Search for package.
 ipcMain.handle('findPackage', async (_, packageID) => {
-  console.log('package id >>> ', packageID)
   try {
     const found = await executeFunction('find_package', { p_package_id: packageID })
-    // console.log("found >>>", found)
     return found
   } catch (err) {
     console.error('Error accessing the DB: ', err)
@@ -157,7 +147,6 @@ ipcMain.handle('findPackage', async (_, packageID) => {
 ipcMain.handle(
   'editPackage',
   async (_, id, packageID, packageName, details, price, base64String) => {
-    // console.log("details >>>", details);
     try {
       // Updating the packages table
       const updatedPackage = await executeFunction('package_Update', {
@@ -198,7 +187,6 @@ ipcMain.handle('getDependants', async (_, clientId) => {
     const results = await executeFunction('get_Dependants', {
       p_client_id: clientId
     })
-    // console.log("results >>>>", results)
     return results
   } catch (err) {
     console.error('Unable to fetch dependants: ', err)
@@ -236,6 +224,23 @@ ipcMain.handle('linkClientPackage', async (_, user_id, package_id) => {
     const result = await executeFunction('link_user_to_package', {
       p_client_id: user_id,
       p_package_id: package_id
+    })
+    return result
+  } catch (err) {
+    console.error('Unable to link client to package: ', err)
+    throw err
+  }
+})
+
+// Linking package items.
+ipcMain.handle('addCardInfo', async (_, cardNumber, cardholderName, expiryDate, cvv, user_id) => {
+  try {
+    const result = await executeFunction('insert_payment_information', {
+      p_card_number: cardNumber,
+      p_card_holder: cardholderName,
+      p_expiry_date: expiryDate,
+      p_cvv: cvv,
+      p_client_id: user_id
     })
     return result
   } catch (err) {

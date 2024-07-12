@@ -23,8 +23,6 @@ const Login = () => {
       // TODO: Trigger login and save user result to context.
       const result = await window.api.login(username, password)
 
-      // console.log('login result >>>', result)
-
       if (result) {
         // Set user context.
         setUser(result)

@@ -36,7 +36,6 @@ const PackageModal = ({ isOpen, onRequestClose, packageData }) => {
   const [image, setImage] = useState(null)
 
   useEffect(() => {
-    // console.log("package data >>> ", packageData[0].id)
     if (packageData) {
       setId(packageData[0].id || '')
       setPackageID(packageData[0].package_id || '')

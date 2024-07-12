@@ -16,7 +16,6 @@ export default function EmployeeRegistration() {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    console.log(`${employeeID}, ${firstName}, ${lastName}, ${idNumber}, ${email}, ${password}, ${department}, ${position}`)
     try {
       const result = await window.api.employeeReg(employeeID, firstName, lastName, idNumber, email, department, position, password)
       // Checking if employee is registered successfully and redirecting

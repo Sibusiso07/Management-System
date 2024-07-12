@@ -29,8 +29,7 @@ export default function AddPackage() {
           const response = await window.api.addPackage(packageID, packageName, details, price, base64String)
           const newPackageId = response[0]; // Getting the new package ID
           alert('Package Added Successfully');
-          clearFormFields();
-          console.log("package_id >>>", newPackageId.package_id)
+          clearFormFields()
           navigate('/Items', { state: { package_id: newPackageId.package_id } })
         }
         reader.readAsDataURL(image)
@@ -60,11 +59,9 @@ export default function AddPackage() {
 
   const handleSearch = async () => {
     try {
-      // console.log('package id >>>> ', packageID)
       // Checking for package.
       if (packageID) {
         const result = await window.api.findPackage(packageID)
-        // console.log("results >>> ", result)
         if (result) {
           // Sending results and opening modal.
           setSearchResult(result)
@@ -74,7 +71,6 @@ export default function AddPackage() {
         }
       }
     } catch (error) {
-      console.log('package id >>>> ', packageID, packageID.length)
       alert('Error searching package', error.message)
       console.error('Error sending package id: ', error)
     }

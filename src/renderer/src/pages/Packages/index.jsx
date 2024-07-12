@@ -23,7 +23,6 @@ function Packages() {
 
       // Make call to retrieve packages.
       const result = await window.api.getPackage()
-      // console.log('results >>>> ', result)
 
       // Making sure the data is in an array.
       setPackageData(result || [])

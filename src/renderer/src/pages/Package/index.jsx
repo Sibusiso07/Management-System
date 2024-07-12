@@ -19,8 +19,6 @@ function Package() {
   const location = useLocation()
   const { data } = location.state
 
-  console.log('data >>>>', data)
-
   // Function to convert base64 to URL
   const base64ToUrl = (base64String) => `data:image/jpeg;base64,${base64String}`
 

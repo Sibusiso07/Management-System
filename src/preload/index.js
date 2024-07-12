@@ -96,6 +96,10 @@ const api = {
   // Linking Package Items to Packages on the DB.
   linkClientPackage: async (user_id, package_id) => {
     return ipcRenderer.invoke('linkClientPackage', user_id, package_id)
+  },
+  // Adding Card Information on the DB.
+  addCardInfo: async (cardNumber, cardholderName, expiryDate, cvv, user_id) => {
+    return ipcRenderer.invoke('addCardInfo', cardNumber, cardholderName, expiryDate, cvv, user_id)
   }
 }
 

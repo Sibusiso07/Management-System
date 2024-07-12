@@ -29,8 +29,7 @@ export default function ClientRegistration() {
         // Sending data to the DB to create a user
         try {
           const result = await window.api.clientReg(
-            firstName, middleName, lastName, idNumber, address, email, phoneNumber, idCopy)
-            
+            firstName, middleName, lastName, idNumber, address, email, phoneNumber, idCopy)    
           // If results come back then alert and redirect
           if (result) {
             alert('Client Registered Successfully')
@@ -46,7 +45,6 @@ export default function ClientRegistration() {
     } else {
       alert('ID Copy not selected')
     }
-    // console.log(idCopy)
   }
 
   return (

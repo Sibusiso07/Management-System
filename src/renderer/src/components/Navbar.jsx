@@ -13,8 +13,6 @@ const Navbar = () => {
     setUser(null)
   }
 
-  console.log('user nav >>>', user)
-
   return (
     <div className="bg-blue-500 flex justify-between items-center">
       <div className="flex gap-2 ml-2">

@@ -11,8 +11,6 @@ export default function Dashboard() {
   // Hook auth context.
   const { user } = useContext(AuthContext)
 
-  console.log('user >>>>', user)
-
   const handleNavigation = (path) => {
     if (path == '/ClientRegistration') {
       navigate(path)
