@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import PackageItem from '../../components/PackageItem'
+import { toast } from 'react-toastify'
 
 function Packages() {
   // Hook useNavigation.
@@ -9,6 +10,11 @@ function Packages() {
   // State.
   const [packageData, setPackageData] = useState([])
   const [loading, setLoading] = useState(false)
+
+  // Handling toast msg.
+  const warningToast = () => toast.warning('No Image Selected')
+  const successToast = () => toast.success('Package Added Successfully')
+  const errorToast = () => toast.error(`Error fetching package items`)
 
   // On package load.
   useEffect(() => {
@@ -20,10 +26,8 @@ function Packages() {
     try {
       // Set loading state.
       setLoading(true)
-
       // Make call to retrieve packages.
       const result = await window.api.getPackage()
-
       // Making sure the data is in an array.
       setPackageData(result || [])
     } catch (err) {
@@ -34,9 +38,15 @@ function Packages() {
     }
   }
 
-  // Handing package click.
-  const handleClick = (item) => {
-    navigate(`/Packages/${item.package_id}`, { state: { data: item } })
+  // Handing package select click.
+  const handleClick = async (item) => {
+    try {
+      const response = await window.api.getPackageItems(item.package_id)
+    } catch (error) {
+      errorToast()
+    } finally {
+      navigate(`/Packages/${item.package_id}`, { state: { data: item } })
+    }
   }
 
   // Handing add package button.

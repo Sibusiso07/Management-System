@@ -100,6 +100,10 @@ const api = {
   // Adding Card Information on the DB.
   addCardInfo: async (cardNumber, cardholderName, expiryDate, cvv, user_id) => {
     return ipcRenderer.invoke('addCardInfo', cardNumber, cardholderName, expiryDate, cvv, user_id)
+  },
+  // Get selected package items
+  getPackageItems: async (package_id) => {
+    return ipcRenderer.invoke('getPackageItems', package_id)
   }
 }
 

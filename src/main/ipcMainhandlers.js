@@ -210,10 +210,23 @@ ipcMain.handle('linkPackageItems', async (_, package_id, selectedItems) => {
 // Getting all items from the db.
 ipcMain.handle('getItems', async () => {
   try {
-    const packageItems = await executeFunction('get_package_items')
+    const packageItems = await executeFunction('get_all_package_items')
     return packageItems
   } catch (err) {
     console.error('Unable to fetch package items: ', err)
+    throw err
+  }
+})
+
+// Get selected package items.
+ipcMain.handle('getPackageItems', async (_, package_id) => {
+  try {
+    const selectedItems = await executeFunction('get_selected_package_items', {
+      p_package_id: package_id
+    })
+    return selectedItems
+  } catch (err) {
+    console.error('Failed to fetch selected package items: ', err)
     throw err
   }
 })
