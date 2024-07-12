@@ -1,8 +1,11 @@
 // AddPackage.js
 import React, { useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
-import PackageModal from '../../components/PackageModal'
+import PackageModal from '../../components/util/PackageModal'
 import { toast } from 'react-toastify'
+
+// Utils.
+import { cleanErrorMessage } from '@/lib/utils'
 
 export default function AddPackage() {
   // Navigation hook.
@@ -18,11 +21,6 @@ export default function AddPackage() {
   const [searchResult, setSearchResult] = useState(null)
   const [modalIsOpen, setIsOpen] = useState(false)
 
-  // Handling toast msg.
-  const warningToast = () => toast.warning('No Image Selected')
-  const successToast = () => toast.success('Package Added Successfully')
-  const errorToast = () => toast.error(`Error adding package`)
-  
   // Handle Next.
   const handleNext = async (e) => {
     e.preventDefault()
@@ -32,18 +30,24 @@ export default function AddPackage() {
         // Converting image to base64.
         reader.onloadend = async () => {
           const base64String = reader.result.replace('data:', '').replace(/^.+,/, '')
-          const response = await window.api.addPackage(packageID, packageName, details, price, base64String)
-          const newPackageId = response[0]; // Getting the new package ID
-          successToast()
+          const response = await window.api.addPackage(
+            packageID,
+            packageName,
+            details,
+            price,
+            base64String
+          )
+          const newPackageId = response[0] // Getting the new package ID
+          toast.success('Package Added Successfully')
           clearFormFields()
           navigate('/Items', { state: { package_id: newPackageId.package_id } })
         }
         reader.readAsDataURL(image)
       } else {
-        warningToast()
+        toast.warning('No Image Selected')
       }
     } catch (error) {
-      errorToast()
+      toast.error(`Error adding package`, cleanErrorMessage(error))
       console.error(error)
     }
   }
@@ -187,11 +191,11 @@ export default function AddPackage() {
           </div>
         </form>
       </div>
-      <PackageModal 
-        isOpen={modalIsOpen} 
-        onRequestClose={closeModal} 
-        packageData={searchResult} 
-        appElement={document.getElementById('root')}  
+      <PackageModal
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}
+        packageData={searchResult}
+        appElement={document.getElementById('root')}
       />
     </div>
   )

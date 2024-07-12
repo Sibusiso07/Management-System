@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react'
 import { toast } from 'react-toastify'
 
 // Auth Context.
-import { AuthContext } from '../context/AuthContext'
+import { AuthContext } from '../../context/AuthContext'
 
 export default function CardForm() {
   // Hook auth context.
@@ -21,7 +21,7 @@ export default function CardForm() {
 
   // Handle Submit button.
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault()
     try {
       if (cardNumber.length !== 16) {
         warningToast()
@@ -29,7 +29,7 @@ export default function CardForm() {
         await window.api.addCardInfo(cardNumber, cardholderName, expiryDate, cvv, user.id)
         successToast()
         onRequestClose()
-    }
+      }
     } catch (error) {
       errorToast(error.message)
       console.error(error)
@@ -38,7 +38,10 @@ export default function CardForm() {
 
   return (
     <div className="flex justify-center items-center h-full">
-      <form className="relative p-4 border border-gray-300 rounded-lg w-full h-full" onSubmit={handleSubmit}>
+      <form
+        className="relative p-4 border border-gray-300 rounded-lg w-full h-full"
+        onSubmit={handleSubmit}
+      >
         <h2 className="text-2xl font-semibold mb-4">Card Information</h2>
         <div className="mb-4">
           <label className="block text-gray-200 text-sm font-bold mb-2" htmlFor="cardNumber">
@@ -106,5 +109,5 @@ export default function CardForm() {
         </div>
       </form>
     </div>
-  );
+  )
 }

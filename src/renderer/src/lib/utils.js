@@ -1,4 +1,11 @@
-const cleanErrorMessage = (error) => {
+import { clsx } from 'clsx'
+import { twMerge } from 'tailwind-merge'
+
+export function cn(...inputs) {
+  return twMerge(clsx(inputs))
+}
+
+export function cleanErrorMessage(error) {
   // Define a regular expression to match the specific error message after "Error: ".
   const regex = /Error:\s*(.+)$/
 
@@ -8,5 +15,3 @@ const cleanErrorMessage = (error) => {
   // If a match is found, return the captured group (the specific error message), otherwise return a default error message.
   return match ? match[1] : 'An unknown error occurred'
 }
-
-export { cleanErrorMessage }

@@ -3,14 +3,14 @@ import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
 // Components.
-import Navbar from '../components/Navbar'
+import Navbar from '../components/util/Navbar'
 
 const Layout = () => {
   return (
-    <div className="h-screen w-screen m-0 ">
+    <div className="h-screen w-screen m-0">
       <Navbar />
       <Outlet />
-      <ToastContainer />
+      <ToastContainer theme="dark" />
     </div>
   )
 }

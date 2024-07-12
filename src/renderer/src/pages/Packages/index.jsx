@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import PackageItem from '../../components/PackageItem'
+import PackageItem from '../../components/util/PackageItem'
 import { toast } from 'react-toastify'
+
+// Utils.
+import { cleanErrorMessage } from '@/lib/utils'
 
 function Packages() {
   // Hook useNavigation.
@@ -10,11 +13,6 @@ function Packages() {
   // State.
   const [packageData, setPackageData] = useState([])
   const [loading, setLoading] = useState(false)
-
-  // Handling toast msg.
-  const warningToast = () => toast.warning('No Image Selected')
-  const successToast = () => toast.success('Package Added Successfully')
-  const errorToast = () => toast.error(`Error fetching package items`)
 
   // On package load.
   useEffect(() => {
@@ -31,7 +29,7 @@ function Packages() {
       // Making sure the data is in an array.
       setPackageData(result || [])
     } catch (err) {
-      console.error('Unable to fetch data from DB: ', err)
+      toast.error(`Unable to fetch data from DB:`, cleanErrorMessage(err))
       setPackageData([]) // or handle error state
     } finally {
       setLoading(false)
@@ -41,11 +39,17 @@ function Packages() {
   // Handing package select click.
   const handleClick = async (item) => {
     try {
-      const response = await window.api.getPackageItems(item.package_id)
-    } catch (error) {
-      errorToast()
-    } finally {
-      navigate(`/Packages/${item.package_id}`, { state: { data: item } })
+      const response = await window.api.getPackageItems(item.id)
+      // console.log('response >>>', response, typeof item)
+
+      // Combine package details and package items to send to package page.
+      const fullPackageDetails = { details: item, items: response }
+
+      // console.log('fullPackageDetails >>>', fullPackageDetails)
+
+      navigate(`/Packages/${item.package_id}`, { state: { data: fullPackageDetails } })
+    } catch (err) {
+      toast.error(`Error fetching package items`, cleanErrorMessage(err))
     }
   }
 

@@ -3,7 +3,10 @@ import { useNavigate } from 'react-router-dom'
 
 // Auth Context.
 import { AuthContext } from './../../context/AuthContext'
-import { cleanErrorMessage } from '../../utils'
+import { cleanErrorMessage } from '@/lib/utils'
+
+// UI Components.
+import { Button } from '@/components/ui/button'
 
 const Login = () => {
   const [username, setUsername] = useState('josh@gmail.com')
@@ -89,7 +92,7 @@ const Login = () => {
             <p className="text-red-500 text-sm">{error}</p>
           </div>
           <div>
-            <button
+            <Button
               type="submit"
               className="
             group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium 
@@ -97,7 +100,7 @@ const Login = () => {
             focus:ring-indigo-500"
             >
               Login
-            </button>
+            </Button>
           </div>
           <div className="flex items-center justify-between">
             <div className="text-sm">
