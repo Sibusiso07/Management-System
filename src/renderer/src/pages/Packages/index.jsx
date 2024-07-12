@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import PackageItem from '../../components/util/PackageItem'
 import { toast } from 'react-toastify'
+
+// Components.
+import PackageItem from '@/components/util/PackageItem'
 
 // Utils.
 import { cleanErrorMessage } from '@/lib/utils'

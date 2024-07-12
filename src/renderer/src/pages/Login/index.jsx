@@ -2,7 +2,7 @@ import { useState, useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 // Auth Context.
-import { AuthContext } from './../../context/AuthContext'
+import { AuthContext } from '@/context/AuthContext'
 import { cleanErrorMessage } from '@/lib/utils'
 
 // UI Components.

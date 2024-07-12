@@ -1,10 +1,12 @@
 import { useNavigate, useLocation } from 'react-router-dom'
-import Dependents from '../../components/util/Dependents'
-import CardForm from '../../components/util/CardForm'
 import { useContext } from 'react'
 
+// Components
+import Dependents from '@/components/util/Dependents'
+import CardForm from '@/components/util/CardForm'
+
 // Auth Context.
-import { AuthContext } from '../../context/AuthContext'
+import { AuthContext } from '@/context/AuthContext'
 
 // Utils.
 import { cleanErrorMessage } from '@/lib/utils'

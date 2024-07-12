@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react'
 import { toast } from 'react-toastify'
 
 // Auth Context.
-import { AuthContext } from '../../context/AuthContext'
+import { AuthContext } from '@/context/AuthContext'
 
 export default function CardForm() {
   // Hook auth context.

@@ -1,7 +1,7 @@
 // AddPackage.js
 import React, { useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
-import PackageModal from '../../components/util/PackageModal'
+import PackageModal from '@/components/util/PackageModal'
 import { toast } from 'react-toastify'
 
 // Utils.

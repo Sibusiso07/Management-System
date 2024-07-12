@@ -2,7 +2,7 @@ import { useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 // Auth Context.
-import { AuthContext } from '../../context/AuthContext'
+import { AuthContext } from '@/context/AuthContext'
 
 export default function Dashboard() {
   // Hook navigation.

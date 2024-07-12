@@ -2,7 +2,7 @@ import React, { useEffect, useState, useContext } from 'react'
 import DependentsModal from './DependentsModal'
 
 // Auth Context.
-import { AuthContext } from '../../context/AuthContext'
+import { AuthContext } from '@/context/AuthContext'
 
 export default function Dependents() {
   // Hook auth context.

@@ -1,10 +1,10 @@
 import { useEffect } from 'react'
 
 // Router.
-import AppRouter from './routes'
+import AppRouter from '@/routes'
 
 // Auth Context.
-import { AuthProvider } from './context/AuthContext'
+import { AuthProvider } from '@/context/AuthContext'
 
 export default function Home() {
   // useEffect(() => {

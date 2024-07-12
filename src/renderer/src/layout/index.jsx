@@ -3,7 +3,7 @@ import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
 // Components.
-import Navbar from '../components/util/Navbar'
+import Navbar from '@/components/util/Navbar'
 
 const Layout = () => {
   return (
