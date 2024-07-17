@@ -7,6 +7,9 @@ import { toast } from 'react-toastify'
 // Utils.
 import { cleanErrorMessage } from '@/lib/utils'
 
+// UI Components.
+import { Button } from '@/components/ui/button'
+
 export default function AddPackage() {
   // Navigation hook.
   const navigate = useNavigate()
@@ -99,12 +102,12 @@ export default function AddPackage() {
   return (
     <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div>
-        <button
+        <Button
           onClick={handleBackClick}
           className="bg-blue-500 text-white px-4 py-2 rounded mt-8 top-4 left-4 absolute"
         >
           Back
-        </button>
+        </Button>
       </div>
       <div className="max-w-lg w-full space-y-8">
         <div>
@@ -174,20 +177,20 @@ export default function AddPackage() {
             </div>
           </div>
           <div className="flex w-full gap-4">
-            <button
+            <Button
               type="button"
               onClick={handleNext}
               className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-sky-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
               Next
-            </button>
-            <button
+            </Button>
+            <Button
               type="button"
               onClick={handleSearch}
               className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-sky-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
               Search
-            </button>
+            </Button>
           </div>
         </form>
       </div>

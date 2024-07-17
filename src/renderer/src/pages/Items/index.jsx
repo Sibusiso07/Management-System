@@ -4,6 +4,9 @@ import { useNavigate, useLocation } from "react-router-dom"
 // Utils.
 import { cleanErrorMessage } from "@/lib/utils"
 
+// UI Components.
+import { Button } from '@/components/ui/button'
+
 export default function Items() {
   const navigate = useNavigate()
   const location = useLocation()
@@ -80,12 +83,12 @@ export default function Items() {
                 <tr key={item.item_id}>
                   <td className="px-6 py-3 whitespace-nowrap">{item.item_name}</td>
                   <td className="px-6 py-3 whitespace-nowrap">
-                    <button
+                    <Button
                       className={`w-10 h-5 rounded-full p-1 transition-colors ${selectedItems.includes(item.item_id) ? 'bg-green-500' : 'bg-gray-300'}`}
                       onClick={() => handleToggle(item.item_id)}
                     >
                       <span className={`block rounded-full w-3 h-3 bg-white shadow-md transform transition-transform ${selectedItems.includes(item.item_id) ? 'translate-x-5' : 'translate-x-0'}`}></span>
-                    </button>
+                    </Button>
                   </td>
                 </tr>
               ))
@@ -94,9 +97,9 @@ export default function Items() {
         </table>
       </div>
       <div className="flex justify-end mt-4">
-        <button className="bg-blue-500 text-white px-4 py-2 rounded" onClick={handleDone}>
+        <Button className="bg-blue-500 text-white px-4 py-2 rounded" onClick={handleDone}>
           Done
-        </button>
+        </Button>
       </div>
     </div>
   );

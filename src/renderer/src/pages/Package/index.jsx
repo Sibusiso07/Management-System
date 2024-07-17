@@ -5,6 +5,9 @@ import { useContext } from 'react'
 import Dependents from '@/components/util/Dependents'
 import CardForm from '@/components/util/CardForm'
 
+// UI Components.
+import { Button } from '@/components/ui/button'
+
 // Auth Context.
 import { AuthContext } from '@/context/AuthContext'
 
@@ -57,18 +60,18 @@ function Package() {
             <p className="text-sm mb-4">{details.details}</p>
             <p className="text-xl mb-2">{details.price}</p>
           </div>
-          <button
+          <Button
             onClick={handleBackClick}
             className="bg-blue-500 text-white px-4 py-2 rounded mt-8"
           >
             Back
-          </button>
-          <button
+          </Button>
+          <Button
             onClick={handleSavePackage}
             className="bg-blue-500 text-white px-4 py-2 rounded mt-8"
           >
             Save Package
-          </button>
+          </Button>
         </div>
         <div className="flex gap-4 mb-2">
           <div className="grid-item w-[50%] ml-2" style={{ gridRow: '2', gridColumn: '1' }}>
@@ -79,9 +82,9 @@ function Package() {
           </div>
         </div>
       </div>
-      <button className="justify-center py-2 mx-2 border border-transparent text-sm font-medium rounded-md text-white bg-sky-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+      <Button className="justify-center py-2 mx-2 border border-transparent text-sm font-medium rounded-md text-white bg-sky-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
         Save all
-      </button>
+      </Button>
     </div>
   )
 }

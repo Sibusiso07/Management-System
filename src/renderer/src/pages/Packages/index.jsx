@@ -5,6 +5,9 @@ import { toast } from 'react-toastify'
 // Components.
 import PackageItem from '@/components/util/PackageItem'
 
+// UI Components.
+import { Button } from '@/components/ui/button'
+
 // Utils.
 import { cleanErrorMessage } from '@/lib/utils'
 
@@ -66,9 +69,9 @@ function Packages() {
         <h1>Packages</h1>
       </div>
       <div className="flex justify-end mb-4">
-        <button className="bg-blue-500 text-white px-4 py-2 rounded" onClick={AddPackage}>
+        <Button className="bg-blue-500 text-white px-4 py-2 rounded" onClick={AddPackage}>
           Add Package
-        </button>
+        </Button>
       </div>
       <div className="flex flex-wrap gap-4 items-center justify-center overflow-y-auto h-[95%] mb-10">
         {loading ? (

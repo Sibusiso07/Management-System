@@ -17,9 +17,9 @@ export default function ClientDashboard() {
         >
           <div className="flex items-center justify-center">
             <div className="flex space-x-4">
-              <button className="bg-blue-500 text-white px-4 py-2 rounded">Button 1</button>
-              <button className="bg-green-500 text-white px-4 py-2 rounded">Button 2</button>
-              <button className="bg-red-500 text-white px-4 py-2 rounded">Button 3</button>
+              <Button className="bg-blue-500 text-white px-4 py-2 rounded">Button 1</Button>
+              <Button className="bg-green-500 text-white px-4 py-2 rounded">Button 2</Button>
+              <Button className="bg-red-500 text-white px-4 py-2 rounded">Button 3</Button>
             </div>
           </div>
         </div>
@@ -30,7 +30,7 @@ export default function ClientDashboard() {
           <p>Part 3</p>
         </div>
       </div>
-      <button className="bg-yellow-300 self-center m-4 p-2">Next</button>
+      <Button className="bg-yellow-300 self-center m-4 p-2">Next</Button>
     </div>
   );
 }
