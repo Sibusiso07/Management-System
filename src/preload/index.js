@@ -104,6 +104,14 @@ const api = {
   // Get selected package items
   getPackageItems: async (package_id) => {
     return ipcRenderer.invoke('getPackageItems', package_id)
+  },
+  // Get printers
+  getPrinters: async () => {
+    return ipcRenderer.invoke('getPrinters')
+  },
+  // Print report
+  printReport: async (printerName, reportContent) => {
+    return ipcRenderer.invoke('printReport', printerName, reportContent)
   }
 }
 

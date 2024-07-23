@@ -2,6 +2,7 @@ import { app, shell, BrowserWindow, ipcMain } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
+// import printer from 'printer'
 
 import './ipcMainhandlers'
 
@@ -60,6 +61,26 @@ app.whenReady().then(() => {
     // On macOS it's common to re-create a window in the app when the
     // dock icon is clicked and there are no other windows open.
     if (BrowserWindow.getAllWindows().length === 0) createWindow()
+  })
+})
+
+// Getting printers from the PC.
+ipcMain.handle('getPrinters', () => {
+  return printer.getPrinters()
+})
+
+// Printing the Report.
+ipcMain.handle('printReport', (event, printerName, reportContent) => {
+  printer.printDirect({
+    data: reportContent,
+    printer: printerName,
+    type: 'RAW',
+    success: (jobID) => {
+      console.log(`Printed with job ID: ${jobID}`)
+    },
+    error: (err) => {
+      console.error(`Error: ${err}`)
+    }
   })
 })
 

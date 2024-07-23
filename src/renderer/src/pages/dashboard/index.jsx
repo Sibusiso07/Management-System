@@ -1,4 +1,4 @@
-import { useContext } from 'react'
+import { useContext, useEffect, useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 // Auth Context.
@@ -7,6 +7,9 @@ import { AuthContext } from '@/context/AuthContext'
 // UI Components.
 import { Button } from '@/components/ui/button'
 
+// Import the Report.
+import Report from '@/components/util/Report'
+
 export default function Dashboard() {
   // Hook navigation.
   const navigate = useNavigate()
@@ -14,18 +17,42 @@ export default function Dashboard() {
   // Hook auth context.
   const { user } = useContext(AuthContext)
 
+  // State for printers
+  const [printers, setPrinters] = useState([])
+  const [selectedPrinter, setSelectedPrinter] = useState('')
+  
+  // Reference to the report div
+  const reportRef = useRef()
+
+  // Function to fetch printers
+  const fetchPrinters = async () => {
+    const printers = await window.api.getPrinters()
+    setPrinters(printers)
+  }
+
+  // Fetch printers when the component mounts
+  useEffect(() => {
+    fetchPrinters()
+  }, [])
+
   const handleNavigation = (path) => {
-    if (path == '/ClientRegistration') {
+    if (path === '/ClientRegistration') {
       navigate(path)
-    } else if (path == '/EmployeeRegistration') {
+    } else if (path === '/EmployeeRegistration') {
       navigate(path)
-    } else if (path == '/Packages') {
+    } else if (path === '/Packages') {
       navigate(path)
-    } else if (path == '/ClientDashboard') {
+    } else if (path === '/ClientDashboard') {
       navigate(path)
     } else {
       alert('Feature still in development')
     }
+  }
+
+  // Function to print the report
+  const handlePrint = async () => {
+    const reportContent = reportRef.current.innerHTML
+    await window.api.printReport(selectedPrinter, reportContent)
   }
 
   return (
@@ -79,6 +106,27 @@ export default function Dashboard() {
           >
             Settings
           </Button>
+          <div className="relative w-full flex justify-center">
+            <select
+              value={selectedPrinter}
+              onChange={(e) => setSelectedPrinter(e.target.value)}
+              className="mt-4 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            >
+              <option value="" disabled>Select a printer</option>
+              {printers.map((printer) => (
+                <option key={printer.name} value={printer.name}>{printer.name}</option>
+              ))}
+            </select>
+          </div>
+          <Button
+            onClick={handlePrint}
+            className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-sky-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          >
+            Print Report
+          </Button>
+        </div>
+        <div ref={reportRef} className="hidden">
+          <Report />
         </div>
       </div>
     </div>

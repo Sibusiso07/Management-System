@@ -1,3 +1,6 @@
+// UI Components.
+import { Button } from '@/components/ui/button'
+
 export default function ClientDashboard() {
   return (
     <div className='h-full w-full overflow-hidden flex flex-col'>

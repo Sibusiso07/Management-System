@@ -1,6 +1,9 @@
-import React, { useState, useEffect } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
+
+// Auth Context.
+import { AuthContext } from '@/context/AuthContext'
 
 // Components.
 import PackageItem from '@/components/util/PackageItem'
@@ -14,6 +17,8 @@ import { cleanErrorMessage } from '@/lib/utils'
 function Packages() {
   // Hook useNavigation.
   const navigate = useNavigate()
+  // Hook auth context.
+  const { user } = useContext(AuthContext)
 
   // State.
   const [packageData, setPackageData] = useState([])
@@ -41,16 +46,12 @@ function Packages() {
     }
   }
 
-  // Handing package select click.
+  // Handling package select click.
   const handleClick = async (item) => {
     try {
       const response = await window.api.getPackageItems(item.id)
-      // console.log('response >>>', response, typeof item)
-
       // Combine package details and package items to send to package page.
       const fullPackageDetails = { details: item, items: response }
-
-      // console.log('fullPackageDetails >>>', fullPackageDetails)
 
       navigate(`/Packages/${item.package_id}`, { state: { data: fullPackageDetails } })
     } catch (err) {
@@ -58,7 +59,7 @@ function Packages() {
     }
   }
 
-  // Handing add package button.
+  // Handling add package button.
   const AddPackage = () => {
     navigate('/AddPackage')
   }
@@ -69,9 +70,11 @@ function Packages() {
         <h1>Packages</h1>
       </div>
       <div className="flex justify-end mb-4">
-        <Button className="bg-blue-500 text-white px-4 py-2 rounded" onClick={AddPackage}>
-          Add Package
-        </Button>
+        {user.is_employee && (
+          <Button className="bg-blue-500 text-white px-4 py-2 rounded" onClick={AddPackage}>
+            Add Package
+          </Button>
+        )}
       </div>
       <div className="flex flex-wrap gap-4 items-center justify-center overflow-y-auto h-[95%] mb-10">
         {loading ? (
