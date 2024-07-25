@@ -261,3 +261,16 @@ ipcMain.handle('addCardInfo', async (_, cardNumber, cardholderName, expiryDate, 
     throw err
   }
 })
+
+// Getting the active package linked to the client.
+ipcMain.handle('getActivePackage', async (_, clientId) => {
+  try {
+    const results = await executeFunction('get_active_package', {
+      p_client_id: clientId
+    })
+    return results
+  } catch (err) {
+    console.error('Unable to fetch dependants: ', err)
+    throw err
+  }
+})

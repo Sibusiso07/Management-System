@@ -112,6 +112,10 @@ const api = {
   // Print report
   printReport: async (printerName, reportContent) => {
     return ipcRenderer.invoke('printReport', printerName, reportContent)
+  },
+  // Getting active package.
+  getActivePackage: async (clientId) => {
+    return ipcRenderer.invoke('getActivePackage', clientId)
   }
 }
 

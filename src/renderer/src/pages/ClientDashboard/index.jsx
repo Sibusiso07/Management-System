@@ -1,7 +1,50 @@
 // UI Components.
 import { Button } from '@/components/ui/button'
+import { useState, useContext, useEffect } from 'react'
+import { toast } from 'react-toastify'
+
+// Auth Context.
+import { AuthContext } from '@/context/AuthContext'
 
 export default function ClientDashboard() {
+  // Hook auth context.
+  const { user } = useContext(AuthContext)
+
+  // States.
+  const [dependents, setDependents] = useState([])
+  const [activePackage, setActivePackage] = useState()
+  const [clientId, setClientId] = useState(user.id)
+
+  // Getting dependants.
+  const fetchDependants = async () => {
+    try {
+      const results = await window.api.getDependants(clientId)
+      setDependents(results)
+    } catch (err) {
+      toast.error('Unable to fetch depandents: ', err)
+    }
+  }
+
+   // Getting active package.
+   const fetchActivePackage = async () => {
+    try {
+      const results = await window.api.getActivePackage(clientId)
+      setActivePackage(results[0])
+    } catch (err) {
+      toast.error('Unable to fetch active package: ', err)
+    }
+  }
+
+   // Rendaring packages.
+   useEffect(() => {
+    if (clientId) {
+      fetchDependants()
+      fetchActivePackage()
+    }
+  }, [clientId])
+
+
+
   return (
     <div className='h-full w-full overflow-hidden flex flex-col'>
       <div
@@ -20,17 +63,42 @@ export default function ClientDashboard() {
         >
           <div className="flex items-center justify-center">
             <div className="flex space-x-4">
-              <Button className="bg-blue-500 text-white px-4 py-2 rounded">Button 1</Button>
-              <Button className="bg-green-500 text-white px-4 py-2 rounded">Button 2</Button>
+              <Button className="bg-blue-500 text-white px-4 py-2 rounded">Client Report</Button>
+              <Button className="bg-green-500 text-white px-4 py-2 rounded">Payment Report</Button>
               <Button className="bg-red-500 text-white px-4 py-2 rounded">Button 3</Button>
             </div>
           </div>
         </div>
         <div
-          className="mr-4  bg-green-400"
+          className="mr-4 border border-gray-300 rounded-lg"
           style={{ gridColumn: '2', gridRow: '2 / span 4' }}
         >
-          <p>Part 3</p>
+          <div className="flex flex-col h-full">
+            <div className="flex-grow p-4 bg-gray-700">
+              <h2 className="text-xl text-center mb-4">Active Package</h2>
+              {activePackage ? (
+                <div>
+                  <p>{activePackage.package_name}</p>
+                  <p>{activePackage.details}</p>
+                  <p>{activePackage.price}</p>
+                </div>
+              ) : (
+                <p>No active package</p>
+              )}
+            </div>
+            <div className="flex-grow p-4 bg-gray-800">
+              <h2 className="text-xl text-center mb-4">Dependents</h2>
+              {dependents.length > 0 ? (
+                dependents.map((dependent, index) => (
+                  <div key={index} className="mb-2">
+                    <p>{dependent.first_name} {dependent.last_name}</p>
+                  </div>
+                ))
+              ) : (
+                <p>No dependents</p>
+              )}
+            </div>
+          </div>
         </div>
       </div>
       <Button className="bg-yellow-300 self-center m-4 p-2">Next</Button>
