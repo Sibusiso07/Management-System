@@ -6,6 +6,7 @@ import { cleanErrorMessage } from '@/lib/utils'
 
 // UI Components.
 import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
 
 export default function ClientRegistration() {
   // Hook navigation.
@@ -63,7 +64,7 @@ export default function ClientRegistration() {
           <div className="rounded-md shadow-sm -space-y-px">
             <div className="grid grid-cols-1 gap-y-6 gap-x-4 md:grid-cols-2">
               <div>
-                <input
+                <Input
                   id="first-name"
                   name="first-name"
                   type="text"
@@ -75,7 +76,7 @@ export default function ClientRegistration() {
                 />
               </div>
               <div>
-                <input
+                <Input
                   id="middle-name"
                   name="middle-name"
                   type="text"
@@ -86,7 +87,7 @@ export default function ClientRegistration() {
                 />
               </div>
               <div>
-                <input
+                <Input
                   id="last-name"
                   name="last-name"
                   type="text"
@@ -98,7 +99,7 @@ export default function ClientRegistration() {
                 />
               </div>
               <div>
-                <input
+                <Input
                   id="id-number"
                   name="id-number"
                   type="text"
@@ -110,7 +111,7 @@ export default function ClientRegistration() {
                 />
               </div>
               <div>
-                <input
+                <Input
                   id="address"
                   name="address"
                   type="text"
@@ -122,7 +123,7 @@ export default function ClientRegistration() {
                 />
               </div>
               <div>
-                <input
+                <Input
                   id="email-address"
                   name="email"
                   type="email"
@@ -134,7 +135,7 @@ export default function ClientRegistration() {
                 />
               </div>
               <div>
-                <input
+                <Input
                   id="phone-number"
                   name="phone-number"
                   type="text"
@@ -146,7 +147,7 @@ export default function ClientRegistration() {
                 />
               </div>
               <div>
-                <input
+                <Input
                   id="id-copy"
                   name="id-copy"
                   type="file"

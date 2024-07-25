@@ -6,6 +6,14 @@ import { cleanErrorMessage } from "@/lib/utils"
 
 // UI Components.
 import { Button } from '@/components/ui/button'
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow
+} from '@/components/ui/table'
 
 export default function Items() {
   const navigate = useNavigate()
@@ -66,35 +74,35 @@ export default function Items() {
         <h1>Select Package Items</h1>
       </div>
       <div className="overflow-x-auto">
-        <table className="min-w-full divide-y divide-gray-200">
-          <thead className="bg-gray-800">
-            <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Item Name</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Select Item</th>
-            </tr>
-          </thead>
-          <tbody className="bg-gray-800 divide-y divide-gray-200">
+        <Table className="min-w-full divide-y divide-gray-200">
+          <TableHeader className="bg-gray-800">
+            <TableRow>
+              <TableHead className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Item Name</TableHead>
+              <TableHead className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Select Item</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody className="bg-gray-800 divide-y divide-gray-200">
             {loading ? (
-              <tr>
-                <td className="px-6 py-3 whitespace-nowrap" colSpan="2">Loading...</td>
-              </tr>
+              <TableRow>
+                <TableCell className="px-6 py-3 whitespace-nowrap" colSpan="2">Loading...</TableCell>
+              </TableRow>
             ) : (
               packageItems.map((item) => (
-                <tr key={item.item_id}>
-                  <td className="px-6 py-3 whitespace-nowrap">{item.item_name}</td>
-                  <td className="px-6 py-3 whitespace-nowrap">
+                <TableRow key={item.item_id}>
+                  <TableCell className="px-6 py-3 whitespace-nowrap">{item.item_name}</TableCell>
+                  <TableCell className="px-6 py-3 whitespace-nowrap">
                     <Button
                       className={`w-10 h-5 rounded-full p-1 transition-colors ${selectedItems.includes(item.item_id) ? 'bg-green-500' : 'bg-gray-300'}`}
                       onClick={() => handleToggle(item.item_id)}
                     >
                       <span className={`block rounded-full w-3 h-3 bg-white shadow-md transform transition-transform ${selectedItems.includes(item.item_id) ? 'translate-x-5' : 'translate-x-0'}`}></span>
                     </Button>
-                  </td>
-                </tr>
+                  </TableCell>
+                </TableRow>
               ))
             )}
-          </tbody>
-        </table>
+          </TableBody>
+        </Table>
       </div>
       <div className="flex justify-end mt-4">
         <Button className="bg-blue-500 text-white px-4 py-2 rounded" onClick={handleDone}>

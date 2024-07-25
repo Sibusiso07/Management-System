@@ -9,6 +9,7 @@ import { cleanErrorMessage } from '@/lib/utils'
 
 // UI Components.
 import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
 
 export default function AddPackage() {
   // Navigation hook.
@@ -117,7 +118,7 @@ export default function AddPackage() {
           <div className="rounded-md shadow-sm -space-y-px">
             <div className="grid grid-cols-1 gap-y-6 gap-x-4 md:grid-cols-2">
               <div>
-                <input
+                <Input
                   id="package-id"
                   name="package-id"
                   type="text"
@@ -129,7 +130,7 @@ export default function AddPackage() {
                 />
               </div>
               <div>
-                <input
+                <Input
                   id="package-name"
                   name="package-name"
                   type="text"
@@ -152,7 +153,7 @@ export default function AddPackage() {
                 />
               </div>
               <div>
-                <input
+                <Input
                   id="price"
                   name="price"
                   type="number"
@@ -164,7 +165,7 @@ export default function AddPackage() {
                 />
               </div>
               <div>
-                <input
+                <Input
                   ref={fileInputRef}
                   onChange={handleFileChange}
                   id="image"
@@ -191,6 +192,7 @@ export default function AddPackage() {
             >
               Search
             </Button>
+            {/* <PackageModal /> */}
           </div>
         </form>
       </div>

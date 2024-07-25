@@ -6,6 +6,7 @@ import { cleanErrorMessage } from "@/lib/utils"
 
 // UI Components.
 import { Button } from '@/components/ui/button'
+import { Input } from "@/components/ui/input";
 
 export default function EmployeeRegistration() {
   // Hook navigation.
@@ -47,7 +48,7 @@ export default function EmployeeRegistration() {
           <div className="rounded-md shadow-sm -space-y-px">
             <div className="grid grid-cols-1 gap-y-6 gap-x-4 md:grid-cols-2">
               <div>
-                <input
+                <Input
                   id="employee-id"
                   name="employee-id"
                   type="text"
@@ -59,7 +60,7 @@ export default function EmployeeRegistration() {
                 />
               </div>
               <div>
-                <input
+                <Input
                   id="first-name"
                   name="first-name"
                   type="text"
@@ -71,7 +72,7 @@ export default function EmployeeRegistration() {
                 />
               </div>
               <div>
-                <input
+                <Input
                   id="last-name"
                   name="last-name"
                   type="text"
@@ -83,7 +84,7 @@ export default function EmployeeRegistration() {
                 />
               </div>
               <div>
-                <input
+                <Input
                   id="id-number"
                   name="id-number"
                   type="text"
@@ -95,7 +96,7 @@ export default function EmployeeRegistration() {
                 />
               </div>
               <div>
-                <input
+                <Input
                   id="email-address"
                   name="email"
                   type="email"
@@ -107,7 +108,7 @@ export default function EmployeeRegistration() {
                 />
               </div>
               <div>
-                <input
+                <Input
                   id="password"
                   name="password"
                   type="password"
@@ -119,7 +120,7 @@ export default function EmployeeRegistration() {
                 />
               </div>
               <div>
-                <input
+                <Input
                   id="department"
                   name="department"
                   type="text"
@@ -131,7 +132,7 @@ export default function EmployeeRegistration() {
                 />
               </div>
               <div>
-                <input
+                <Input
                   id="position"
                   name="position"
                   type="text"

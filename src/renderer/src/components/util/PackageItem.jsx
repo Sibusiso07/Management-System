@@ -1,5 +1,8 @@
 import React from 'react'
 
+// Import UI Components.
+import { Button } from '../ui/button'
+
 
 const PackageItem = ({ item, handleClick }) => {
   
@@ -14,12 +17,12 @@ const PackageItem = ({ item, handleClick }) => {
       <img src={base64ToUrl(item.image)} alt={item.packge_name} className="w-full h-32 object-cover mb-4" />
       <h2 className="text-xl mb-2">{item.package_name}</h2>
       <p className="text-sm mb-4">{item.details}</p>
-      <button
+      <Button
         className="bg-blue-500 text-white px-4 py-2 rounded"
         onClick={() => handleClick(item)}
       >
         Select
-      </button>
+      </Button>
     </div>
   )
 }

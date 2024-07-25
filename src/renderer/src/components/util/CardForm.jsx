@@ -4,6 +4,10 @@ import { toast } from 'react-toastify'
 // Auth Context.
 import { AuthContext } from '@/context/AuthContext'
 
+// Import UI components.
+import { Button } from '../ui/button'
+import { Input } from '../ui/input'
+
 export default function CardForm() {
   // Hook auth context.
   const { user } = useContext(AuthContext)
@@ -42,7 +46,7 @@ export default function CardForm() {
           <label className="block text-gray-200 text-sm font-bold mb-2" htmlFor="cardNumber">
             Card Number
           </label>
-          <input
+          <Input
             id="cardNumber"
             type="text"
             value={cardNumber}
@@ -56,7 +60,7 @@ export default function CardForm() {
           <label className="block text-gray-200 text-sm font-bold mb-2" htmlFor="cardholderName">
             Cardholder Name
           </label>
-          <input
+          <Input
             id="cardholderName"
             type="text"
             value={cardholderName}
@@ -70,7 +74,7 @@ export default function CardForm() {
           <label className="block text-gray-200 text-sm font-bold mb-2" htmlFor="expiryDate">
             Expiry Date
           </label>
-          <input
+          <Input
             id="expiryDate"
             type="text"
             value={expiryDate}
@@ -84,7 +88,7 @@ export default function CardForm() {
           <label className="block text-gray-200 text-sm font-bold mb-2" htmlFor="cvv">
             CVV
           </label>
-          <input
+          <Input
             id="cvv"
             type="text"
             value={cvv}
@@ -95,12 +99,12 @@ export default function CardForm() {
           />
         </div>
         <div className="flex items-center justify-between">
-          <button
+          <Button
             type="submit"
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
           >
             Submit
-          </button>
+          </Button>
         </div>
       </form>
     </div>
