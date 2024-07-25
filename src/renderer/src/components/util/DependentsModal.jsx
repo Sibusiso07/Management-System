@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import Modal from 'react-modal'
+import { toast } from 'react-toastify'
 
 // Import UI Components.
 import { Button } from '@/components/ui/button'
@@ -10,8 +11,9 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
+  DialogTrigger
 } from '@/components/ui/dialog'
+import { cleanErrorMessage } from '@/lib/utils'
 
 const DependentsModal = ({ clientId }) => {
   // States.
@@ -25,7 +27,7 @@ const DependentsModal = ({ clientId }) => {
       await window.api.addDependent(firstname, lastname, idnumber, clientId)
       toast.success('Dependant Added Successfully')
     } catch (err) {
-      toast.error('Unable to add dependant: ', err)
+      toast.error(`Unable to add dependant: ${cleanErrorMessage(err)}`)
       console.error(err)
     }
   }

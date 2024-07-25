@@ -1,8 +1,9 @@
-import { useState, useEffect } from "react"
-import { useNavigate, useLocation } from "react-router-dom"
+import { useState, useEffect } from 'react'
+import { useNavigate, useLocation } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
 // Utils.
-import { cleanErrorMessage } from "@/lib/utils"
+import { cleanErrorMessage } from '@/lib/utils'
 
 // UI Components.
 import { Button } from '@/components/ui/button'
@@ -29,31 +30,31 @@ export default function Items() {
 
   // On package load.
   useEffect(() => {
-    fetchPackageItems();
+    fetchPackageItems()
   }, [])
 
   // Fetching package data from the DB.
   const fetchPackageItems = async () => {
     try {
       // Set loading state.
-      setLoading(true);
+      setLoading(true)
 
       // Make call to retrieve packages.
       const result = await window.api.getItems()
-      setPackageItems(result); // Making sure the data is in an array.
+      setPackageItems(result) // Making sure the data is in an array.
     } catch (err) {
       toast.error('Unable to fetch package items: ', cleanErrorMessage(err))
       setPackageItems([]) // or handle error state
     } finally {
       setLoading(false)
     }
-  };
+  }
 
   const handleToggle = (item_id) => {
     if (selectedItems.includes(item_id)) {
-      setSelectedItems(prevSelectedItems => prevSelectedItems.filter(id => id !== item_id))
+      setSelectedItems((prevSelectedItems) => prevSelectedItems.filter((id) => id !== item_id))
     } else {
-      setSelectedItems(prevSelectedItems => [...prevSelectedItems, item_id])
+      setSelectedItems((prevSelectedItems) => [...prevSelectedItems, item_id])
     }
   }
 
@@ -77,14 +78,20 @@ export default function Items() {
         <Table className="min-w-full divide-y divide-gray-200">
           <TableHeader className="bg-gray-800">
             <TableRow>
-              <TableHead className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Item Name</TableHead>
-              <TableHead className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Select Item</TableHead>
+              <TableHead className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
+                Item Name
+              </TableHead>
+              <TableHead className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
+                Select Item
+              </TableHead>
             </TableRow>
           </TableHeader>
           <TableBody className="bg-gray-800 divide-y divide-gray-200">
             {loading ? (
               <TableRow>
-                <TableCell className="px-6 py-3 whitespace-nowrap" colSpan="2">Loading...</TableCell>
+                <TableCell className="px-6 py-3 whitespace-nowrap" colSpan="2">
+                  Loading...
+                </TableCell>
               </TableRow>
             ) : (
               packageItems.map((item) => (
@@ -95,7 +102,9 @@ export default function Items() {
                       className={`w-10 h-5 rounded-full p-1 transition-colors ${selectedItems.includes(item.item_id) ? 'bg-green-500' : 'bg-gray-300'}`}
                       onClick={() => handleToggle(item.item_id)}
                     >
-                      <span className={`block rounded-full w-3 h-3 bg-white shadow-md transform transition-transform ${selectedItems.includes(item.item_id) ? 'translate-x-5' : 'translate-x-0'}`}></span>
+                      <span
+                        className={`block rounded-full w-3 h-3 bg-white shadow-md transform transition-transform ${selectedItems.includes(item.item_id) ? 'translate-x-5' : 'translate-x-0'}`}
+                      ></span>
                     </Button>
                   </TableCell>
                 </TableRow>
@@ -110,5 +119,5 @@ export default function Items() {
         </Button>
       </div>
     </div>
-  );
+  )
 }

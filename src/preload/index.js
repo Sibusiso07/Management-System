@@ -54,9 +54,9 @@ const api = {
     )
   },
   // New Package Registration.
-  addPackage: async (packageID, packageName, details, price, base64String) => {
-    return ipcRenderer.invoke('addPackage', packageID, packageName, details, price, base64String)
-  },
+  // addPackage: async (packageID, packageName, details, price, base64String) => {
+  //   return ipcRenderer.invoke('addPackage', packageID, packageName, details, price, base64String)
+  // },
   // Get Package data from the DB.
   getPackage: async () => {
     return ipcRenderer.invoke('getPackage')
@@ -116,6 +116,10 @@ const api = {
   // Getting active package.
   getActivePackage: async (clientId) => {
     return ipcRenderer.invoke('getActivePackage', clientId)
+  },
+  // Getting active package.
+  executeFunction: async (functionName, paramlist) => {
+    return ipcRenderer.invoke('executeFunction', functionName, paramlist)
   }
 }
 

@@ -34,14 +34,27 @@ export default function AddPackage() {
         // Converting image to base64.
         reader.onloadend = async () => {
           const base64String = reader.result.replace('data:', '').replace(/^.+,/, '')
-          const response = await window.api.addPackage(
-            packageID,
-            packageName,
-            details,
-            price,
-            base64String
-          )
-          const newPackageId = response[0] // Getting the new package ID
+          // const response = await window.api.addPackage(
+          //   packageID,
+          //   packageName,
+          //   details,
+          //   price,
+          //   base64String
+          // )
+
+          // Build paramlist.
+          const paramlist = {
+            p_package_id: packageID,
+            p_package_name: packageName,
+            p_details: details,
+            p_price: price,
+            p_image: base64String
+          }
+
+          // Attempt to execute stored procedure.
+          const result = await window.api.executeFunction('package_Registration', paramlist)
+
+          const newPackageId = result[0] // Getting the new package ID
           toast.success('Package Added Successfully')
           clearFormFields()
           navigate('/Items', { state: { package_id: newPackageId.package_id } })

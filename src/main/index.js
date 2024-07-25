@@ -2,13 +2,14 @@ import { app, shell, BrowserWindow, ipcMain } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
-// import printer from 'printer'
 
 import './ipcMainhandlers'
 
+let mainWindow
+
 function createWindow() {
   // Create the browser window.
-  const mainWindow = new BrowserWindow({
+  mainWindow = new BrowserWindow({
     width: 900,
     height: 700,
     show: false,
@@ -65,8 +66,13 @@ app.whenReady().then(() => {
 })
 
 // Getting printers from the PC.
-ipcMain.handle('getPrinters', () => {
-  return printer.getPrinters()
+ipcMain.handle('getPrinters', async () => {
+  const printers = await mainWindow.webContents.getPrintersAsync()
+  const printerNames = printers.map((printer) => ({
+    name: printer.displayName
+  }))
+  console.log('printers >>>', printerNames)
+  return printerNames
 })
 
 // Printing the Report.

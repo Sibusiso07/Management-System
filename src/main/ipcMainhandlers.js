@@ -99,24 +99,24 @@ ipcMain.handle(
 )
 
 // Adding Package into DB.
-ipcMain.handle('addPackage', async (_, packageID, packageName, details, price, base64String) => {
-  try {
-    // Inserting into the Employee table
-    const result = await executeFunction('package_Registration', {
-      p_package_id: packageID,
-      p_package_name: packageName,
-      p_details: details,
-      p_price: price,
-      p_image: base64String
-    })
+// ipcMain.handle('addPackage', async (_, packageID, packageName, details, price, base64String) => {
+//   try {
+//     // Inserting into the Employee table
+//     const result = await executeFunction('package_Registration', {
+//       p_package_id: packageID,
+//       p_package_name: packageName,
+//       p_details: details,
+//       p_price: price,
+//       p_image: base64String
+//     })
 
-    // If package is registered.
-    return result
-  } catch (err) {
-    console.error('Error inserting into the user table: ', err)
-    throw err
-  }
-})
+//     // If package is registered.
+//     return result
+//   } catch (err) {
+//     console.error('Error inserting into the user table: ', err)
+//     throw err
+//   }
+// })
 
 // Getting Package Info from the DB.
 ipcMain.handle('getPackage', async () => {
@@ -234,10 +234,12 @@ ipcMain.handle('getPackageItems', async (_, package_id) => {
 // Linking package items.
 ipcMain.handle('linkClientPackage', async (_, user_id, package_id) => {
   try {
+    console.log('triggered : linkClientPackage')
     const result = await executeFunction('link_user_to_package', {
       p_client_id: user_id,
       p_package_id: package_id
     })
+    console.log('Result >>>', result)
     return result
   } catch (err) {
     console.error('Unable to link client to package: ', err)
@@ -271,6 +273,18 @@ ipcMain.handle('getActivePackage', async (_, clientId) => {
     return results
   } catch (err) {
     console.error('Unable to fetch dependants: ', err)
+    throw err
+  }
+})
+
+// Execute database fucntion.
+ipcMain.handle('executeFunction', async (_, functionName, paramlist) => {
+  try {
+    const result = await executeFunction(functionName, paramlist)
+    console.log('result >>>', result)
+    return result
+  } catch (err) {
+    console.error('ipcHandlers -> executeFunction -> : ', err)
     throw err
   }
 })

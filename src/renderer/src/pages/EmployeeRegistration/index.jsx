@@ -1,12 +1,12 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom"
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 // Utils.
-import { cleanErrorMessage } from "@/lib/utils"
+import { cleanErrorMessage } from '@/lib/utils'
 
 // UI Components.
 import { Button } from '@/components/ui/button'
-import { Input } from "@/components/ui/input";
+import { Input } from '@/components/ui/input'
 
 export default function EmployeeRegistration() {
   // Hook navigation.
@@ -24,7 +24,17 @@ export default function EmployeeRegistration() {
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
-      const result = await window.api.employeeReg(employeeID, firstName, lastName, idNumber, email, department, position, password)
+      const result = await window.api.employeeReg(
+        employeeID,
+        firstName,
+        lastName,
+        idNumber,
+        email,
+        department,
+        position,
+        password
+      )
+
       // Checking if employee is registered successfully and redirecting
       if (result) {
         toast.success('Employee Registered Successfully')
@@ -39,9 +49,7 @@ export default function EmployeeRegistration() {
     <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
         <div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-white">
-            Register Employee
-          </h2>
+          <h2 className="mt-6 text-center text-3xl font-extrabold text-white">Register Employee</h2>
         </div>
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           <input type="hidden" name="remember" defaultValue="true" />
