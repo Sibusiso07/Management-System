@@ -83,8 +83,7 @@ ipcMain.handle('printReport', (event, printerName, reportContent) => {
     copies: 1,
     pageSize: 'A4'
   }
-
-  const win = new BrowserWindow({ show: false });
+  const win = new BrowserWindow({ show: false })
   win.loadURL(`data:text/html;charset=utf-8,${encodeURIComponent(reportContent)}`)
   win.webContents.on('did-finish-load', () => {
     win.webContents.print(options, (success, errorType) => {

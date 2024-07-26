@@ -1,5 +1,5 @@
 import { useNavigate, useLocation } from 'react-router-dom'
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 import { toast } from 'react-toastify'
 
 // Components
@@ -16,6 +16,13 @@ import { AuthContext } from '@/context/AuthContext'
 import { cleanErrorMessage } from '@/lib/utils'
 
 function Package() {
+  const [paymentInfo, setPaymentInfo] = useState({
+    cardNumber: '',
+    cardholderName: '',
+    expiryDate: '',
+    cvv: ''
+  })
+
   // Hook navigation.
   const navigate = useNavigate()
   // Hook auth context.
@@ -25,41 +32,39 @@ function Package() {
   const location = useLocation()
   const { details, items } = location.state.data
 
-  // console.log('package form data >>>', details, items)
-
-  // Function to convert base64 to URL
-  const base64ToUrl = (base64String) => `data:image/jpeg;base64,${base64String}`
-
   const handleBackClick = () => {
     navigate('/Packages')
-  }
-
-  // Handle package save.
-  const handleSavePackage = async (e) => {
-    e.preventDefault()
-    try {
-      const userId = user.id
-      const packageId = details.id
-      const paramlist = {
-        p_client_id: userId, 
-        p_package_id: packageId
-      }
-      // Attempt to execute stored procedure.
-      const results = await window.api.executeFunction('link_user_to_package', paramlist)
-      toast.success('Successfully linked client to package')
-    } catch (err) {
-      console.log('frontend :', err)
-      toast.error(`Unable to link client to package: ${cleanErrorMessage(err)}`)
-    }
   }
 
   // Handle save all.
   const handleSaveAll = async (e) => {
     e.preventDefault()
     try {
-      if (cardNumber.length === 16) {
-        await window.api.addCardInfo(cardNumber, cardholderName, expiryDate, cvv, user.id)
-        await window.api.linkClientPackage(user.id, details.id)
+      if (paymentInfo.cardNumber.length === 16) {
+        // Desttructure values from state.
+        const { cardNumber, cardholderName, expiryDate, cvv } = paymentInfo
+
+        // Build payment paramlist.
+        const paymentParamlist = {
+          p_card_number: cardNumber,
+          p_card_holder: cardholderName,
+          p_expiry_date: expiryDate,
+          p_cvv: cvv,
+          p_user_id: user.id
+        }
+
+        // Attempt to save the payment information.
+        await window.api.executeFunction('insert_payment_information', paymentParamlist)
+
+        // Build package paramlist.
+        const paramlist = {
+          p_client_id: user.id,
+          p_package_id: details.id
+        }
+        // Attempt to execute stored procedure.
+        await window.api.executeFunction('link_user_to_package', paramlist)
+
+        // Notify the user of successful sign up.
         toast.success('Successfully linked client to package')
       } else {
         toast.warning('Please make sure that the Card Number has 16 digits')
@@ -101,12 +106,6 @@ function Package() {
             >
               Back
             </Button>
-            <Button
-              onClick={handleSavePackage}
-              className="bg-blue-500 text-white px-4 py-2 rounded mx-2"
-            >
-              Save Package
-            </Button>
           </div>
         </div>
         <div className="flex gap-4 mb-2">
@@ -114,13 +113,14 @@ function Package() {
             <Dependents />
           </div>
           <div className="grid-item w-[50%] mr-2" style={{ gridRow: '2', gridColumn: '2' }}>
-            <CardForm />
+            <CardForm paymentInfo={paymentInfo} setPaymentInfo={setPaymentInfo} />
           </div>
         </div>
       </div>
       <Button
-      onClick={handleSaveAll} 
-      className="justify-center py-2 mx-2 border border-transparent text-sm font-medium rounded-md text-white bg-sky-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+        onClick={handleSaveAll}
+        className="justify-center py-2 mx-2 border border-transparent text-sm font-medium rounded-md text-white bg-sky-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+      >
         Save all
       </Button>
     </div>

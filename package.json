@@ -36,7 +36,6 @@
     "pg": "^8.11.5",
     "react-modal": "^3.16.1",
     "react-router-dom": "^6.23.1",
-    "react-to-print": "^2.15.1",
     "react-toastify": "^10.0.5",
     "tailwind-merge": "^2.4.0",
     "tailwindcss-animate": "^1.0.7"

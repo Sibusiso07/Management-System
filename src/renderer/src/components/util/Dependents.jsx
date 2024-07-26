@@ -3,14 +3,7 @@ import DependentsModal from './DependentsModal'
 import { toast } from 'react-toastify'
 
 // Import UI Components.
-import { 
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow
-} from '../ui/table'
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../ui/table'
 
 // Auth Context.
 import { AuthContext } from '@/context/AuthContext'
@@ -72,11 +65,12 @@ export default function Dependents() {
         >
           Add
         </Button> */}
-        <DependentsModal 
-          clientId={clientId}
-        />
+        <DependentsModal clientId={clientId} closeModal={closeModal} />
       </div>
-      <div className="flex flex-col items-center justify-center h-40 mt-4 w-full">
+      <div
+        className="flex flex-col items-center justify-center  mt-4 w-full"
+        style={{ height: 'calc(100% - 60px)' }}
+      >
         <Table>
           <TableHeader>
             <TableRow>
@@ -108,4 +102,3 @@ export default function Dependents() {
     </div>
   )
 }
-
