@@ -4,6 +4,9 @@ import { toast } from 'react-toastify'
 // Auth Context.
 import { AuthContext } from '@/context/AuthContext'
 
+// Utils.
+import { cleanErrorMessage } from '@/lib/utils'
+
 // Import UI components.
 import { Button } from '../ui/button'
 import { Input } from '../ui/input'
@@ -27,10 +30,9 @@ export default function CardForm() {
       } else {
         await window.api.addCardInfo(cardNumber, cardholderName, expiryDate, cvv, user.id)
         toast.success('Card Information Added Successfully')
-        onRequestClose()
       }
     } catch (err) {
-      toast.error(`Error adding card info: `, err)
+      toast.error(`Error adding card info: ${cleanErrorMessage(err)}`)
       console.error(err)
     }
   }

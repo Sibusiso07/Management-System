@@ -64,8 +64,8 @@ export default function AddPackage() {
         toast.warning('No Image Selected')
       }
     } catch (error) {
-      toast.error(`Error adding package`, cleanErrorMessage(error))
-      console.error(error)
+      toast.error(`Error adding package ${cleanErrorMessage(error)}`)
+      // console.error(error)
     }
   }
 
@@ -97,9 +97,9 @@ export default function AddPackage() {
           alert('Package not found')
         }
       }
-    } catch (error) {
-      alert('Error searching package', error.message)
-      console.error('Error sending package id: ', error)
+    } catch (err) {
+      toast.error(`Error searching for the package: ${cleanErrorMessage(err)}`)
+      // console.error('Error sending package id: ', err)
     }
   }
 

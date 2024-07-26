@@ -1,10 +1,14 @@
-// UI Components.
-import { Button } from '@/components/ui/button'
 import { useState, useContext, useEffect } from 'react'
 import { toast } from 'react-toastify'
 
 // Auth Context.
 import { AuthContext } from '@/context/AuthContext'
+
+// UI Components.
+import { Button } from '@/components/ui/button'
+
+// Utils.
+import { cleanErrorMessage } from '@/lib/utils'
 
 export default function ClientDashboard() {
   // Hook auth context.
@@ -12,7 +16,7 @@ export default function ClientDashboard() {
 
   // States.
   const [dependents, setDependents] = useState([])
-  const [activePackage, setActivePackage] = useState()
+  const [activePackages, setActivePackages] = useState([])
   const [clientId, setClientId] = useState(user.id)
 
   // Getting dependants.
@@ -21,7 +25,7 @@ export default function ClientDashboard() {
       const results = await window.api.getDependants(clientId)
       setDependents(results)
     } catch (err) {
-      toast.error('Unable to fetch depandents: ', err)
+      toast.error(`Error fetching dependents: ${cleanErrorMessage(err)}`)
     }
   }
 
@@ -29,9 +33,9 @@ export default function ClientDashboard() {
    const fetchActivePackage = async () => {
     try {
       const results = await window.api.getActivePackage(clientId)
-      setActivePackage(results[0])
+      setActivePackages(results)
     } catch (err) {
-      toast.error('Unable to fetch active package: ', err)
+      toast.error(`Error fetching active package: ${cleanErrorMessage(err)}`)
     }
   }
 
@@ -76,12 +80,14 @@ export default function ClientDashboard() {
           <div className="flex flex-col h-full">
             <div className="flex-grow p-4 bg-gray-700">
               <h2 className="text-xl text-center mb-4">Active Package</h2>
-              {activePackage ? (
-                <div>
-                  <p>{activePackage.package_name}</p>
-                  <p>{activePackage.details}</p>
-                  <p>{activePackage.price}</p>
-                </div>
+              {activePackages ? (
+                activePackages.map((activePackage, index) => (
+                  <div key={index}>
+                    <p>{activePackage.package_name}</p>
+                    <p>{activePackage.details}</p>
+                    <p>{activePackage.price}</p>
+                  </div>
+                ))
               ) : (
                 <p>No active package</p>
               )}

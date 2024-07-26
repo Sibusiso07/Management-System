@@ -1,5 +1,6 @@
 import { useState, useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
 // Auth Context.
 import { AuthContext } from '@/context/AuthContext'
@@ -41,7 +42,7 @@ const Login = () => {
         }
       }
     } catch (err) {
-      toast.error('Error during Login attempt: ', cleanErrorMessage(err))
+      toast.error(`Error during Login attempt: ${cleanErrorMessage(err)}`)
       setError(cleanErrorMessage(err))
     }
   }

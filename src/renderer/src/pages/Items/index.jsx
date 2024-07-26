@@ -43,7 +43,7 @@ export default function Items() {
       const result = await window.api.getItems()
       setPackageItems(result) // Making sure the data is in an array.
     } catch (err) {
-      toast.error('Unable to fetch package items: ', cleanErrorMessage(err))
+      toast.error(`Unable to fetch package items: ${cleanErrorMessage(err)}`)
       setPackageItems([]) // or handle error state
     } finally {
       setLoading(false)
@@ -65,7 +65,7 @@ export default function Items() {
       toast.success('Successfully linked the package and items')
       navigate('/Packages')
     } catch (err) {
-      toast.error('Unable to link the package and items: ', cleanErrorMessage(err))
+      toast.error(`Unable to link the package and items: ${cleanErrorMessage(err)}`)
     }
   }
 

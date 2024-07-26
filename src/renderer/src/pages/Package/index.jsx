@@ -34,6 +34,7 @@ function Package() {
     navigate('/Packages')
   }
 
+  // Handle package save.
   const handleSavePackage = async (e) => {
     e.preventDefault()
     try {
@@ -42,6 +43,22 @@ function Package() {
     } catch (err) {
       console.log('frontend :', err)
       toast.error(`Unable to link client to package: ${cleanErrorMessage(err)}`)
+    }
+  }
+
+  // Handle save all.
+  const handleSaveAll = async (e) => {
+    e.preventDefault()
+    try {
+      if (cardNumber.length === 16) {
+        await window.api.addCardInfo(cardNumber, cardholderName, expiryDate, cvv, user.id)
+        await window.api.linkClientPackage(user.id, details.id)
+        toast.success('Successfully linked client to package')
+      } else {
+        toast.warning('Please make sure that the Card Number has 16 digits')
+      }
+    } catch (err) {
+      toast.error(`Error saving: ${cleanErrorMessage(err)}`)
     }
   }
 
@@ -94,7 +111,9 @@ function Package() {
           </div>
         </div>
       </div>
-      <Button className="justify-center py-2 mx-2 border border-transparent text-sm font-medium rounded-md text-white bg-sky-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+      <Button
+      onClick={handleSaveAll} 
+      className="justify-center py-2 mx-2 border border-transparent text-sm font-medium rounded-md text-white bg-sky-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
         Save all
       </Button>
     </div>

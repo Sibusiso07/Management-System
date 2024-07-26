@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
 // Utils.
 import { cleanErrorMessage } from '@/lib/utils'
@@ -43,7 +44,7 @@ export default function ClientRegistration() {
             navigate('/Dashboard')
           }
         } catch (err) {
-          toast.error('Unable to register client: ', cleanErrorMessage(err))
+          toast.error(`Unable to register client: ${cleanErrorMessage(err)}`)
         }
       }
       reader.readAsDataURL(file)

@@ -39,7 +39,7 @@ function Packages() {
       // Making sure the data is in an array.
       setPackageData(result || [])
     } catch (err) {
-      toast.error(`Unable to fetch data from DB:`, cleanErrorMessage(err))
+      toast.error(`Unable to fetch data from DB: ${cleanErrorMessage(err)}`)
       setPackageData([]) // or handle error state
     } finally {
       setLoading(false)
@@ -55,7 +55,7 @@ function Packages() {
 
       navigate(`/Packages/${item.package_id}`, { state: { data: fullPackageDetails } })
     } catch (err) {
-      toast.error(`Error fetching package items`, cleanErrorMessage(err))
+      toast.error(`Error fetching package items ${cleanErrorMessage(err)}`)
     }
   }
 

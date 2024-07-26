@@ -77,16 +77,20 @@ ipcMain.handle('getPrinters', async () => {
 
 // Printing the Report.
 ipcMain.handle('printReport', (event, printerName, reportContent) => {
-  printer.printDirect({
-    data: reportContent,
-    printer: printerName,
-    type: 'RAW',
-    success: (jobID) => {
-      console.log(`Printed with job ID: ${jobID}`)
-    },
-    error: (err) => {
-      console.error(`Error: ${err}`)
-    }
+  const options = {
+    silent: true,
+    deviceName: printerName,
+    copies: 1,
+    pageSize: 'A4'
+  }
+
+  const win = new BrowserWindow({ show: false });
+  win.loadURL(`data:text/html;charset=utf-8,${encodeURIComponent(reportContent)}`)
+  win.webContents.on('did-finish-load', () => {
+    win.webContents.print(options, (success, errorType) => {
+      if (!success) console.log(errorType)
+      win.close()
+    })
   })
 })
 

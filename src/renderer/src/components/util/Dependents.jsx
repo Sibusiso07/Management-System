@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react'
 import DependentsModal from './DependentsModal'
+import { toast } from 'react-toastify'
 
 // Import UI Components.
 import { 
@@ -37,7 +38,7 @@ export default function Dependents() {
       const results = await window.api.getDependants(clientId)
       setDependents(results)
     } catch (err) {
-      toast.error('Unable to fetch depandents: ', err)
+      toast.error(`Error fetching dependents: ${cleanErrorMessage(err)}`)
     }
   }
 
@@ -100,12 +101,6 @@ export default function Dependents() {
           Calculation
         </button>
       </div>
-      {/* <DependentsModal
-        isOpen={isOpen}
-        onRequestClose={closeModal}
-        clientId={clientId}
-        appElement={document.getElementById('root')}
-      /> */}
     </div>
   )
 }

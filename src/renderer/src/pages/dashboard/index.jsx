@@ -1,5 +1,7 @@
 import { useContext, useEffect, useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { ReactToPrint } from 'react-to-print'
+import { toast } from 'react-toastify'
 
 // Auth Context.
 import { AuthContext } from '@/context/AuthContext'
@@ -13,6 +15,10 @@ import Report from '@/components/util/Report'
 export default function Dashboard() {
   // Hook navigation.
   const navigate = useNavigate()
+  
+  // Hook useRef for report div and printing.
+  const reportRef = useRef()
+  const reactToPrintRef = useRef()
 
   // Hook auth context.
   const { user } = useContext(AuthContext)
@@ -20,9 +26,6 @@ export default function Dashboard() {
   // State for printers
   const [printers, setPrinters] = useState([])
   const [selectedPrinter, setSelectedPrinter] = useState('')
-  
-  // Reference to the report div
-  const reportRef = useRef()
 
   // Function to fetch printers
   const fetchPrinters = async () => {
@@ -35,24 +38,19 @@ export default function Dashboard() {
     fetchPrinters()
   }, [])
 
+  // Path Navigation.
   const handleNavigation = (path) => {
-    if (path === '/ClientRegistration') {
-      navigate(path)
-    } else if (path === '/EmployeeRegistration') {
-      navigate(path)
-    } else if (path === '/Packages') {
-      navigate(path)
-    } else if (path === '/ClientDashboard') {
+    if (['/ClientRegistration', '/EmployeeRegistration', '/Packages', '/ClientDashboard'].includes(path)) {
       navigate(path)
     } else {
-      alert('Feature still in development')
+      toast.warning('Feature still in development')
     }
   }
 
-  // Function to print the report
-  const handlePrint = async () => {
-    const reportContent = reportRef.current.innerHTML
-    await window.api.printReport(selectedPrinter, reportContent)
+  // Handing the printing functionality.
+  const handleAfterPrint = async () => {
+    const reportContent = reportRef.current.innerHTML;
+    await window.api.printReport(selectedPrinter, reportContent);
   }
 
   return (
@@ -118,12 +116,12 @@ export default function Dashboard() {
               ))}
             </select>
           </div>
-          <Button
-            onClick={handlePrint}
-            className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-sky-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-          >
-            Print Report
-          </Button>
+          <ReactToPrint
+            trigger={() => <Button className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-sky-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Print Report</Button>}
+            content={() => reportRef.current}
+            onAfterPrint={handleAfterPrint}
+            ref={reactToPrintRef}
+          />
         </div>
         <div ref={reportRef} className="hidden">
           <Report />
