@@ -23,7 +23,14 @@ const DependentsModal = ({ clientId }) => {
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
-      await window.api.addDependent(firstname, lastname, idnumber, clientId)
+      const paramlist = {
+        p_first_name: firstname, 
+        p_last_name: lastname, 
+        p_id_number: idnumber, 
+        p_client_id: clientId
+      }
+      // Attempt to execute stored procedure.
+      await window.api.executeFunction('add_Dependant', paramlist)
       toast.success('Dependant Added Successfully')
     } catch (err) {
       toast.error(`Unable to add dependant: ${cleanErrorMessage(err)}`)

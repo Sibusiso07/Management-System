@@ -10,6 +10,7 @@ import { cleanErrorMessage } from '@/lib/utils'
 // UI Components.
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { Textarea } from '@/components/ui/textarea'
 
 export default function AddPackage() {
   // Navigation hook.
@@ -88,7 +89,11 @@ export default function AddPackage() {
     try {
       // Checking for package.
       if (packageID) {
-        const result = await window.api.findPackage(packageID)
+        const paramlist = {
+          p_package_id: packageID
+        }
+        // Attempt to execute stored procedure.
+        const result = await window.api.executeFunction('find_package', paramlist)
         if (result) {
           // Sending results and opening modal.
           setSearchResult(result)
@@ -155,7 +160,7 @@ export default function AddPackage() {
                 />
               </div>
               <div>
-                <textarea
+                <Textarea
                   id="details"
                   name="details"
                   placeholder="Details"

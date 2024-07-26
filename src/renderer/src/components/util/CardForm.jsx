@@ -20,6 +20,7 @@ export default function CardForm() {
   const [cardholderName, setCardholderName] = useState('')
   const [expiryDate, setExpiryDate] = useState('')
   const [cvv, setCvv] = useState('')
+  const [userid, setUserId] = useState(user.id)
 
   // Handle Submit button.
   const handleSubmit = async (e) => {
@@ -28,7 +29,15 @@ export default function CardForm() {
       if (cardNumber.length !== 16) {
         toast.warning('Please make sure that the Card Number has 16 digits')
       } else {
-        await window.api.addCardInfo(cardNumber, cardholderName, expiryDate, cvv, user.id)
+        const paramlist = {
+          p_card_number: cardNumber, 
+          p_card_holder: cardholderName, 
+          p_expiry_date: expiryDate, 
+          p_cvv: cvv, 
+          p_user_id: userid
+        }
+        // Attempt to execute stored procedure.
+        await window.api.executeFunction('insert_payment_information', paramlist)
         toast.success('Card Information Added Successfully')
       }
     } catch (err) {

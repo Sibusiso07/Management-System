@@ -35,7 +35,11 @@ export default function Dependents() {
   // Getting dependants.
   const fetchDependants = async () => {
     try {
-      const results = await window.api.getDependants(clientId)
+      const paramlist = {
+        p_client_id: clientId
+      }
+      // Attempt to execute stored procedure.
+      const results = await window.api.executeFunction('get_Dependants', paramlist)
       setDependents(results)
     } catch (err) {
       toast.error(`Error fetching dependents: ${cleanErrorMessage(err)}`)

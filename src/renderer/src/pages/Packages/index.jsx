@@ -34,8 +34,9 @@ function Packages() {
     try {
       // Set loading state.
       setLoading(true)
-      // Make call to retrieve packages.
-      const result = await window.api.getPackage()
+      const paramlist = {}
+      // Attempt to execute stored procedure.
+      const result = await window.api.executeFunction('get_Packages', paramlist)
       // Making sure the data is in an array.
       setPackageData(result || [])
     } catch (err) {
@@ -48,8 +49,13 @@ function Packages() {
 
   // Handling package select click.
   const handleClick = async (item) => {
+    const itemId = item.id
     try {
-      const response = await window.api.getPackageItems(item.id)
+      const paramlist = {
+        p_package_id: itemId
+      }
+      // Attempt to execute stored procedure.
+      const response = await window.api.executeFunction('get_selected_package_items', paramlist)
       // Combine package details and package items to send to package page.
       const fullPackageDetails = { details: item, items: response }
 

@@ -119,169 +119,169 @@ ipcMain.handle(
 // })
 
 // Getting Package Info from the DB.
-ipcMain.handle('getPackage', async () => {
-  try {
-    const packageInfo = await executeFunction('get_Packages')
-    // If there is results, return results.
-    if (packageInfo) {
-      return packageInfo
-    }
-  } catch (err) {
-    console.error('Unable get data from DB: ', err)
-    throw err
-  }
-})
+// ipcMain.handle('getPackage', async () => {
+//   try {
+//     const packageInfo = await executeFunction('get_Packages')
+//     // If there is results, return results.
+//     if (packageInfo) {
+//       return packageInfo
+//     }
+//   } catch (err) {
+//     console.error('Unable get data from DB: ', err)
+//     throw err
+//   }
+// })
 
 // Search for package.
-ipcMain.handle('findPackage', async (_, packageID) => {
-  try {
-    const found = await executeFunction('find_package', { p_package_id: packageID })
-    return found
-  } catch (err) {
-    console.error('Error accessing the DB: ', err)
-    throw err
-  }
-})
+// ipcMain.handle('findPackage', async (_, packageID) => {
+//   try {
+//     const found = await executeFunction('find_package', { p_package_id: packageID })
+//     return found
+//   } catch (err) {
+//     console.error('Error accessing the DB: ', err)
+//     throw err
+//   }
+// })
 
 // Editing package on the DB.
-ipcMain.handle(
-  'editPackage',
-  async (_, id, packageID, packageName, details, price, base64String) => {
-    try {
-      // Updating the packages table
-      const updatedPackage = await executeFunction('package_Update', {
-        p_id: id,
-        p_package_id: packageID,
-        p_package_name: packageName,
-        p_details: details,
-        p_price: price,
-        p_image: base64String
-      })
-      return { success: true, id: updatedPackage[0].id }
-    } catch (err) {
-      console.error('Error updating package: ', err)
-      throw err
-    }
-  }
-)
+// ipcMain.handle(
+//   'editPackage',
+//   async (_, id, packageID, packageName, details, price, base64String) => {
+//     try {
+//       // Updating the packages table
+//       const updatedPackage = await executeFunction('package_Update', {
+//         p_id: id,
+//         p_package_id: packageID,
+//         p_package_name: packageName,
+//         p_details: details,
+//         p_price: price,
+//         p_image: base64String
+//       })
+//       return { success: true, id: updatedPackage[0].id }
+//     } catch (err) {
+//       console.error('Error updating package: ', err)
+//       throw err
+//     }
+//   }
+// )
 
 // Add Dependent to the DB.
-ipcMain.handle('addDependent', async (_, firstname, lastname, idnumber, clientId) => {
-  try {
-    const newDependent = await executeFunction('add_Dependant', {
-      p_first_name: firstname,
-      p_last_name: lastname,
-      p_id_number: idnumber,
-      p_client_id: clientId
-    })
-    return { success: true }
-  } catch (err) {
-    console.error('Error adding dependent: ', err)
-    throw err
-  }
-})
+// ipcMain.handle('addDependent', async (_, firstname, lastname, idnumber, clientId) => {
+//   try {
+//     const newDependent = await executeFunction('add_Dependant', {
+//       p_first_name: firstname,
+//       p_last_name: lastname,
+//       p_id_number: idnumber,
+//       p_client_id: clientId
+//     })
+//     return { success: true }
+//   } catch (err) {
+//     console.error('Error adding dependent: ', err)
+//     throw err
+//   }
+// })
 
 // Getting the dependants linked to the client.
-ipcMain.handle('getDependants', async (_, clientId) => {
-  try {
-    const results = await executeFunction('get_Dependants', {
-      p_client_id: clientId
-    })
-    return results
-  } catch (err) {
-    console.error('Unable to fetch dependants: ', err)
-    throw err
-  }
-})
+// ipcMain.handle('getDependants', async (_, clientId) => {
+//   try {
+//     const results = await executeFunction('get_Dependants', {
+//       p_client_id: clientId
+//     })
+//     return results
+//   } catch (err) {
+//     console.error('Unable to fetch dependants: ', err)
+//     throw err
+//   }
+// })
 
 // Linking package items.
-ipcMain.handle('linkPackageItems', async (_, package_id, selectedItems) => {
-  try {
-    await executeFunction('link_package_items', {
-      p_package_id: package_id,
-      p_item_ids: selectedItems
-    })
-  } catch (err) {
-    console.error('Unable to link package items: ', err)
-    throw err
-  }
-})
+// ipcMain.handle('linkPackageItems', async (_, package_id, selectedItems) => {
+//   try {
+//     await executeFunction('link_package_items', {
+//       p_package_id: package_id,
+//       p_item_ids: selectedItems
+//     })
+//   } catch (err) {
+//     console.error('Unable to link package items: ', err)
+//     throw err
+//   }
+// })
 
 // Getting all items from the db.
-ipcMain.handle('getItems', async () => {
-  try {
-    const packageItems = await executeFunction('get_all_package_items')
-    return packageItems
-  } catch (err) {
-    console.error('Unable to fetch package items: ', err)
-    throw err
-  }
-})
+// ipcMain.handle('getItems', async () => {
+//   try {
+//     const packageItems = await executeFunction('get_all_package_items')
+//     return packageItems
+//   } catch (err) {
+//     console.error('Unable to fetch package items: ', err)
+//     throw err
+//   }
+// })
 
 // Get selected package items.
-ipcMain.handle('getPackageItems', async (_, package_id) => {
-  try {
-    const selectedItems = await executeFunction('get_selected_package_items', {
-      p_package_id: package_id
-    })
-    return selectedItems
-  } catch (err) {
-    console.error('Failed to fetch selected package items: ', err)
-    throw err
-  }
-})
+// ipcMain.handle('getPackageItems', async (_, package_id) => {
+//   try {
+//     const selectedItems = await executeFunction('get_selected_package_items', {
+//       p_package_id: package_id
+//     })
+//     return selectedItems
+//   } catch (err) {
+//     console.error('Failed to fetch selected package items: ', err)
+//     throw err
+//   }
+// })
 
 // Linking package items.
-ipcMain.handle('linkClientPackage', async (_, user_id, package_id) => {
-  try {
-    console.log('triggered : linkClientPackage')
-    const result = await executeFunction('link_user_to_package', {
-      p_client_id: user_id,
-      p_package_id: package_id
-    })
-    console.log('Result >>>', result)
-    return result
-  } catch (err) {
-    console.error('Unable to link client to package: ', err)
-    throw err
-  }
-})
+// ipcMain.handle('linkClientPackage', async (_, user_id, package_id) => {
+//   try {
+//     console.log('triggered : linkClientPackage')
+//     const result = await executeFunction('link_user_to_package', {
+//       p_client_id: user_id,
+//       p_package_id: package_id
+//     })
+//     console.log('Result >>>', result)
+//     return result
+//   } catch (err) {
+//     console.error('Unable to link client to package: ', err)
+//     throw err
+//   }
+// })
 
 // Linking package items.
-ipcMain.handle('addCardInfo', async (_, cardNumber, cardholderName, expiryDate, cvv, user_id) => {
-  try {
-    const result = await executeFunction('insert_payment_information', {
-      p_card_number: cardNumber,
-      p_card_holder: cardholderName,
-      p_expiry_date: expiryDate,
-      p_cvv: cvv,
-      p_client_id: user_id
-    })
-    return result
-  } catch (err) {
-    console.error('Unable to link client to package: ', err)
-    throw err
-  }
-})
+// ipcMain.handle('addCardInfo', async (_, cardNumber, cardholderName, expiryDate, cvv, user_id) => {
+//   try {
+//     const result = await executeFunction('insert_payment_information', {
+//       p_card_number: cardNumber,
+//       p_card_holder: cardholderName,
+//       p_expiry_date: expiryDate,
+//       p_cvv: cvv,
+//       p_client_id: user_id
+//     })
+//     return result
+//   } catch (err) {
+//     console.error('Unable to link client to package: ', err)
+//     throw err
+//   }
+// })
 
 // Getting the active package linked to the client.
-ipcMain.handle('getActivePackage', async (_, clientId) => {
-  try {
-    const results = await executeFunction('get_active_package', {
-      p_client_id: clientId
-    })
-    return results
-  } catch (err) {
-    console.error('Unable to fetch dependants: ', err)
-    throw err
-  }
-})
+// ipcMain.handle('getActivePackage', async (_, clientId) => {
+//   try {
+//     const results = await executeFunction('get_active_package', {
+//       p_client_id: clientId
+//     })
+//     return results
+//   } catch (err) {
+//     console.error('Unable to fetch dependants: ', err)
+//     throw err
+//   }
+// })
 
 // Execute database fucntion.
 ipcMain.handle('executeFunction', async (_, functionName, paramlist) => {
   try {
     const result = await executeFunction(functionName, paramlist)
-    console.log('result >>>', result)
+    // console.log('result >>>', result)
     return result
   } catch (err) {
     console.error('ipcHandlers -> executeFunction -> : ', err)

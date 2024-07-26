@@ -58,53 +58,49 @@ const api = {
   //   return ipcRenderer.invoke('addPackage', packageID, packageName, details, price, base64String)
   // },
   // Get Package data from the DB.
-  getPackage: async () => {
-    return ipcRenderer.invoke('getPackage')
-  },
-  // Search for Specific package
-  findPackage: async (packageID) => {
-    return ipcRenderer.invoke('findPackage', packageID)
-  },
-  // Editing a package.
-  editPackage: async (id, packageID, packageName, details, price, base64String) => {
-    return ipcRenderer.invoke(
-      'editPackage',
-      id,
-      packageID,
-      packageName,
-      details,
-      price,
-      base64String
-    )
-  },
-  // Add Dependents.
-  addDependent: async (firstname, lastname, idnumber, clientId) => {
-    return ipcRenderer.invoke('addDependent', firstname, lastname, idnumber, clientId)
-  },
-  // Getting client dependants from the DB.
-  getDependants: async (clientId) => {
-    return ipcRenderer.invoke('getDependants', clientId)
-  },
-  // Get Package Items from the DB.
-  getItems: async () => {
-    return ipcRenderer.invoke('getItems')
-  },
-  // Linking Package Items to Packages on the DB.
-  linkPackageItems: async (package_id, selectedItems) => {
-    return ipcRenderer.invoke('linkPackageItems', package_id, selectedItems)
-  },
-  // Linking Package Items to Packages on the DB.
-  linkClientPackage: async (user_id, package_id) => {
-    return ipcRenderer.invoke('linkClientPackage', user_id, package_id)
-  },
-  // Adding Card Information on the DB.
-  addCardInfo: async (cardNumber, cardholderName, expiryDate, cvv, user_id) => {
-    return ipcRenderer.invoke('addCardInfo', cardNumber, cardholderName, expiryDate, cvv, user_id)
-  },
-  // Get selected package items
-  getPackageItems: async (package_id) => {
-    return ipcRenderer.invoke('getPackageItems', package_id)
-  },
+  // getPackage: async () => {
+  //   return ipcRenderer.invoke('getPackage')
+  // },
+  // // Search for Specific package
+  // findPackage: async (packageID) => {
+  //   return ipcRenderer.invoke('findPackage', packageID)
+  // },
+  // // Editing a package.
+  // editPackage: async (id, packageID, packageName, details, price, base64String) => {
+  //   return ipcRenderer.invoke(
+  //     'editPackage',
+  //     id,
+  //     packageID,
+  //     packageName,
+  //     details,
+  //     price,
+  //     base64String
+  //   )
+  // },
+  // // Add Dependents.
+  // addDependent: async (firstname, lastname, idnumber, clientId) => {
+  //   return ipcRenderer.invoke('addDependent', firstname, lastname, idnumber, clientId)
+  // },
+  // // Get Package Items from the DB.
+  // getItems: async () => {
+  //   return ipcRenderer.invoke('getItems')
+  // },
+  // // Linking Package Items to Packages on the DB.
+  // linkPackageItems: async (package_id, selectedItems) => {
+  //   return ipcRenderer.invoke('linkPackageItems', package_id, selectedItems)
+  // },
+  // // Linking Package Items to Packages on the DB.
+  // linkClientPackage: async (user_id, package_id) => {
+  //   return ipcRenderer.invoke('linkClientPackage', user_id, package_id)
+  // },
+  // // Adding Card Information on the DB.
+  // addCardInfo: async (cardNumber, cardholderName, expiryDate, cvv, user_id) => {
+  //   return ipcRenderer.invoke('addCardInfo', cardNumber, cardholderName, expiryDate, cvv, user_id)
+  // },
+  // // Get selected package items
+  // getPackageItems: async (package_id) => {
+  //   return ipcRenderer.invoke('getPackageItems', package_id)
+  // },
   // Get printers
   getPrinters: async () => {
     return ipcRenderer.invoke('getPrinters')
@@ -112,10 +108,6 @@ const api = {
   // Print report
   printReport: async (printerName, reportContent) => {
     return ipcRenderer.invoke('printReport', printerName, reportContent)
-  },
-  // Getting active package.
-  getActivePackage: async (clientId) => {
-    return ipcRenderer.invoke('getActivePackage', clientId)
   },
   // Getting active package.
   executeFunction: async (functionName, paramlist) => {

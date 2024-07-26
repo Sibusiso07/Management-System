@@ -39,9 +39,10 @@ export default function Items() {
       // Set loading state.
       setLoading(true)
 
-      // Make call to retrieve packages.
-      const result = await window.api.getItems()
-      setPackageItems(result) // Making sure the data is in an array.
+      const paramlist = {}
+      // Attempt to execute stored procedure.
+      const results = await window.api.executeFunction('get_all_package_items', paramlist)
+      setPackageItems(results) // Making sure the data is in an array.
     } catch (err) {
       toast.error(`Unable to fetch package items: ${cleanErrorMessage(err)}`)
       setPackageItems([]) // or handle error state
@@ -60,8 +61,12 @@ export default function Items() {
 
   const handleDone = async () => {
     try {
-      // Linking items to package
-      await window.api.linkPackageItems(package_id, selectedItems)
+      const paramlist = {
+        p_package_id: package_id, 
+        p_item_ids: selectedItems
+      }
+      // Attempt to execute stored procedure.
+      const results = await window.api.executeFunction('link_package_items', paramlist)
       toast.success('Successfully linked the package and items')
       navigate('/Packages')
     } catch (err) {

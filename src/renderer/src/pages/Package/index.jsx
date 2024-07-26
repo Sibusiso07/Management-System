@@ -38,7 +38,14 @@ function Package() {
   const handleSavePackage = async (e) => {
     e.preventDefault()
     try {
-      const response = await window.api.linkClientPackage(user.id, details.id)
+      const userId = user.id
+      const packageId = details.id
+      const paramlist = {
+        p_client_id: userId, 
+        p_package_id: packageId
+      }
+      // Attempt to execute stored procedure.
+      const results = await window.api.executeFunction('link_user_to_package', paramlist)
       toast.success('Successfully linked client to package')
     } catch (err) {
       console.log('frontend :', err)
@@ -82,7 +89,7 @@ function Package() {
               <h2 className="text-xl mb-2">Package Items</h2>
               {items.map((item, index) => (
                 <div key={index} className="mb-2">
-                  <p>{item.item_name}</p>
+                  {item.item_name}
                 </div>
               ))}
             </div>

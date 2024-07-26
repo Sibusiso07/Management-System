@@ -22,7 +22,9 @@ export default function ClientDashboard() {
   // Getting dependants.
   const fetchDependants = async () => {
     try {
-      const results = await window.api.getDependants(clientId)
+      const paramlist = {clientId}
+      // Attempt to execute stored procedure.
+      const results = await window.api.executeFunction('get_Dependants', paramlist)
       setDependents(results)
     } catch (err) {
       toast.error(`Error fetching dependents: ${cleanErrorMessage(err)}`)
@@ -32,7 +34,9 @@ export default function ClientDashboard() {
    // Getting active package.
    const fetchActivePackage = async () => {
     try {
-      const results = await window.api.getActivePackage(clientId)
+      const paramlist = {clientId}
+      // Attempt to execute stored procedure.
+      const results = await window.api.executeFunction('get_active_package', paramlist)
       setActivePackages(results)
     } catch (err) {
       toast.error(`Error fetching active package: ${cleanErrorMessage(err)}`)

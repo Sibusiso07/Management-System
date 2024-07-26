@@ -3,6 +3,7 @@ import { toast } from 'react-toastify'
 
 // Import UI Components.
 import { Button } from '@/components/ui/button'
+import { Textarea } from '@/components/ui/textarea'
 import { Input } from '@/components/ui/input'
 import {
   Dialog,
@@ -47,7 +48,16 @@ const PackageModal = ({ packageData }) => {
       }
 
       if (id && packageID && packageName && details && price && base64String) {
-        await window.api.editPackage(id, packageID, packageName, details, price, base64String)
+        const paramlist = {
+          p_id: id, 
+          p_package_id: packageID, 
+          p_package_name: packageName, 
+          p_details: details, 
+          p_price: price, 
+          p_image: base64String
+        }
+        // Attempt to execute stored procedure.
+        await window.api.executeFunction('package_Update', paramlist)
         toast.success('Package Added Successfully')
       }
     } catch (err) {
@@ -119,7 +129,7 @@ const PackageModal = ({ packageData }) => {
                     />
                   </div>
                   <div>
-                    <textarea
+                    <Textarea
                       id="details"
                       name="details"
                       placeholder="Details"

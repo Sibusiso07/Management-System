@@ -8,6 +8,14 @@ import { AuthContext } from '@/context/AuthContext'
 
 // UI Components.
 import { Button } from '@/components/ui/button'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 
 // Import the Report.
 import Report from '@/components/util/Report'
@@ -51,6 +59,12 @@ export default function Dashboard() {
   const handleAfterPrint = async () => {
     const reportContent = reportRef.current.innerHTML;
     await window.api.printReport(selectedPrinter, reportContent);
+  }
+
+  // Handle Selected Printer.
+  const handleSelectPrinter = (printerName) => {
+    setSelectedPrinter(printerName)
+    console.log("selected printer >>>", selectedPrinter)
   }
 
   return (
@@ -104,18 +118,21 @@ export default function Dashboard() {
           >
             Settings
           </Button>
-          <div className="relative w-full flex justify-center">
-            <select
-              value={selectedPrinter}
-              onChange={(e) => setSelectedPrinter(e.target.value)}
-              className="mt-4 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-            >
-              <option value="" disabled>Select a printer</option>
-              {printers.map((printer) => (
-                <option key={printer.name} value={printer.name}>{printer.name}</option>
-              ))}
-            </select>
-          </div>
+          {/* <div className="relative w-full flex justify-center text-black font-medium">
+            <DropdownMenu>
+              <DropdownMenuTrigger className="mt-4 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                {selectedPrinter || 'Select a printer'}
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuSeparator />
+                {printers.map((printer) => (
+                  <DropdownMenuItem key={printer.name} onClick={() => handleSelectPrinter(printer.name)}>
+                    {printer.name}
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div> */}
           <ReactToPrint
             trigger={() => <Button className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-sky-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Print Report</Button>}
             content={() => reportRef.current}
