@@ -17,6 +17,7 @@ import Package from '../pages/Package'
 import AddPackage from '../pages/AddPackage'
 import ClientDashboard from '../pages/ClientDashboard'
 import Items from '../pages/Items'
+import EditPackage from '@/pages/EditPackage'
 
 const AppRouter = () => {
   return (
@@ -33,6 +34,7 @@ const AppRouter = () => {
           <Route path="AddPackage" element={<AddPackage />} />
           <Route path="ClientDashboard" element={<ClientDashboard />} />
           <Route path="Items" element={<Items />} />
+          <Route path="EditPackage" element={<EditPackage />} />
         </Route>
       </Route>
     </Routes>

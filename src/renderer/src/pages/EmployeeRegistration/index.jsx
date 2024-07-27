@@ -54,9 +54,10 @@ export default function EmployeeRegistration() {
         </div>
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           <input type="hidden" name="remember" defaultValue="true" />
-          <div className="rounded-md shadow-sm -space-y-px">
+          <div className="rounded-md shadow-sm space-y-6">
             <div className="grid grid-cols-1 gap-y-6 gap-x-4 md:grid-cols-2">
               <div>
+                <label htmlFor="employee-id" className="block text-sm font-medium text-gray-700">Employee ID</label>
                 <Input
                   id="employee-id"
                   name="employee-id"
@@ -69,6 +70,7 @@ export default function EmployeeRegistration() {
                 />
               </div>
               <div>
+                <label htmlFor="first-name" className="block text-sm font-medium text-gray-700">First Name</label>
                 <Input
                   id="first-name"
                   name="first-name"
@@ -81,6 +83,7 @@ export default function EmployeeRegistration() {
                 />
               </div>
               <div>
+                <label htmlFor="last-name" className="block text-sm font-medium text-gray-700">Last Name</label>
                 <Input
                   id="last-name"
                   name="last-name"
@@ -93,6 +96,7 @@ export default function EmployeeRegistration() {
                 />
               </div>
               <div>
+                <label htmlFor="id-number" className="block text-sm font-medium text-gray-700">ID Number</label>
                 <Input
                   id="id-number"
                   name="id-number"
@@ -105,6 +109,7 @@ export default function EmployeeRegistration() {
                 />
               </div>
               <div>
+                <label htmlFor="email-address" className="block text-sm font-medium text-gray-700">Email Address</label>
                 <Input
                   id="email-address"
                   name="email"
@@ -117,6 +122,7 @@ export default function EmployeeRegistration() {
                 />
               </div>
               <div>
+                <label htmlFor="password" className="block text-sm font-medium text-gray-700">Password</label>
                 <Input
                   id="password"
                   name="password"
@@ -129,6 +135,7 @@ export default function EmployeeRegistration() {
                 />
               </div>
               <div>
+                <label htmlFor="department" className="block text-sm font-medium text-gray-700">Department</label>
                 <Input
                   id="department"
                   name="department"
@@ -141,6 +148,7 @@ export default function EmployeeRegistration() {
                 />
               </div>
               <div>
+                <label htmlFor="position" className="block text-sm font-medium text-gray-700">Position</label>
                 <Input
                   id="position"
                   name="position"

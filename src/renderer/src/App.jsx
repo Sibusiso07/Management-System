@@ -3,8 +3,9 @@ import { useEffect } from 'react'
 // Router.
 import AppRouter from '@/routes'
 
-// Auth Context.
+// Context.
 import { AuthProvider } from '@/context/AuthContext'
+import { SettingsProvider } from '@/context/SettingsContext'
 
 export default function Home() {
   // useEffect(() => {
@@ -13,7 +14,9 @@ export default function Home() {
 
   return (
     <AuthProvider>
-      <AppRouter />
+      <SettingsProvider>
+        <AppRouter />
+      </SettingsProvider>
     </AuthProvider>
   )
 }

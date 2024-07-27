@@ -12,7 +12,7 @@ import { Input } from '@/components/ui/input'
 export default function ClientRegistration() {
   // Hook navigation.
   const navigate = useNavigate()
-  
+
   const [firstName, setFirstName] = useState('')
   const [middleName, setMiddleName] = useState('')
   const [lastName, setLastName] = useState('')
@@ -62,9 +62,10 @@ export default function ClientRegistration() {
           </h2>
         </div>
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-          <div className="rounded-md shadow-sm -space-y-px">
+          <div className="rounded-md shadow-sm space-y-6">
             <div className="grid grid-cols-1 gap-y-6 gap-x-4 md:grid-cols-2">
               <div>
+                <label htmlFor="first-name" className="block text-sm font-medium text-gray-700">First Name</label>
                 <Input
                   id="first-name"
                   name="first-name"
@@ -77,6 +78,7 @@ export default function ClientRegistration() {
                 />
               </div>
               <div>
+                <label htmlFor="middle-name" className="block text-sm font-medium text-gray-700">Middle Name</label>
                 <Input
                   id="middle-name"
                   name="middle-name"
@@ -88,6 +90,7 @@ export default function ClientRegistration() {
                 />
               </div>
               <div>
+                <label htmlFor="last-name" className="block text-sm font-medium text-gray-700">Last Name</label>
                 <Input
                   id="last-name"
                   name="last-name"
@@ -100,6 +103,7 @@ export default function ClientRegistration() {
                 />
               </div>
               <div>
+                <label htmlFor="id-number" className="block text-sm font-medium text-gray-700">ID Number</label>
                 <Input
                   id="id-number"
                   name="id-number"
@@ -112,6 +116,7 @@ export default function ClientRegistration() {
                 />
               </div>
               <div>
+                <label htmlFor="address" className="block text-sm font-medium text-gray-700">Address</label>
                 <Input
                   id="address"
                   name="address"
@@ -124,6 +129,7 @@ export default function ClientRegistration() {
                 />
               </div>
               <div>
+                <label htmlFor="email-address" className="block text-sm font-medium text-gray-700">Email Address</label>
                 <Input
                   id="email-address"
                   name="email"
@@ -136,6 +142,7 @@ export default function ClientRegistration() {
                 />
               </div>
               <div>
+                <label htmlFor="phone-number" className="block text-sm font-medium text-gray-700">Phone Number</label>
                 <Input
                   id="phone-number"
                   name="phone-number"
@@ -148,6 +155,7 @@ export default function ClientRegistration() {
                 />
               </div>
               <div>
+                <label htmlFor="id-copy" className="block text-sm font-medium text-gray-700">ID Copy</label>
                 <Input
                   id="id-copy"
                   name="id-copy"

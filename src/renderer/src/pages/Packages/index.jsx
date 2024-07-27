@@ -65,6 +65,16 @@ function Packages() {
     }
   }
 
+  // Handling package select click.
+  const handleEdit = async (item) => {
+    const itemId = item.id
+    try {
+      navigate(`/EditPackage`, { state: { data: item } })
+    } catch (err) {
+      toast.error(`Error fetching package items ${cleanErrorMessage(err)}`)
+    }
+  }
+
   // Handling add package button.
   const AddPackage = () => {
     navigate('/AddPackage')
@@ -87,7 +97,7 @@ function Packages() {
           <div>Loading...</div> // Loading indicator
         ) : (
           packageData.map((item) => (
-            <PackageItem key={item.id} item={item} handleClick={handleClick} />
+            <PackageItem key={item.id} item={item} handleClick={handleClick} handleEdit={handleEdit}/>
           ))
         )}
       </div>

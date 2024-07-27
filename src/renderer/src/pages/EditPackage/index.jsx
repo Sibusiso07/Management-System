@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
 // Utils.
@@ -10,22 +10,24 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 
-export default function AddPackage() {
+export default function EditPackage() {
   // Navigation hook.
   const navigate = useNavigate()
   const fileInputRef = useRef(null)
 
-  // States.
-  const [packageID, setPackageID] = useState('')
-  const [packageName, setPackageName] = useState('')
-  const [details, setDetails] = useState('')
-  const [price, setPrice] = useState('')
-  const [image, setImage] = useState(null)
-  const [searchResult, setSearchResult] = useState(null)
-  const [modalIsOpen, setIsOpen] = useState(false)
+  // Hook location.
+  const location = useLocation()
+  const item = location.state.data
 
-  // Handle Next.
-  const handleNext = async (e) => {
+  // States.
+  const [packageID, setPackageID] = useState(item.package_id)
+  const [packageName, setPackageName] = useState(item.package_name)
+  const [details, setDetails] = useState(item.details)
+  const [price, setPrice] = useState(item.price)
+  const [image, setImage] = useState(null)
+
+  // Handle Submit.
+  const handleSubmit = async (e) => {
     e.preventDefault()
     try {
       if (image) {
@@ -36,6 +38,7 @@ export default function AddPackage() {
 
           // Build paramlist.
           const paramlist = {
+            p_id: item.id, 
             p_package_id: packageID,
             p_package_name: packageName,
             p_details: details,
@@ -44,25 +47,19 @@ export default function AddPackage() {
           }
 
           // Attempt to execute stored procedure.
-          const result = await window.api.executeFunction('package_Registration', paramlist)
-
-          const newPackageId = result[0] // Getting the new package ID
-          toast.success('Package Added Successfully')
+          await window.api.executeFunction('package_Update', paramlist)
+          toast.success('Package Edited Successfully')
           clearFormFields()
-          navigate('/Items', { state: { package_id: newPackageId.package_id } })
+          navigate('/Packages')
         }
         reader.readAsDataURL(image)
       } else {
         toast.warning('No Image Selected')
       }
     } catch (error) {
-      toast.error(`Error adding package ${cleanErrorMessage(error)}`)
+      toast.error(`Error editing package ${cleanErrorMessage(error)}`)
       // console.error(error)
     }
-  }
-
-  const handleFileChange = (event) => {
-    setImage(event.target.files[0])
   }
 
   // Clearing form fields.
@@ -77,11 +74,11 @@ export default function AddPackage() {
     }
   }
 
-  const closeModal = () => {
-    setIsOpen(false)
-    setSearchResult(null)
+  const handleFileChange = (event) => {
+    setImage(event.target.files[0])
   }
 
+  // Handle Back button.
   const handleBackClick = () => {
     navigate('/Packages')
   }
@@ -98,12 +95,12 @@ export default function AddPackage() {
       </div>
       <div className="max-w-lg w-full space-y-8">
         <div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-white">Add New Package</h2>
+          <h2 className="mt-6 text-center text-3xl font-extrabold text-white">Edit Package</h2>
         </div>
         <form className="mt-8 space-y-6">
-          <div className="rounded-md shadow-sm space-y-6">
+          <div className="rounded-md shadow-sm -space-y-px">
             <div className="grid grid-cols-1 gap-y-6 gap-x-4 md:grid-cols-2">
-              <div>
+            <div>
                 <label htmlFor="package-id" className="block text-sm font-medium text-gray-700">Package ID</label>
                 <Input
                   id="package-id"
@@ -167,10 +164,10 @@ export default function AddPackage() {
           <div className="flex w-full gap-4">
             <Button
               type="button"
-              onClick={handleNext}
+              onClick={handleSubmit}
               className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-sky-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
-              Next
+              Submit
             </Button>
           </div>
         </form>
