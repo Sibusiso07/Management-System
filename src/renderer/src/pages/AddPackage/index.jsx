@@ -15,18 +15,37 @@ export default function AddPackage() {
   const navigate = useNavigate()
   const fileInputRef = useRef(null)
 
-  // States.
-  const [packageID, setPackageID] = useState('')
-  const [packageName, setPackageName] = useState('')
-  const [details, setDetails] = useState('')
-  const [price, setPrice] = useState('')
-  const [image, setImage] = useState(null)
-  const [searchResult, setSearchResult] = useState(null)
-  const [modalIsOpen, setIsOpen] = useState(false)
+  // Consolidated state.
+  const [formData, setFormData] = useState({
+    packageID: '',
+    packageName: '',
+    details: '',
+    price: '',
+    image: null,
+  })
+
+  // Handle input change.
+  const handleChange = (e) => {
+    const { name, value } = e.target
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }))
+  }
+
+  // Handle file input change.
+  const handleFileChange = (event) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      image: event.target.files[0],
+    }))
+  }
 
   // Handle Next.
   const handleNext = async (e) => {
     e.preventDefault()
+    const { packageID, packageName, details, price, image } = formData
+
     try {
       if (image) {
         const reader = new FileReader()
@@ -40,7 +59,7 @@ export default function AddPackage() {
             p_package_name: packageName,
             p_details: details,
             p_price: price,
-            p_image: base64String
+            p_image: base64String,
           }
 
           // Attempt to execute stored procedure.
@@ -57,29 +76,21 @@ export default function AddPackage() {
       }
     } catch (error) {
       toast.error(`Error adding package ${cleanErrorMessage(error)}`)
-      // console.error(error)
     }
-  }
-
-  const handleFileChange = (event) => {
-    setImage(event.target.files[0])
   }
 
   // Clearing form fields.
   const clearFormFields = () => {
-    setPackageID('')
-    setPackageName('')
-    setDetails('')
-    setPrice('')
-    setImage(null)
+    setFormData({
+      packageID: '',
+      packageName: '',
+      details: '',
+      price: '',
+      image: null,
+    })
     if (fileInputRef.current) {
       fileInputRef.current.value = ''
     }
-  }
-
-  const closeModal = () => {
-    setIsOpen(false)
-    setSearchResult(null)
   }
 
   const handleBackClick = () => {
@@ -104,28 +115,28 @@ export default function AddPackage() {
           <div className="rounded-md shadow-sm space-y-6">
             <div className="grid grid-cols-1 gap-y-6 gap-x-4 md:grid-cols-2">
               <div>
-                <label htmlFor="package-id" className="block text-sm font-medium text-gray-700">Package ID</label>
+                <label htmlFor="packageID" className="block text-sm font-medium text-gray-700">Package ID</label>
                 <Input
-                  id="package-id"
-                  name="package-id"
+                  id="packageID"
+                  name="packageID"
                   type="text"
                   placeholder="Package ID"
                   required
                   className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-600 placeholder-gray-400 text-white bg-gray-800 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                  value={packageID}
-                  onChange={(e) => setPackageID(e.target.value)}
+                  value={formData.packageID}
+                  onChange={handleChange}
                 />
               </div>
               <div>
-                <label htmlFor="package-name" className="block text-sm font-medium text-gray-700">Package Name</label>
+                <label htmlFor="packageName" className="block text-sm font-medium text-gray-700">Package Name</label>
                 <Input
-                  id="package-name"
-                  name="package-name"
+                  id="packageName"
+                  name="packageName"
                   type="text"
                   placeholder="Package Name"
                   className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-600 placeholder-gray-400 text-white bg-gray-800 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                  value={packageName}
-                  onChange={(e) => setPackageName(e.target.value)}
+                  value={formData.packageName}
+                  onChange={handleChange}
                 />
               </div>
               <div className="md:col-span-2">
@@ -135,8 +146,8 @@ export default function AddPackage() {
                   name="details"
                   placeholder="Details"
                   className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-600 placeholder-gray-400 text-white bg-gray-800 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                  value={details}
-                  onChange={(e) => setDetails(e.target.value)}
+                  value={formData.details}
+                  onChange={handleChange}
                 />
               </div>
               <div>
@@ -147,8 +158,8 @@ export default function AddPackage() {
                   type="number"
                   placeholder="Price"
                   className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-600 placeholder-gray-400 text-white bg-gray-800 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                  value={price}
-                  onChange={(e) => setPrice(e.target.value)}
+                  value={formData.price}
+                  onChange={handleChange}
                 />
               </div>
               <div>

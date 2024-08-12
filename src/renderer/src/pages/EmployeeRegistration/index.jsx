@@ -13,18 +13,29 @@ export default function EmployeeRegistration() {
   // Hook navigation.
   const navigate = useNavigate()
 
-  const [employeeID, setEmployeeId] = useState('')
-  const [firstName, setFirstName] = useState('')
-  const [lastName, setLastName] = useState('')
-  const [idNumber, setIdNumber] = useState('')
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [department, setDepartment] = useState('')
-  const [position, setPosition] = useState('')
+  const [employeeData, setEmployeeData] = useState({
+    employeeID: '',
+    firstName: '',
+    lastName: '',
+    idNumber: '',
+    email: '',
+    password: '',
+    department: '',
+    position: '',
+  })
+
+  const handleChange = (e) => {
+    const { name, value } = e.target
+    setEmployeeData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }))
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
+      const { employeeID, firstName, lastName, idNumber, email, department, position, password } = employeeData
       const result = await window.api.employeeReg(
         employeeID,
         firstName,
@@ -60,52 +71,52 @@ export default function EmployeeRegistration() {
                 <label htmlFor="employee-id" className="block text-sm font-medium text-gray-700">Employee ID</label>
                 <Input
                   id="employee-id"
-                  name="employee-id"
+                  name="employeeID"
                   type="text"
                   placeholder="Employee ID"
                   required
                   className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-600 placeholder-gray-400 text-white bg-gray-800 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                  value={employeeID}
-                  onChange={(e) => setEmployeeId(e.target.value)}
+                  value={employeeData.employeeID}
+                  onChange={handleChange}
                 />
               </div>
               <div>
                 <label htmlFor="first-name" className="block text-sm font-medium text-gray-700">First Name</label>
                 <Input
                   id="first-name"
-                  name="first-name"
+                  name="firstName"
                   type="text"
                   placeholder="First Name"
                   required
                   className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-600 placeholder-gray-400 text-white bg-gray-800 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                  value={firstName}
-                  onChange={(e) => setFirstName(e.target.value)}
+                  value={employeeData.firstName}
+                  onChange={handleChange}
                 />
               </div>
               <div>
                 <label htmlFor="last-name" className="block text-sm font-medium text-gray-700">Last Name</label>
                 <Input
                   id="last-name"
-                  name="last-name"
+                  name="lastName"
                   type="text"
                   placeholder="Last Name"
                   required
                   className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-600 placeholder-gray-400 text-white bg-gray-800 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                  value={lastName}
-                  onChange={(e) => setLastName(e.target.value)}
+                  value={employeeData.lastName}
+                  onChange={handleChange}
                 />
               </div>
               <div>
                 <label htmlFor="id-number" className="block text-sm font-medium text-gray-700">ID Number</label>
                 <Input
                   id="id-number"
-                  name="id-number"
+                  name="idNumber"
                   type="text"
                   placeholder="ID Number"
                   required
                   className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-600 placeholder-gray-400 text-white bg-gray-800 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                  value={idNumber}
-                  onChange={(e) => setIdNumber(e.target.value)}
+                  value={employeeData.idNumber}
+                  onChange={handleChange}
                 />
               </div>
               <div>
@@ -117,8 +128,8 @@ export default function EmployeeRegistration() {
                   placeholder="Email address"
                   required
                   className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-600 placeholder-gray-400 text-white bg-gray-800 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  value={employeeData.email}
+                  onChange={handleChange}
                 />
               </div>
               <div>
@@ -130,8 +141,8 @@ export default function EmployeeRegistration() {
                   placeholder="Password"
                   required
                   className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-600 placeholder-gray-400 text-white bg-gray-800 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  value={employeeData.password}
+                  onChange={handleChange}
                 />
               </div>
               <div>
@@ -143,8 +154,8 @@ export default function EmployeeRegistration() {
                   placeholder="Department"
                   required
                   className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-600 placeholder-gray-400 text-white bg-gray-800 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                  value={department}
-                  onChange={(e) => setDepartment(e.target.value)}
+                  value={employeeData.department}
+                  onChange={handleChange}
                 />
               </div>
               <div>
@@ -156,8 +167,8 @@ export default function EmployeeRegistration() {
                   placeholder="Position"
                   required
                   className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-600 placeholder-gray-400 text-white bg-gray-800 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                  value={position}
-                  onChange={(e) => setPosition(e.target.value)}
+                  value={employeeData.position}
+                  onChange={handleChange}
                 />
               </div>
             </div>

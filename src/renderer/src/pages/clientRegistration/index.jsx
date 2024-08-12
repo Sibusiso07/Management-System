@@ -13,32 +13,44 @@ export default function ClientRegistration() {
   // Hook navigation.
   const navigate = useNavigate()
 
-  const [firstName, setFirstName] = useState('')
-  const [middleName, setMiddleName] = useState('')
-  const [lastName, setLastName] = useState('')
-  const [idNumber, setIdNumber] = useState('')
-  const [address, setAddress] = useState('')
-  const [email, setEmail] = useState('')
-  const [phoneNumber, setPhoneNumber] = useState('')
-  const [idCopy, setIdCopy] = useState('')
+  const [clientData, setClientData] = useState({
+    firstName: '',
+    middleName: '',
+    lastName: '',
+    idNumber: '',
+    address: '',
+    email: '',
+    phoneNumber: '',
+    idCopy: '',
+  })
+
+  const handleChange = (e) => {
+    const { name, value } = e.target
+    setClientData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }))
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    // Covert the ID Copy to base64
     const fileInput = document.getElementById('id-copy')
     const file = fileInput.files[0]
     if (file) {
       const reader = new FileReader()
       reader.onloadend = async () => {
-        // Remove the Data URL prefix to get the pure base64 string
         const base64String = reader.result.replace('data:', '').replace(/^.+,/, '')
-        setIdCopy(base64String)
+        setClientData((prevData) => ({
+          ...prevData,
+          idCopy: base64String,
+        }))
 
-        // Sending data to the DB to create a user
         try {
+          const { firstName, middleName, lastName, idNumber, address, email, phoneNumber, idCopy } = clientData
           const result = await window.api.clientReg(
-            firstName, middleName, lastName, idNumber, address, email, phoneNumber, idCopy)    
-          // If results come back then alert and redirect
+            firstName, middleName, lastName, idNumber, address, email, phoneNumber, idCopy
+          )
+
           if (result) {
             toast.success('Client Registered Successfully')
             navigate('/Dashboard')
@@ -49,7 +61,7 @@ export default function ClientRegistration() {
       }
       reader.readAsDataURL(file)
     } else {
-      toast.warning('Please select in ID copy for the client')
+      toast.warning('Please select an ID copy for the client')
     }
   }
 
@@ -68,51 +80,51 @@ export default function ClientRegistration() {
                 <label htmlFor="first-name" className="block text-sm font-medium text-gray-700">First Name</label>
                 <Input
                   id="first-name"
-                  name="first-name"
+                  name="firstName"
                   type="text"
                   placeholder="First Name"
                   required
                   className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-600 placeholder-gray-400 text-white bg-gray-800 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                  value={firstName}
-                  onChange={(e) => setFirstName(e.target.value)}
+                  value={clientData.firstName}
+                  onChange={handleChange}
                 />
               </div>
               <div>
                 <label htmlFor="middle-name" className="block text-sm font-medium text-gray-700">Middle Name</label>
                 <Input
                   id="middle-name"
-                  name="middle-name"
+                  name="middleName"
                   type="text"
                   placeholder="Middle Name"
                   className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-600 placeholder-gray-400 text-white bg-gray-800 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                  value={middleName}
-                  onChange={(e) => setMiddleName(e.target.value)}
+                  value={clientData.middleName}
+                  onChange={handleChange}
                 />
               </div>
               <div>
                 <label htmlFor="last-name" className="block text-sm font-medium text-gray-700">Last Name</label>
                 <Input
                   id="last-name"
-                  name="last-name"
+                  name="lastName"
                   type="text"
                   placeholder="Last Name"
                   required
                   className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-600 placeholder-gray-400 text-white bg-gray-800 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                  value={lastName}
-                  onChange={(e) => setLastName(e.target.value)}
+                  value={clientData.lastName}
+                  onChange={handleChange}
                 />
               </div>
               <div>
                 <label htmlFor="id-number" className="block text-sm font-medium text-gray-700">ID Number</label>
                 <Input
                   id="id-number"
-                  name="id-number"
+                  name="idNumber"
                   type="text"
                   placeholder="ID Number"
                   required
                   className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-600 placeholder-gray-400 text-white bg-gray-800 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                  value={idNumber}
-                  onChange={(e) => setIdNumber(e.target.value)}
+                  value={clientData.idNumber}
+                  onChange={handleChange}
                 />
               </div>
               <div>
@@ -124,8 +136,8 @@ export default function ClientRegistration() {
                   placeholder="Address"
                   required
                   className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-600 placeholder-gray-400 text-white bg-gray-800 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                  value={address}
-                  onChange={(e) => setAddress(e.target.value)}
+                  value={clientData.address}
+                  onChange={handleChange}
                 />
               </div>
               <div>
@@ -137,21 +149,21 @@ export default function ClientRegistration() {
                   placeholder="Email address"
                   required
                   className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-600 placeholder-gray-400 text-white bg-gray-800 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  value={clientData.email}
+                  onChange={handleChange}
                 />
               </div>
               <div>
                 <label htmlFor="phone-number" className="block text-sm font-medium text-gray-700">Phone Number</label>
                 <Input
                   id="phone-number"
-                  name="phone-number"
+                  name="phoneNumber"
                   type="text"
                   placeholder="Phone Number"
                   required
                   className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-600 placeholder-gray-400 text-white bg-gray-800 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                  value={phoneNumber}
-                  onChange={(e) => setPhoneNumber(e.target.value)}
+                  value={clientData.phoneNumber}
+                  onChange={handleChange}
                 />
               </div>
               <div>
