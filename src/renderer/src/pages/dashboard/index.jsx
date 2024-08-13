@@ -10,7 +10,7 @@ import { SettingsContext } from '@/context/SettingsContext'
 import { Button } from '@/components/ui/button'
 
 // Import the Report.
-import Report from '@/components/util/Report'
+import ClientReport from '@/components/util/ClientReport'
 
 export default function Dashboard() {
   // Hook navigation.
@@ -103,7 +103,7 @@ export default function Dashboard() {
           </Button>
         </div>
         <div ref={reportRef} className="hidden">
-          <Report />
+          <ClientReport />
         </div>
       </div>
     </div>
