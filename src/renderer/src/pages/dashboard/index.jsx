@@ -26,7 +26,7 @@ export default function Dashboard() {
   // Path Navigation.
   const handleNavigation = (path) => {
     if (
-      ['/ClientRegistration', '/EmployeeRegistration', '/Packages', '/ClientDashboard', '/Settings'].includes(
+      ['/ClientRegistration', '/EmployeeRegistration', '/Packages', '/ClientDashboard', '/Payment', '/Settings'].includes(
         path
       )
     ) {
@@ -70,7 +70,7 @@ export default function Dashboard() {
             Packages
           </Button>
           <Button
-            onClick={() => handleNavigation('/Payments')}
+            onClick={() => handleNavigation('/Payment')}
             className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-sky-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           >
             Payments

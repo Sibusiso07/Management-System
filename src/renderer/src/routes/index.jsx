@@ -7,17 +7,18 @@ import Layout from '../layout'
 import ProtectedRoute from './ProtectedRoute'
 
 // Pages.
-import Login from '../pages/Login'
-import Dashboard from '../pages/Dashboard'
-import Settings from '../pages/Settings'
-import ClientRegistration from '../pages/ClientRegistration'
-import EmployeeRegistration from '../pages/EmployeeRegistration'
-import Packages from '../pages/Packages'
-import Package from '../pages/Package'
-import AddPackage from '../pages/AddPackage'
-import ClientDashboard from '../pages/ClientDashboard'
-import Items from '../pages/Items'
+import Login from '@/pages/Login'
+import Dashboard from '@/pages/Dashboard'
+import Settings from '@/pages/Settings'
+import ClientRegistration from '@/pages/ClientRegistration'
+import EmployeeRegistration from '@/pages/EmployeeRegistration'
+import Packages from '@/pages/Packages'
+import Package from '@/pages/Package'
+import AddPackage from '@/pages/AddPackage'
+import ClientDashboard from '@/pages/ClientDashboard'
+import Items from '@/pages/Items'
 import EditPackage from '@/pages/EditPackage'
+import Payment from '@/pages/Payment'
 
 const AppRouter = () => {
   return (
@@ -35,6 +36,7 @@ const AppRouter = () => {
           <Route path="ClientDashboard" element={<ClientDashboard />} />
           <Route path="Items" element={<Items />} />
           <Route path="EditPackage" element={<EditPackage />} />
+          <Route path="Payment" element={<Payment />} />
         </Route>
       </Route>
     </Routes>
