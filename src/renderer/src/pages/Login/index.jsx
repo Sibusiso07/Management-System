@@ -1,43 +1,31 @@
 import { useState, useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
-
-// Auth Context.
 import { AuthContext } from '@/context/AuthContext'
 import { cleanErrorMessage } from '@/lib/utils'
-
-// UI Components.
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import LoginImage from '@/assets/locks.png'
+import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai' // Import eye icons from react-icons
 
 const Login = () => {
   const [username, setUsername] = useState('josh@gmail.com')
   const [password, setPassword] = useState('test')
+  const [showPassword, setShowPassword] = useState(false) // State for toggling password visibility
   const [error, setError] = useState('')
 
-  // Hook auth context.
   const { setUser } = useContext(AuthContext)
-
-  // Hook navigation.
   const navigate = useNavigate()
 
   const handleLogin = async (e) => {
     try {
       e.preventDefault()
-
-      // TODO: Trigger login and save user result to context.
       const result = await window.api.login(username, password)
-
       if (result) {
-        // Set user context.
         setUser(result)
-
-        // Check if a client has an packages assigned to them.
         if (result.has_package === false) {
-          // Client has no packages assigned to them so navigate to packages page.
           navigate('/Packages')
         } else {
-          // Client has package assigned to them.
           navigate('/ClientDashboard')
         }
       }
@@ -48,70 +36,72 @@ const Login = () => {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8">
-        <h1 className="mt-6 text-center text-4xl font-extrabold text-white-600">
-          Management System
-        </h1>
-        <div>
-          <h2 className="mt-6 text-center text-3xl font-semibold text-white-400">Sign In</h2>
-        </div>
-        <form className="mt-8 space-y-6" onSubmit={(e) => handleLogin(e)}>
-          <input type="hidden" name="remember" defaultValue="true" />
-          <div className="rounded-md shadow-sm -space-y-px">
-            <div>
+    <div className="flex min-h-screen w-screen">
+      {/* Left Side with the Illustration */}
+      <div className="w-1/2 bg-gray-100 flex items-center justify-center">
+        <img src={LoginImage} alt="Locks Illustration" className="object-cover w-full h-full" />
+      </div>
+
+      {/* Right Side with the Login Form */}
+      <div className="w-1/2 flex items-center justify-center bg-white">
+        <div className="max-w-md w-full space-y-8 p-8">
+          <h1 className="text-4xl font-bold text-gray-800">Welcome back!</h1>
+          <p className="text-gray-500">Please enter your login details to continue.</p>
+          <form className="mt-8 space-y-6" onSubmit={handleLogin}>
+            <div className="space-y-4">
               <Input
                 id="email-address"
                 name="email"
                 type="email"
-                placeholder="Email address"
+                placeholder="Email"
                 required
-                className="
-              appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 
-              placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 
-              focus:border-indigo-500 focus:z-10 sm:text-sm bg-white"
+                className="block w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 text-gray-900" // Ensure text is visible
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
               />
+              <div className="relative">
+                <Input
+                  id="password"
+                  name="password"
+                  type={showPassword ? 'text' : 'password'} // Toggle between text and password
+                  placeholder="Password"
+                  required
+                  className="block w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 text-gray-900" // Ensure text is visible
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+                <div
+                  className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer"
+                  onClick={() => setShowPassword(!showPassword)}
+                >
+                  {showPassword ? (
+                    <AiFillEyeInvisible className="text-gray-500" size={24} />
+                  ) : (
+                    <AiFillEye className="text-gray-500" size={24} />
+                  )}
+                </div>
+              </div>
             </div>
-            <div>
-              <Input
-                id="password"
-                name="password"
-                type="password"
-                placeholder="Password"
-                required
-                className="
-              appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 
-              placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 
-              focus:border-indigo-500 focus:z-10 sm:text-sm bg-white"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </div>
-          </div>
-          <div>
-            <p className="text-red-500 text-sm">{error}</p>
-          </div>
-          <div>
+            {error && <p className="text-red-500 text-sm text-center">{error}</p>}
             <Button
               type="submit"
-              className="
-            group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium 
-            rounded-md text-white bg-sky-600 hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-offset-2 
-            focus:ring-indigo-500"
+              className="w-full py-3 mt-6 font-semibold text-white bg-black rounded-lg hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
-              Login
+              Log In
             </Button>
-          </div>
-          <div className="flex items-center justify-between">
-            <div className="text-sm">
-              <a href="#" className="font-medium text-indigo-600 hover:text-indigo-500">
-                Forgot your password?
+            <div className="flex justify-between items-center">
+              <a href="#" className="text-sm text-indigo-600 hover:text-indigo-500">
+                Forgot password?
               </a>
+              <p className="text-center text-sm text-gray-600">
+                Don’t have an account?{' '}
+                <a href="#" className="font-medium text-indigo-600 hover:text-indigo-500">
+                  Sign Up
+                </a>
+              </p>
             </div>
-          </div>
-        </form>
+          </form>
+        </div>
       </div>
     </div>
   )
